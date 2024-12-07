@@ -28,7 +28,7 @@ interface ContextProps {
 }
 
 const initialContext: ContextProps = {
-  isOpen: false,
+  isOpen: true,
   setIsOpen: () => {}, // Placeholder function
   local: [],
   setLocal: () => {}, // Placeholder function

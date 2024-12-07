@@ -54,7 +54,8 @@ const AddNote: React.FC = () => {
     localStorage.setItem("Notes", JSON.stringify(updatedNotes));
 
     // Navigate to new note page
-      router.push(`/note/${idString}`);
+    router.push(`/note/${idString}`);
+    console.log(idString);
   };
 
   return (

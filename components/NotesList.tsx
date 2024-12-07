@@ -21,25 +21,27 @@ const {local, setLocal} = useDataContext()
       }, []);
 
     return (
-      <div className="px-2 flex flex-col">
-            {local.length !== 0 && local.map((note) => (
-                <Link href={`/note/${note.id}`}>
-                    <NoteTitle
-                        key={note.id}
-                        title={note.title}
-                        content={note.content}
-                    />
-                </Link>
-            ))}
-          {local.length === 0 && noteData.map((note) => (
-              <Link href={`/note/${note.id}`}>
-                <NoteTitle
-                  key={note.id}
-                  title={note.title}
-                  content={note.content}
-                />
-              </Link>
-            ))}
+      <div className="flex flex-col">
+        {local.length !== 0 &&
+          local.map((note) => (
+            <Link href={`/note/${note.id}`}>
+              <NoteTitle
+                key={note.id}
+                title={note.title}
+                content={note.content}
+              />
+            </Link>
+          ))}
+        {local.length === 0 &&
+          noteData.map((note) => (
+            <Link href={`/note/${note.id}`}>
+              <NoteTitle
+                key={note.id}
+                title={note.title}
+                content={note.content}
+              />
+            </Link>
+          ))}
       </div>
     );
 }

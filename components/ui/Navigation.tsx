@@ -2,9 +2,13 @@
 
 import { useDataContext } from "@/context/DataContext"
 import { motion, useAnimationControls, AnimatePresence } from "framer-motion"
-import { useState, useEffect } from "react"
-import NavigationLink from "./NavigationLink"
+import { useState, useEffect, FC } from "react";
+import NavigationLink from "./NavigationLink";
 import { Tooltip } from "@nextui-org/tooltip";
+
+import NoteList from "../NotesList";
+import SearchArea from "../Search";
+import AddNote from "../addNote";
 
 import {
   ChartBarIcon,
@@ -12,7 +16,7 @@ import {
   DocumentCheckIcon,
   Square2StackIcon,
   UsersIcon,
-} from "@heroicons/react/24/outline"
+} from "@heroicons/react/24/outline";
 
 import {
   Folder,
@@ -29,12 +33,12 @@ import {
   Moon,
   CircleUserRound,
   Book,
-  CircleHelp
+  CircleHelp,
 } from "lucide-react";
-import Logo from "./logo"
-import ProjectLink from "./ProjectLink"
-import ProjectNavigation from "./ProjectNavigation"
-import Link from "next/link"
+import Logo from "./logo";
+import ProjectLink from "./ProjectLink";
+import ProjectNavigation from "./ProjectNavigation";
+import Link from "next/link";
 
 const containerVariants = {
   close: {
@@ -53,7 +57,7 @@ const containerVariants = {
       duration: 0.5,
     },
   },
-}
+};
 
 const svgVariants = {
   close: {
@@ -62,46 +66,35 @@ const svgVariants = {
   open: {
     rotate: 180,
   },
+};
+
+interface NavigationProps {
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
 }
 
-const Navigation = () => {
-  const {isOpen, setIsOpen} = useDataContext()
-  const [selectedProject, setSelectedProject] = useState<string | null>(null)
+const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
+  const { isOpen, setIsOpen } = useDataContext();
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
 
-  const containerControls = useAnimationControls()
-  const svgControls = useAnimationControls()
+  const containerControls = useAnimationControls();
+  const svgControls = useAnimationControls();
 
-  useEffect(() => {
-    // if (isOpen) {
-    //   containerControls.start("open")
-    //   svgControls.start("open")
-    // } else {
-    //   containerControls.start("close")
-    //   svgControls.start("close")
-    // }
-    // console.log(isOpen)
-  }, [isOpen])
+  useEffect(() => {}, [isOpen]);
 
   const handleOpenClose = () => {
-    setIsOpen(!isOpen)
+    setIsOpen(!isOpen);
 
-    if(isOpen) {
-    setSelectedProject(null)
-    } else{
-    setSelectedProject('Notes')
+    if (isOpen) {
+      setSelectedProject(null);
+    } else {
+      setSelectedProject("Notes");
     }
-
-    // console.log(selectedProject)
-  }
+  };
 
   return (
-    <aside className="flex flex-row h-screen w-fit">
-      <motion.nav
-        variants={containerVariants}
-        animate={containerControls}
-        initial="close"
-        className="w-[60px] flex flex-col items-center justify-center z-10 gap-2 pb-5 absolute top-0 left-0 h-full border-r border-gray-300 bg-gray-200"
-      >
+    <div className="flex flex-row h-screen w-fit fixed top-0">
+      <motion.nav className="w-[60px] flex flex-col items-center justify-center z-10 gap-2 pb-5 h-full border-r border-gray-300 bg-gray-200">
         <div className="flex h-[60px] flex-row w-full items-center justify-center place-items-center border-b border-gray-300">
           <button className="rounded-full flex text-black">
             <PanelLeft
@@ -112,21 +105,6 @@ const Navigation = () => {
         </div>
 
         <div className="grow flex flex-col gap-2 w-full items-center">
-          <NavigationLink
-            name="Search"
-            setSelectedProject={setSelectedProject}
-            // isOpen={isOpen}
-          >
-            <div
-              className={` ${
-                selectedProject === "Search"
-                  ? "bg-gray-300 hover:bg-none"
-                  : "bg-none hover:bg-gray-300"
-              } w-[100%] px-2 rounded py-1 transition-colors duration-100`}
-            >
-              <Search className="stroke-inherit stroke-[1] min-w-5 w-5" />
-            </div>
-          </NavigationLink>
           <NavigationLink
             name="Notes"
             setSelectedProject={setSelectedProject}
@@ -157,15 +135,25 @@ const Navigation = () => {
               <CirclePlus className="stroke-inherit stroke-[1] min-w-5 w-5" />
             </div>
           </NavigationLink>
+          <NavigationLink
+            name="Search"
+            setSelectedProject={setSelectedProject}
+            // isOpen={isOpen}
+          >
+            <div
+              className={` ${
+                selectedProject === "Search"
+                  ? "bg-gray-300 hover:bg-none"
+                  : "bg-none hover:bg-gray-300"
+              } w-[100%] px-2 rounded py-1 transition-colors duration-100`}
+            >
+              <Search className="stroke-inherit stroke-[1] min-w-5 w-5" />
+            </div>
+          </NavigationLink>
         </div>
 
         {/* Bottom buttons */}
         <div className="flex flex-col gap-2">
-          {/* Documentation */}
-          {/* <Link>
-
-              </Link> */}
-
           <Link
             // name="Documentation"
             // setSelectedProject={setSelectedProject}
@@ -181,7 +169,7 @@ const Navigation = () => {
               <Tooltip
                 placement="right"
                 showArrow={true}
-                className="bg-gray-200 rounded-md mx-4 font-semibold font-montserrat border border-gray-300 text-xs"
+                className="bg-gray-200 rounded-md mx-4 font-semibold font-outfit border border-gray-300 text-xs"
                 content={<div className="text-tiny">Docs</div>}
               >
                 <CircleHelp className="stroke-inherit stroke-[1] min-w-5 w-5" />
@@ -196,7 +184,7 @@ const Navigation = () => {
             <Tooltip
               placement="right"
               showArrow={true}
-              className="bg-gray-200 rounded-md mx-4 font-semibold font-montserrat border border-gray-300 text-xs"
+              className="bg-gray-200 rounded-md mx-4 font-semibold font-outfit border border-gray-300 text-xs"
               content={<div className="text-tiny">Mode</div>}
             >
               <Moon className="stroke-inherit stroke-[1] min-w-5 w-5" />
@@ -204,12 +192,13 @@ const Navigation = () => {
           </div>
 
           {/* User Pfp and setting */}
-          <NavigationLink
-            name="User Profile"
-            setSelectedProject={setSelectedProject}
+          <Link
+            // name="User Profile"
+            href="/auth/login"
+            // setSelectedProject={setSelectedProject}
           >
             <div
-              className={` ${
+              className={`stroke-gray-700 ${
                 selectedProject === "User Profile"
                   ? "bg-gray-300 hover:bg-none"
                   : "bg-none hover:bg-gray-300"
@@ -217,20 +206,15 @@ const Navigation = () => {
             >
               <CircleUserRound className="stroke-inherit stroke-[1] min-w-5 w-5" />
             </div>
-          </NavigationLink>
+          </Link>
         </div>
       </motion.nav>
-      <AnimatePresence>
-        {isOpen && (
-          <ProjectNavigation
-            selectedProject={selectedProject}
-            setSelectedProject={setSelectedProject}
-            isOpen={isOpen}
-          />
-        )}
-      </AnimatePresence>
-    </aside>
+      <ProjectNavigation
+        selectedProject={selectedProject}
+        setSelectedProject={setSelectedProject}
+      />
+    </div>
   );
-}
+};
 
 export default Navigation

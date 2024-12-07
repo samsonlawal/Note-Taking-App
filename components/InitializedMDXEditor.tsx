@@ -4,6 +4,7 @@ import React, { ForwardedRef } from "react";
 import {
   headingsPlugin,
   listsPlugin,
+  linkPlugin,
   quotePlugin,
   thematicBreakPlugin,
   markdownShortcutPlugin,
@@ -23,7 +24,7 @@ const InitializedMDXEditor: React.FC<InitializedMDXEditorProps> = ({
   ...props
 }) => {
   const plugins = [
-    // linkPlugin(),
+    linkPlugin(),
     headingsPlugin(),
     listsPlugin(),
     quotePlugin(),
@@ -31,17 +32,18 @@ const InitializedMDXEditor: React.FC<InitializedMDXEditorProps> = ({
     markdownShortcutPlugin(),
   ];
 
- console.log("Plugins initialized:", plugins);
+  console.log("Plugins initialized:", plugins);
 
- return (
-  // <article class="prose lg:prose-xl">
-   <MDXEditor
-     plugins={plugins}
-     {...props}
-     ref={editorRef}
-     contentEditableClassName ="prose text-white caret-yellow-500" />
+  return (
+    // <article class="prose lg:prose-xl">
+    <MDXEditor
+      plugins={plugins}
+      {...props}
+      ref={editorRef}
+      contentEditableClassName="prose text-white caret-yellow-500 max-w-[90%]"
+    />
     //  </article>
- );
+  );
 };
 
 export default InitializedMDXEditor;
