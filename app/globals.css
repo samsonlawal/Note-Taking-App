@@ -80,19 +80,33 @@
 
 /* .prose h1,h2,h3,h4,h5,h6{
   color: white;
-}
+  width: 100%;
+} */
 
-.prose p{
+/* .prose h1,h2,h3,h4,h5,h6,p,span,div{
+  color: white;
+  width: 100%;
+} */
+
+/* .prose div{
+  width: auto;
+} */
+
+/* .prose p{
   color: silver;
-}
+} */
 
-.prose ul li,ol{
-  backgroun: red;
+/* .prose ul li,ol{
+  background: red;
   color: red;
 } */
 
 .prose li::marker{
-  color: gray;
+  color: rgb(24, 24, 24);
+}
+
+.prose {
+  width: 100%;
 }
 
 

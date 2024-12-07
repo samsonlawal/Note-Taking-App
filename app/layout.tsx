@@ -1,43 +1,27 @@
-import React, { ReactNode } from "react";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import LayoutWrapper from "@/components/LayoutWrapper";
 import "./globals.css";
-// import Sidebar from "@/components/Sidebar"
-// import Rightbar from "@/components/Rightbar";
-// import Navigation from "@/components/Rightbar";
-import Navigation from './../components/ui/Navigation';
-// import Activity from "@/components/ui/ActivityBar";
-import { DataProvider } from "@/context/DataContext";
+import { Toaster } from "react-hot-toast";
 
-
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
+// app/layout.tsx (Server-side Layout without client-side logic)
+export const metadata = {
   title: "Note App",
   description: "A note taking app built with next",
 };
 
-interface RootLayoutProps {
-  children: ReactNode;
-}
-
-const RootLayout: React.FC<RootLayoutProps> = ({
-  children
-}) => {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} flex flex-row items-center justify-between w-full bg-gray-200`}
-      >
-        <DataProvider>
-          <Navigation />
-          <main 
-          className="transition-width duration-300 flex flex-grow h-full w-full bg-gray-100">{children}</main>
-        </DataProvider>
-          
+      <body>
+        <div className="flex">
+          <Toaster position="top-right" reverseOrder={false} />
+          {/* Layout wrapper includes client-side logic */}
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </div>
       </body>
     </html>
   );
 }
-
-export default RootLayout;
