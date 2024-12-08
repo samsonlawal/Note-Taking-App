@@ -55,18 +55,20 @@ const BasicForm = () => {
         className="w-[400px] flex flex-col gap-6 items-center justify-center"
         onSubmit={handleSubmit}
       >
-        <div className="text-center w-[85%] flex flex-col pb-5 gap-2">
+        <div className="text-center w-[85%] flex flex-col gap-2">
           <h1 className="text-3xl font-black">Welcome back!</h1>
           <p className="text-[16px] text-gray-500">
             Access your notes and pick up right where you left off.
           </p>
 
           {/* Error message at the top */}
-          {error && (
-            <div className="w-full my-[20px] py-[4px] bg-red-500/20 rounded-sm text-red-600">
-              <p>{error}</p>
-            </div>
-          )}
+          <div className="min-h-[40px]">
+            {error && (
+              <div className="w-full py-[4px] bg-red-500/20 rounded-sm text-red-600">
+                <p>{error}</p>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Email Input */}
@@ -122,28 +124,31 @@ const BasicForm = () => {
           }`}
         >
           {isSubmitting ? (
-            <svg
-              className="animate-spin h-5 w-5 mr-2 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-              ></path>
-            </svg>
+            <>
+              <p>Log In</p>
+              <svg
+                className="animate-spin h-5 w-5 mr-2 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                ></path>
+              </svg>
+            </>
           ) : (
-            "Submit"
+            "Log In"
           )}
         </button>
 
