@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import Navigation from "@/components/ui/Navigation";
 
 import { DataProvider } from "@/context/DataContext";
+import { usePathname } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,10 +25,15 @@ export default function LayoutWrapper({
       className={`${inter.className} flex flex-row items-center justify-between w-full bg-gray-100 font-outfit`}
     >
       <DataProvider>
+        {/* {pathname === '/' ? (
+          // Home page navbar
+          <Navbar />
+        ) : */}
         <Navigation
           isSidebarOpen={isSidebarOpen}
           toggleSidebar={toggleSidebar}
         />
+        {/* } */}
         <div className="h-screen w-[310px]">{""}</div>
 
         <main
