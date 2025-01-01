@@ -34,6 +34,7 @@ import {
   CircleUserRound,
   Book,
   CircleHelp,
+  LogOut,
 } from "lucide-react";
 import Logo from "./logo";
 import ProjectLink from "./ProjectLink";
@@ -170,7 +171,7 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
                 placement="right"
                 showArrow={true}
                 className="bg-gray-200 rounded-md mx-4 font-semibold font-outfit border border-gray-300 text-xs"
-                content={<div className="text-tiny">Docs</div>}
+                content={<div className="text-tiny">Help</div>}
               >
                 <CircleHelp className="stroke-inherit stroke-[1] min-w-5 w-5" />
               </Tooltip>
@@ -204,7 +205,7 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
                   : "bg-none hover:bg-gray-300"
               } w-[100%] px-2 rounded py-1 transition-colors duration-100`}
             >
-              <CircleUserRound className="stroke-inherit stroke-[1] min-w-5 w-5" />
+              <LogOut className="stroke-inherit stroke-[1] min-w-5 w-5" />
             </div>
           </Link>
         </div>
