@@ -7,7 +7,7 @@ import supabase from "@/config/supabaseClient";
 import { AuthError } from "@supabase/supabase-js";
 import toast, { Toaster } from "react-hot-toast";
 
-const BasicForm = () => {
+const SignUpForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -279,4 +279,4 @@ const BasicForm = () => {
   );
 };
 
-export default BasicForm;
+export default SignUpForm;

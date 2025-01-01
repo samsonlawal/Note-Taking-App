@@ -1,13 +1,14 @@
 "use client";
+
 import Link from "next/link";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import supabase from "@/config/supabaseClient";
 
-const BasicForm = () => {
+const LoginForm = ({ setToken }: any) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState<string | null>(null); // For storing validation errors
+  const [error, setError] = useState<string | null>(null); // For validation errors
   const [formValues, setFormValues] = useState({ email: "", password: "" });
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -20,7 +21,7 @@ const BasicForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null); // Clear previous error
+    setError(null); // Clear previous errors
 
     // Basic validation
     if (!formValues.email || !formValues.password) {
@@ -30,18 +31,33 @@ const BasicForm = () => {
 
     try {
       setIsSubmitting(true);
-      // Mock API call or actual validation logic
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Mock delay
-      if (
-        formValues.email !== "test@example.com" ||
-        formValues.password !== "password"
-      ) {
-        throw new Error("Incorrect username or password.");
+
+      // Supabase login logic
+      let { data, error } = await supabase.auth.signInWithPassword({
+        email: formValues.email,
+        password: formValues.password,
+      });
+
+      console.log("sign in:", data);
+
+      //       const { user, session, error } = await supabase.auth.signIn({
+      //   email: 'example@email.com',
+      //   password: 'example-password',
+      // })
+
+      if (error) {
+        setError("Invalid email or password.");
+        toast.error("Login failed. Please check your credentials.");
+        return;
       }
 
-      alert("Login successful!");
-    } catch (err: any) {
-      setError(err.message || "An error occurred during login.");
+      // Store token in sessionStorage
+      sessionStorage.setItem("token", data.session?.access_token || "");
+      setToken(data.session?.access_token);
+      toast.success("Login successful!");
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      toast.error("An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -52,7 +68,7 @@ const BasicForm = () => {
       <form
         autoComplete="off"
         noValidate
-        className="w-[400px] flex flex-col gap-6 items-center justify-center"
+        className="w-full md:w-[400px] flex flex-col gap-6 items-center justify-center"
         onSubmit={handleSubmit}
       >
         <div className="text-center w-[85%] flex flex-col gap-2">
@@ -61,7 +77,7 @@ const BasicForm = () => {
             Access your notes and pick up right where you left off.
           </p>
 
-          {/* Error message at the top */}
+          {/* Error message */}
           <div className="min-h-[40px]">
             {error && (
               <div className="w-full py-[4px] bg-red-500/20 rounded-sm text-red-600">
@@ -83,7 +99,7 @@ const BasicForm = () => {
             id="email"
             type="email"
             placeholder="Enter your email address"
-            className={`w-full h-[40px] px-2 border py-2 rounded-md mb-1`}
+            className="w-full h-[40px] px-2 border py-2 rounded-md mb-1"
           />
         </div>
 
@@ -100,7 +116,7 @@ const BasicForm = () => {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
-              className={`w-full h-[40px] px-2 border py-2 rounded-md mb-1`}
+              className="w-full h-[40px] px-2 border py-2 rounded-md mb-1"
             />
             <button
               type="button"
@@ -125,9 +141,9 @@ const BasicForm = () => {
         >
           {isSubmitting ? (
             <>
-              <p>Log In</p>
+              <p>Logging In...</p>
               <svg
-                className="animate-spin h-5 w-5 mr-2 text-white"
+                className="animate-spin h-5 w-5 ml-2"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -163,4 +179,4 @@ const BasicForm = () => {
   );
 };
 
-export default BasicForm;
+export default LoginForm;
