@@ -1,15 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import supabase from "@/config/supabaseClient";
+import { useAuth } from "@/context/AuthContext";
 
-const LoginForm = ({ setToken }: any) => {
+const LoginForm = () => {
+  const { accessToken, setAccessToken } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null); // For validation errors
   const [formValues, setFormValues] = useState({ email: "", password: "" });
+
+  // useEffect(() => {
+  //   console.log(accessToken);
+  // }, [accessToken]);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -53,7 +59,7 @@ const LoginForm = ({ setToken }: any) => {
 
       // Store token in sessionStorage
       sessionStorage.setItem("token", data.session?.access_token || "");
-      setToken(data.session?.access_token);
+      setAccessToken(data?.session?.access_token);
       toast.success("Login successful!");
     } catch (err) {
       console.error("Unexpected error:", err);
