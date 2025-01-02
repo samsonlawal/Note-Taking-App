@@ -6,6 +6,8 @@ import Navigation from "@/components/ui/Navigation";
 
 import { DataProvider } from "@/context/DataContext";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import HomePage from "../ui/HomePage";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +17,7 @@ export default function LayoutWrapper({
   children: React.ReactNode;
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { accessToken, setAccessToken } = useAuth();
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
@@ -22,28 +25,23 @@ export default function LayoutWrapper({
 
   return (
     <div
-      className={`${inter.className} flex flex-row items-center justify-between w-full bg-gray-100 font-outfit`}
+      className={`${inter.className} flex flex-row items-center justify-between max-w-[1440px] w-full font-outfit`}
     >
       <DataProvider>
-        {/* {pathname === '/' ? (
-          // Home page navbar
-          <Navbar />
-        ) : */}
-        <Navigation
-          isSidebarOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-        />
-        {/* } */}
-        <div className="h-screen w-[310px]">{""}</div>
+        <>
+          {/* <Navigation
+            isSidebarOpen={isSidebarOpen}
+            toggleSidebar={toggleSidebar}
+          />
+          <div className="h-screen w-[310px]">{""}</div>
 
-        <main
-          // className={`transition-all w-[calc(100%-310px)] ml-${
-          //   isSidebarOpen ? "64" : "16"
-          // } p-4`}
-          className={`transition-all flex flex-grow w-[calc(100%-310px)]`}
-        >
-          {children}
-        </main>
+          <main
+            className={`transition-all flex flex-grow w-[calc(100%-310px)]`}
+          >
+            {children}
+          </main> */}
+          <HomePage />
+        </>
       </DataProvider>
     </div>
   );

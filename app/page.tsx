@@ -1,15 +1,26 @@
-import Image from "next/image";
-import { Button } from "@/components/ui/button"
-import NoteDisplay from "../components/NoteDisplay"
-// import { motion } from "framer-motion";
+"use client";
 
-
+import NoteDisplay from "../components/NoteDisplay";
+import { useAuth } from "@/context/AuthContext";
+import { useEffect } from "react";
+import router from "next/router";
 
 export default function Home() {
+  const { accessToken } = useAuth();
+
+  useEffect(() => {
+    if (accessToken) {
+      // Redirect to note layout if logged in
+      router.push("/notes"); // Or the path you want for the note layout
+    } else {
+      // Stay on homepage or show login/signup
+      router.push("/login"); // Or the path for your login/signup page
+    }
+  }, [accessToken, router]);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-[50px] font-outfit w-[calc(100%-310px)]">
       <NoteDisplay />
     </main>
   );
 }
-

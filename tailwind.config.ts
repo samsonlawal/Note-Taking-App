@@ -20,6 +20,8 @@ const config = {
       prompt: ["Prompt", "sans-serif"],
       chakra: ["Chakra Petch", "sans-serif"],
       space: ["Space Grotesk", "sans-serif"],
+      clash: ["Clash Display", "sans-serif"],
+      poppins: ["Poppins", "sans-serif"],
     },
     container: {
       center: true,
@@ -85,9 +87,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"),
-    require('@tailwindcss/typography')
-  ],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
 
 export default config;
