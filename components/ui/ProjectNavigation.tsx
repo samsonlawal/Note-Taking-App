@@ -15,7 +15,6 @@ interface Props {
 
 const ProjectNavigation = ({ selectedProject, setSelectedProject }: Props) => {
   const { isOpen } = useDataContext();
-  console.log(isOpen);
 
   return (
     <div
