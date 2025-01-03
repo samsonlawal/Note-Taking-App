@@ -5,7 +5,7 @@ import Features from "../Features";
 
 function Hero() {
   return (
-    <div className="h-fit py-[80px] flex flex-col justify-center items-center text-center gap-[20px] magicpattern">
+    <div className="h-fit py-[80px] flex flex-col justify-center items-center text-center gap-[20px] magicpattern w-full">
       <Features />
       <h1 className="text-[80px] font-clash font-bold leading-[88px]">
         Your Thoughts, Organized. Anytime, Everywhere.
@@ -16,7 +16,7 @@ function Hero() {
           within reach—wherever life takes you.
         </p>
       </div>
-      <Link href="auth/signup">
+      <Link href="auth/sign-up">
         <Button
           variant="default"
           className="hidden md:inline-block rounded-2xl font-clash font-medium w-[200px] h-fit py-[10px] text-[18px]"

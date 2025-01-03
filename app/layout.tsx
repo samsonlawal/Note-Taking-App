@@ -2,6 +2,9 @@ import LayoutWrapper from "@/components/LayoutWrapper";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/context/AuthContext";
+import Navbar from "@/components/ui/Navbar";
+import Initializers from "./Initializers";
+import { DataProvider } from "@/context/DataContext";
 
 // app/layout.tsx (Server-side Layout without client-side logic)
 export const metadata = {
@@ -23,13 +26,15 @@ export default function RootLayout({
         />
       </head>
       <AuthProvider>
-        <body>
-          <div className="flex justify-center">
-            <Toaster position="top-right" reverseOrder={false} />
-            {/* Layout wrapper includes client-side logic */}
-            <LayoutWrapper>{children}</LayoutWrapper>
-          </div>
-        </body>
+        <DataProvider>
+          <body>
+            <div className="flex flex-col justify-center">
+              <Toaster position="top-right" reverseOrder={false} />
+              {/* Layout wrapper includes client-side logic */}
+              <Initializers>{children}</Initializers>
+            </div>
+          </body>
+        </DataProvider>
       </AuthProvider>
     </html>
   );

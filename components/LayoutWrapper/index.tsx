@@ -25,7 +25,7 @@ export default function LayoutWrapper({
 
   return (
     <div
-      className={`${inter.className} flex flex-row items-center justify-between max-w-[1440px] w-full font-outfit`}
+      className={`${inter.className} flex flex-row items-center justify-between w-full font-outfit`}
     >
       <DataProvider>
         <>
