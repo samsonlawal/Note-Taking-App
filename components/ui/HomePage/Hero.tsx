@@ -6,7 +6,7 @@ import Features from "../Features";
 function Hero() {
   return (
     <div className="h-fit py-[80px] flex flex-col justify-center items-center text-center gap-[20px] magicpattern w-full">
-      <Features />
+      {/* <Features /> */}
       <h1 className="text-[80px] font-clash font-bold leading-[88px]">
         Your Thoughts, Organized. Anytime, Everywhere.
       </h1>
