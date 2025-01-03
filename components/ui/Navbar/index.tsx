@@ -11,7 +11,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="w-full px-6 lg:px-20 py-5 rounded-xl">
+    <nav className="w-full px-6 lg:px-20 py-2 rounded-xl">
       <div className="max-w-[1336px] mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link
@@ -84,7 +84,7 @@ export default function Navbar() {
         {/* Get Started Button */}
 
         <div className="flex items-center space-x-4">
-          <Link href="auth/login">
+          <Link href="/auth/login">
             <Button
               variant="Navoutline"
               className="hidden md:inline-block rounded-2xl font-clash font-medium"

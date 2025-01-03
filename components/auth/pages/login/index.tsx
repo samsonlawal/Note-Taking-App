@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import supabase from "@/config/supabaseClient";
 import { useAuth } from "@/context/AuthContext";
+// import router, { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
   const { accessToken, setAccessToken } = useAuth();
@@ -12,6 +14,8 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null); // For validation errors
   const [formValues, setFormValues] = useState({ email: "", password: "" });
+
+  const router = useRouter();
 
   // useEffect(() => {
   //   console.log(accessToken);
@@ -61,6 +65,7 @@ const LoginForm = () => {
       sessionStorage.setItem("token", data.session?.access_token || "");
       setAccessToken(data?.session?.access_token);
       toast.success("Login successful!");
+      router.push("/note/thebeginning");
     } catch (err) {
       console.error("Unexpected error:", err);
       toast.error("An error occurred. Please try again.");

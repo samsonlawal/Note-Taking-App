@@ -40,35 +40,7 @@ import Logo from "./logo";
 import ProjectLink from "./ProjectLink";
 import ProjectNavigation from "./ProjectNavigation";
 import Link from "next/link";
-
-const containerVariants = {
-  close: {
-    width: "52px",
-    transition: {
-      type: "spring",
-      damping: 15,
-      duration: 0.5,
-    },
-  },
-  open: {
-    width: "52px",
-    transition: {
-      type: "spring",
-      damping: 15,
-      duration: 0.5,
-    },
-  },
-};
-
-const svgVariants = {
-  close: {
-    rotate: 360,
-  },
-  open: {
-    rotate: 180,
-  },
-};
-
+import { useAuth } from "@/context/AuthContext";
 interface NavigationProps {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
@@ -77,9 +49,11 @@ interface NavigationProps {
 const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
   const { isOpen, setIsOpen } = useDataContext();
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const { logout } = useAuth();
 
-  const containerControls = useAnimationControls();
-  const svgControls = useAnimationControls();
+  const handleLogout = () => {
+    logout(); // Logout the user and redirect them to the homepage
+  };
 
   useEffect(() => {}, [isOpen]);
 
@@ -165,7 +139,7 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
                 selectedProject === "Settings"
                   ? "bg-gray-300 hover:bg-none"
                   : "bg-none hover:bg-gray-300"
-              } w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700`}
+              } w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 cursor-pointer`}
             >
               <Tooltip
                 placement="right"
@@ -180,7 +154,7 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
 
           {/* Darkemode/Lightmode */}
           <div
-            className={`bg-none hover:bg-gray-300 w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700`}
+            className={`bg-none hover:bg-gray-300 w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 cursor-pointer`}
           >
             <Tooltip
               placement="right"
@@ -193,21 +167,23 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
           </div>
 
           {/* User Pfp and setting */}
-          <Link
-            // name="User Profile"
-            href="/auth/login"
-            // setSelectedProject={setSelectedProject}
+          <div
+            className={`stroke-gray-700 ${
+              selectedProject === "User Profile"
+                ? "bg-gray-300 hover:bg-none"
+                : "bg-none hover:bg-gray-300"
+            } w-[100%] px-2 rounded py-1 transition-colors duration-100 cursor-pointer`}
+            onClick={handleLogout}
           >
-            <div
-              className={`stroke-gray-700 ${
-                selectedProject === "User Profile"
-                  ? "bg-gray-300 hover:bg-none"
-                  : "bg-none hover:bg-gray-300"
-              } w-[100%] px-2 rounded py-1 transition-colors duration-100`}
+            <Tooltip
+              placement="right"
+              showArrow={true}
+              className="bg-gray-200 rounded-md mx-4 font-semibold font-outfit border border-gray-300 text-xs"
+              content={<div className="text-tiny">Log Out</div>}
             >
               <LogOut className="stroke-inherit stroke-[1] min-w-5 w-5" />
-            </div>
-          </Link>
+            </Tooltip>
+          </div>
         </div>
       </motion.nav>
       <ProjectNavigation

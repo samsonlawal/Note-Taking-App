@@ -1,14 +1,17 @@
-"use client"
+"use client";
 
 import { useState, useEffect, useCallback } from "react";
 import { useDataContext } from "@/context/DataContext";
-import { useRouter } from "next/navigation";
-import {noteData} from "../../../noteData";
+import { usePathname, useRouter } from "next/navigation";
+import { noteData } from "../../../../noteData";
 import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 import React, { useRef } from "react";
 import type { MDXEditorMethods } from "@mdxeditor/editor";
 // import InitializedMDXEditor from './InitializedMDXEditor'
+import { useAuth } from "@/context/AuthContext";
+import Navigation from "@/components/ui/Navigation";
+import router from "next/router";
 
 const DynamicMDXEditor = dynamic(
   () => import("@/components/InitializedMDXEditor"),
@@ -33,6 +36,8 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   const editorRef = useRef<MDXEditorMethods>(null);
 
   const { local, setLocal } = useDataContext();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const note =
     local.length !== 0
@@ -74,11 +79,6 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   const handleHeadChange = (e: React.FocusEvent<HTMLParagraphElement>) => {
     let updatedHeader = e.target.innerText;
 
-    // {updatedHeader.}
-    // console.log(updatedHeader);
-    // console.log(note);
-    // console.log(local)
-
     // Update note content in local state
     if (note) {
       const updatedNote = { ...note, title: updatedHeader };
@@ -98,35 +98,60 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
   const initialMarkdown: string = `${note?.content}`;
 
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-between px-24 py-[50px] w-full">
-      <div className="flex flex-col gap-7 w-full">
-        <h1
-          className="text-[40px] font-black outline-none w-full break-words" // Add `break-words` to ensure wrapping
-          contentEditable="true"
-          suppressContentEditableWarning={true}
-          onBlur={handleHeadChange}
-        >
-          {note && note.title}
-        </h1>
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { accessToken, setAccessToken, isLoading } = useAuth();
 
-        {/* <div
+  const toggleSidebar = () => {
+    setIsSidebarOpen((prev) => !prev);
+  };
+
+  // useEffect(() => {
+  //   if (!isLoading && !accessToken) {
+  //     // Check if the pathname includes "/note"
+  //     if (pathname && pathname.includes("/note")) {
+  //       router.push("/auth/login");
+  //     } else if (pathname === "/") {
+  //       router.push("/");
+  //     }
+  //   }
+  // }, [accessToken, isLoading, pathname, router]);
+
+  return (
+    <div
+      className={`flex flex-row items-center justify-between w-full font-outfit`}
+    >
+      <Navigation isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <div className="h-screen w-[310px]">{""}</div>
+
+      <main className={`transition-all flex flex-grow w-[calc(100%-310px)]`}>
+        <div className="flex min-h-screen flex-col items-center justify-between px-24 py-[50px] w-full">
+          <div className="flex flex-col gap-7 w-full">
+            <h1
+              className="text-[40px] font-black outline-none w-full break-words" // Add `break-words` to ensure wrapping
+              contentEditable="true"
+              suppressContentEditableWarning={true}
+              onBlur={handleHeadChange}
+            >
+              {note && note.title}
+            </h1>
+
+            {/* <div
           className="text-[16px] outline-none w-full break-words"
           contentEditable="true"
           suppressContentEditableWarning={true}
         > */}
-        <DynamicMDXEditor
-          className="text-[16px] outline-none w-full break-words"
-          editorRef={editorRef}
-          markdown={initialMarkdown}
-          onBlur={handleFocus}
-        />
-        {/* </div> */}
-      </div>
+            <DynamicMDXEditor
+              className="text-[16px] outline-none w-full break-words"
+              editorRef={editorRef}
+              markdown={initialMarkdown}
+              onBlur={handleFocus}
+            />
+            {/* </div> */}
+          </div>
+        </div>
+      </main>
     </div>
   );
 };
-
-
 
 export default NotePage;
