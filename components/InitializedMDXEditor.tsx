@@ -32,8 +32,6 @@ const InitializedMDXEditor: React.FC<InitializedMDXEditorProps> = ({
     markdownShortcutPlugin(),
   ];
 
-  console.log("Plugins initialized:", plugins);
-
   return (
     // <article class="prose lg:prose-xl">
     <MDXEditor
