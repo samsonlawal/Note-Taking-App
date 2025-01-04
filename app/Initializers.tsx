@@ -1,12 +1,12 @@
 "use client";
 import React, { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-// import NextTopLoader from 'nextjs-toploader';
 import Navbar from "@/components/ui/Navbar";
-// import Footer from '@/components/layout/main/footer';
+// import NextTopLoader from "nextjs-toploader";
 // import { Toaster } from '@/components/ui/sonner';
 // import { AppThemeProvider } from '@/providers/theme-provider';
 import { AuthProvider } from "@/context/AuthContext";
+import TopLoader from "nextjs-toploader";
 
 function Initializers({ children }: { children: ReactNode }) {
   const isAuthPage = (usePathname() || "")?.startsWith("/note/");
@@ -17,6 +17,8 @@ function Initializers({ children }: { children: ReactNode }) {
   return (
     // <AppThemeProvider>
     <AuthProvider>
+      <TopLoader color="#000000" height={3} />
+
       {hideNavbar ? null : <Navbar />}
       {children}
     </AuthProvider>
