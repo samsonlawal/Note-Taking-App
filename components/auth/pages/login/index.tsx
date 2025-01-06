@@ -65,7 +65,19 @@ const LoginForm = () => {
       sessionStorage.setItem("token", data.session?.access_token || "");
       setAccessToken(data?.session?.access_token);
       toast.success("Login successful!");
-      router.push("/note/thebeginning");
+
+      // If notes are in Local Storage:
+      const notes = JSON.parse(localStorage.getItem("Notes") || "[]");
+
+      if (notes.length > 0) {
+        console.log(notes.length, notes[0].id);
+        const firstNoteId = notes[0].id; // Assuming notes have an id
+        router.push(`/note/${firstNoteId}`);
+      }
+      // else {
+      //   // Redirect to a placeholder or dummy page if no notes exist
+      //   router.push("/note/dummy");
+      // }
     } catch (err) {
       console.error("Unexpected error:", err);
       toast.error("An error occurred. Please try again.");

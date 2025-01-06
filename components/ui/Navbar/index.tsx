@@ -11,7 +11,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="w-full px-6 lg:px-20 py-5 rounded-xl">
+    <nav className="w-full px-6 lg:px-10 py-5 rounded-xl">
       <div className="max-w-[1336px] mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link
@@ -52,29 +52,7 @@ export default function Navbar() {
                   href="/pricing"
                   className="text-base hover:text-black/70 transition-colors duration-500"
                 >
-                  Docs
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link
-                  href="/contact"
-                  className="text-base hover:text-black/70 transition-colors duration-500"
-                >
-                  FAQs
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link
-                  href="/contact"
-                  className="text-base hover:text-black/70 transition-colors duration-500"
-                >
-                  Help
+                  Documentation
                 </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
