@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+import { useAuth } from "@/context/AuthContext";
+
+import supabase from "@/config/supabaseClient";
 
 interface Note {
   id: string;
@@ -15,7 +18,9 @@ const AddNote: React.FC = () => {
   const [searchInput, setSearchInput] = useState<string>("");
   const [title, setTitle] = useState<string>("");
 
-  let idString= ''
+  const { userId } = useAuth();
+
+  let idString = "";
 
   // Load notes from localStorage on initial render
   useEffect(() => {
@@ -32,7 +37,7 @@ const AddNote: React.FC = () => {
   };
 
   // Add a new note
-  const handleAddNote = () => {
+  const handleAddNote = async () => {
     // Ensure title is not empty
     if (!title.trim()) {
       return; // or show an error message
@@ -56,6 +61,23 @@ const AddNote: React.FC = () => {
     // Navigate to new note page
     router.push(`/note/${idString}`);
     console.log(idString);
+
+    try {
+      const { data, error } = await supabase.from("notes").insert([
+        {
+          title: title,
+          content: "New Note",
+          user_id: userId, // Optional: Pass the logged-in user's ID
+        },
+      ]);
+
+      if (error) throw error;
+
+      return data;
+    } catch (err) {
+      console.error("Error adding note:", err);
+      throw err;
+    }
   };
 
   return (

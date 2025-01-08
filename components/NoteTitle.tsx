@@ -19,7 +19,7 @@ const Note: React.FC<NoteProps> = ({ key, title, content }) => {
 
   return (
     <div
-      key={key}
+      key={title}
       className="h-[32px] text-zinc-500 flex flex-row gap-1 items-center justify-start w-full rounded-md cursor-pointer mb-1 px-2 hover:bg-gray-300"
     >
       <FileText size={16} />

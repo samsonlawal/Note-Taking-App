@@ -1,0 +1,7 @@
+.padded{
+    scroll-padding-top: 100px;
+}
+
+  div::-webkit-scrollbar {
+    display: none;
+  }

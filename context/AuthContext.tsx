@@ -9,6 +9,7 @@ interface AuthContextType {
   setAccessToken: (token: string | null) => void;
   logout: () => void;
   isLoading: boolean;
+  userId: string;
 }
 
 // Create the context
@@ -27,25 +28,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [accessToken, setAccessTokenState] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true); // Track loading state
   const router = useRouter();
+  const [userId, setUserId] = useState<string>("");
 
   // Load the token from local storage on initial render
   useEffect(() => {
-    const storedToken = localStorage.getItem("accessToken");
+    const storedToken = localStorage.getItem("NoteApptoken");
     if (storedToken) {
       setAccessTokenState(storedToken);
       console.log(storedToken);
+    }
+
+    const userID = localStorage.getItem("userId");
+    if (userID) {
+      setUserId(userID);
+      // console.log(userID);
     }
 
     setIsLoading(false);
   }, []);
 
   // Save the token to local storage whenever it changes
-  const setAccessToken = (token: string | null) => {
-    setAccessTokenState(token);
-    if (token) {
-      localStorage.setItem("accessToken", token);
+  const setAccessToken = (accesTtoken: string | null) => {
+    setAccessTokenState(accessToken);
+    if (accessToken) {
+      localStorage.setItem("NoteApptoken", accessToken);
     } else {
-      localStorage.removeItem("accessToken");
+      localStorage.removeItem("NoteApptoken");
     }
   };
 
@@ -63,7 +71,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ accessToken, setAccessToken, logout, isLoading }}
+      value={{ accessToken, setAccessToken, logout, isLoading, userId }}
     >
       {children}
     </AuthContext.Provider>
