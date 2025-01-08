@@ -48,7 +48,8 @@ const LoginForm = () => {
         password: formValues.password,
       });
 
-      console.log("sign in:", data);
+      // console.log("sign in:", data);
+      // console.log("userId", data.user?.id || "");
 
       //       const { user, session, error } = await supabase.auth.signIn({
       //   email: 'example@email.com',
@@ -62,7 +63,9 @@ const LoginForm = () => {
       }
 
       // Store token in sessionStorage
-      sessionStorage.setItem("token", data.session?.access_token || "");
+      localStorage.setItem("NoteApptoken", data.session?.access_token || "");
+      localStorage.setItem("userId", data.user?.id || "");
+
       setAccessToken(data?.session?.access_token);
       toast.success("Login successful!");
 
