@@ -38,7 +38,7 @@ const InitializedMDXEditor: React.FC<InitializedMDXEditorProps> = ({
       plugins={plugins}
       {...props}
       ref={editorRef}
-      contentEditableClassName="prose text-white caret-yellow-500 max-w-[90%]"
+      contentEditableClassName="prose text-white caret-yellow-500 max-w-full"
     />
     //  </article>
   );

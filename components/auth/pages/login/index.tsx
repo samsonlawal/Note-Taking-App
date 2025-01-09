@@ -9,7 +9,8 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
-  const { accessToken, setAccessToken } = useAuth();
+  const { accessToken, setAccessToken, isLoggedIn, userId, setData } =
+    useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null); // For validation errors
@@ -48,14 +49,6 @@ const LoginForm = () => {
         password: formValues.password,
       });
 
-      // console.log("sign in:", data);
-      // console.log("userId", data.user?.id || "");
-
-      //       const { user, session, error } = await supabase.auth.signIn({
-      //   email: 'example@email.com',
-      //   password: 'example-password',
-      // })
-
       if (error) {
         setError("Invalid email or password.");
         toast.error("Login failed. Please check your credentials.");
@@ -63,6 +56,7 @@ const LoginForm = () => {
       }
 
       // Store token in sessionStorage
+      console.log(data);
       localStorage.setItem("NoteApptoken", data.session?.access_token || "");
       localStorage.setItem("userId", data.user?.id || "");
 
@@ -70,16 +64,52 @@ const LoginForm = () => {
       toast.success("Login successful!");
 
       // If notes are in Local Storage:
-      const notes = JSON.parse(localStorage.getItem("Notes") || "[]");
+      // const notes = JSON.parse(localStorage.getItem("Notes") || "[]");
 
-      if (notes.length > 0) {
-        console.log(notes.length, notes[0].id);
-        const firstNoteId = notes[0].id; // Assuming notes have an id
-        router.push(`/note/${firstNoteId}`);
+      if (accessToken) {
+        console.log("logger:", data);
+        let firstNoteId; // Assuming notes have an id
+        // router.push(`/note/${firstNoteId}`);
+
+        // Define and immediately invoke the async function
+        const fetchNotes = async () => {
+          try {
+            const { data, error } = await supabase
+              .from("notes")
+              .select("*")
+              .eq("user_id", userId) // Fetch notes for the logged-in user
+              .order("created_at", { ascending: false });
+
+            console.log(data); // Logs the fetched data
+            firstNoteId = data[0].noteId;
+            console.log(firstNoteId);
+
+            if (error) throw error;
+            // Assuming notes have an id
+            console.log(firstNoteId); // Logs the fetched data
+
+            // setData(data);
+          } catch (err) {
+            console.error("Error fetching notes:", err);
+            throw err;
+          }
+        };
+
+        fetchNotes();
+
+        // console.log(isLoggedIn);
+        if (firstNoteId) {
+          router.push(`/note/${firstNoteId}`);
+          console.log(firstNoteId);
+        } else {
+          router.push("/note/the-beginning");
+          console.log(firstNoteId);
+        }
       }
+
       // else {
       //   // Redirect to a placeholder or dummy page if no notes exist
-      //   router.push("/note/dummy");
+      //   router.push("/note/the-beginning");
       // }
     } catch (err) {
       console.error("Unexpected error:", err);
@@ -90,11 +120,11 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="max-w-[900px] py-6 px-10 bg-transparent font-outfit">
+    <div className="max-w-[900px] pt-[100px] px-10 bg-transparent font-outfit">
       <form
         autoComplete="off"
         noValidate
-        className="w-full md:w-[400px] flex flex-col gap-6 items-center justify-center"
+        className="w-full md:w-[400px] flex flex-col gap-4 items-center justify-center"
         onSubmit={handleSubmit}
       >
         <div className="text-center w-[85%] flex flex-col gap-2">

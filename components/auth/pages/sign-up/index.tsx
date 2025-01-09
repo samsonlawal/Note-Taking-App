@@ -100,7 +100,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="max-w-[900px] py-6 px-10 bg-transparent font-outfit">
+    <div className="max-w-[900px] pt-[100px] px-10 bg-transparent font-outfit">
       <form
         autoComplete="off"
         className="w-[400px] flex flex-col gap-6 items-center justify-center"

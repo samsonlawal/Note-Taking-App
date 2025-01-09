@@ -6,15 +6,16 @@ import { useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";
 
 function HomePage() {
-  const { accessToken, isLoading } = useAuth();
+  const { accessToken, isLoading, isLoggedIn } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     // Redirect to login if there's no access token
-    if (!isLoading && accessToken) {
-      router.push("/note/beginning");
+    if (!isLoggedIn) {
+      router.push("/note/the-beginning");
+      console.log("from homepage");
     }
-  }, [accessToken, router]);
+  }, [isLoggedIn]);
 
   return (
     <div className="max-screen-wrapper">
