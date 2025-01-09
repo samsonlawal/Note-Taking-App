@@ -30,94 +30,62 @@ const LoginForm = () => {
     setError(null); // Clear error on input change
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null); // Clear previous errors
+ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+   e.preventDefault();
+   setError(null);
 
-    // Basic validation
-    if (!formValues.email || !formValues.password) {
-      setError("Email and password are required.");
-      return;
-    }
+   if (!formValues.email || !formValues.password) {
+     setError("Email and password are required.");
+     return;
+   }
 
-    try {
-      setIsSubmitting(true);
+   try {
+     setIsSubmitting(true);
 
-      // Supabase login logic
-      let { data, error } = await supabase.auth.signInWithPassword({
-        email: formValues.email,
-        password: formValues.password,
-      });
+     let { data, error } = await supabase.auth.signInWithPassword({
+       email: formValues.email,
+       password: formValues.password,
+     });
 
-      if (error) {
-        setError("Invalid email or password.");
-        toast.error("Login failed. Please check your credentials.");
-        return;
-      }
+     if (error) {
+       setError("Invalid email or password.");
+       toast.error("Login failed. Please check your credentials.");
+       return;
+     }
 
-      // Store token in sessionStorage
-      console.log(data);
-      localStorage.setItem("NoteApptoken", data.session?.access_token || "");
-      localStorage.setItem("userId", data.user?.id || "");
+     localStorage.setItem("NoteApptoken", data.session?.access_token || "");
+     localStorage.setItem("userId", data.user?.id || "");
+     setAccessToken(data?.session?.access_token);
+     toast.success("Login successful!");
 
-      setAccessToken(data?.session?.access_token);
-      toast.success("Login successful!");
+     if (data.session?.access_token) {
+       try {
+         const { data: notesData, error: notesError } = await supabase
+           .from("notes")
+           .select("*")
+           .eq("user_id", data.user?.id)
+           .order("created_at", { ascending: false });
 
-      // If notes are in Local Storage:
-      // const notes = JSON.parse(localStorage.getItem("Notes") || "[]");
+         if (notesError) throw notesError;
 
-      if (accessToken) {
-        console.log("logger:", data);
-        let firstNoteId; // Assuming notes have an id
-        // router.push(`/note/${firstNoteId}`);
-
-        // Define and immediately invoke the async function
-        const fetchNotes = async () => {
-          try {
-            const { data, error } = await supabase
-              .from("notes")
-              .select("*")
-              .eq("user_id", userId) // Fetch notes for the logged-in user
-              .order("created_at", { ascending: false });
-
-            console.log(data); // Logs the fetched data
-            firstNoteId = data[0].noteId;
-            console.log(firstNoteId);
-
-            if (error) throw error;
-            // Assuming notes have an id
-            console.log(firstNoteId); // Logs the fetched data
-
-            // setData(data);
-          } catch (err) {
-            console.error("Error fetching notes:", err);
-            throw err;
-          }
-        };
-
-        fetchNotes();
-
-        // console.log(isLoggedIn);
-        if (firstNoteId) {
-          router.push(`/note/${firstNoteId}`);
-          console.log(firstNoteId);
-        } else {
-          router.push("/note/the-beginning");
-          console.log(firstNoteId);
-        }
-      }
-
-      // else {
-      //   // Redirect to a placeholder or dummy page if no notes exist
-      //   router.push("/note/the-beginning");
-      // }
-    } catch (err) {
-      console.error("Unexpected error:", err);
-      toast.error("An error occurred. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+         if (notesData && notesData.length > 0) {
+           const firstNoteId = notesData[0].noteId;
+           router.push(`/note/${firstNoteId}`);
+         } else {
+           router.push("/note/the-beginning");
+         }
+       } catch (err) {
+         console.error("Error fetching notes:", err);
+         router.push("/note/the-beginning");
+       }
+     }
+   } catch (err) {
+     console.error("Unexpected error:", err);
+     toast.error("An error occurred. Please try again.");
+   } finally {
+     setIsSubmitting(false);
+   }
+ };
 
   return (
     <div className="max-w-[900px] pt-[100px] px-10 bg-transparent font-outfit">
