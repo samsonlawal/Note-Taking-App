@@ -45,7 +45,7 @@ const NoteList: React.FC = () => {
     <div className="flex flex-col">
       {data.length !== 0 &&
         data.map((note) => (
-          <Link href={`/note/${note.noteId}`}>
+          <Link href={`/note/${note.noteId}`} key={note.id}>
             <NoteTitle
               key={note.id}
               title={note.title}
@@ -55,7 +55,7 @@ const NoteList: React.FC = () => {
         ))}
       {data.length === 0 &&
         noteData.map((note) => (
-          <Link href={`/note/${note.id}`}>
+          <Link href={`/note/${note.id}`} key={note.id}>
             <NoteTitle
               key={note.id}
               title={note.title}
