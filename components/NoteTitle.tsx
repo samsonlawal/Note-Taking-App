@@ -20,10 +20,10 @@ const Note: React.FC<NoteProps> = ({ key, title, content }) => {
   return (
     <div
       key={title}
-      className="h-[32px] text-zinc-500 flex flex-row gap-1 items-center justify-start w-full rounded-md cursor-pointer mb-1 px-2 hover:bg-gray-300"
+      className="h-[32px] text-zinc-500 flex flex-row gap-1 items-center justify-start w-full rounded-md cursor-pointer px-2 hover:bg-gray-300"
     >
       <FileText size={16} />
-      <p className="text-[14px] font-outfit font-medium">{title}</p>
+      <p className="text-[14px] font-outfit font-normal">{title}</p>
     </div>
   );
 };
