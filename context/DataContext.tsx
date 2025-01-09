@@ -13,6 +13,7 @@ import React, {
 
 // Type for state holding localstorage data
 interface Note {
+  noteId?: string;
   // key: number;
   id: string;
   title: string;
@@ -25,6 +26,8 @@ interface ContextProps {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   local: Note[];
   setLocal: Dispatch<SetStateAction<Note[]>>;
+  data: Note[];
+  setData: Dispatch<SetStateAction<Note[]>>;
 }
 
 const initialContext: ContextProps = {
@@ -32,9 +35,9 @@ const initialContext: ContextProps = {
   setIsOpen: () => {}, // Placeholder function
   local: [],
   setLocal: () => {}, // Placeholder function
+  data: [],
+  setData: () => {},
 };
-
-
 
 const DataContext = createContext<ContextProps>(initialContext);
 
@@ -48,11 +51,13 @@ export const DataProvider: FC<DataProviderProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState<boolean>(initialContext.isOpen);
 
   // Local Storage data
-  const [local, setLocal] = useState<Note[]>([])
- 
+  const [local, setLocal] = useState<Note[]>([]);
+  const [data, setData] = useState<Note[]>([]);
 
   return (
-    <DataContext.Provider value={{ isOpen, setIsOpen, local, setLocal }}>
+    <DataContext.Provider
+      value={{ isOpen, setIsOpen, local, setLocal, data, setData }}
+    >
       {children}
     </DataContext.Provider>
   );

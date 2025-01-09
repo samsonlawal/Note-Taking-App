@@ -54,9 +54,9 @@ const AddNote: React.FC = () => {
     };
 
     // Update notes state and localStorage
-    const updatedNotes = [...notes, newItem];
-    setNotes(updatedNotes);
-    localStorage.setItem("Notes", JSON.stringify(updatedNotes));
+    // const updatedNotes = [...notes, newItem];
+    // setNotes(updatedNotes);
+    // localStorage.setItem("Notes", JSON.stringify(updatedNotes));
 
     // Navigate to new note page
     router.push(`/note/${idString}`);
@@ -68,6 +68,7 @@ const AddNote: React.FC = () => {
           title: title,
           content: "New Note",
           user_id: userId, // Optional: Pass the logged-in user's ID
+          noteId: idString,
         },
       ]);
 
