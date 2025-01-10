@@ -11,11 +11,11 @@ function HomePage() {
 
   useEffect(() => {
     // Redirect to login if there's no access token
-    if (!isLoggedIn) {
+    if (!accessToken) {
       router.push("/note/the-beginning");
       console.log("from homepage");
     }
-  }, [isLoggedIn]);
+  }, [accessToken]);
 
   return (
     <div className="max-screen-wrapper">
