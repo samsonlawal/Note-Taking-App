@@ -13,7 +13,7 @@ interface Note {
   content: string;
 }
 
-const search: React.FC = () => {
+const SearchNote: React.FC = () => {
   // const data = noteData
   const { local, setLocal } = useDataContext();
 
@@ -54,7 +54,7 @@ const search: React.FC = () => {
           <h1>Result</h1>
           <div className="px-2 gap-2 flex flex-col">
             {searchData.map((note) => (
-              <Link href={`/note/${note.id}`}>
+              <Link href={`/note/${note.id}`} key={note.id}>
                 <Note key={note.id} title={note.title} content={note.content} />
               </Link>
             ))}
@@ -65,4 +65,4 @@ const search: React.FC = () => {
   );
 };
 
-export default search;
+export default SearchNote;
