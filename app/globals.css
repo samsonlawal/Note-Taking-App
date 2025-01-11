@@ -82,6 +82,46 @@
   color: rgb(24, 24, 24);
 }
 
+.prose ul{
+  margin: 2px 0px;
+}
+
+.prose li{
+  margin: 0px;
+}
+
+.prose h1 { 
+  font-size: 1.5em; /* ~24px */
+  margin: 0;
+}
+.prose h2 { font-size: 1.25em; /* ~20px */ 
+  margin: 0;
+
+}
+.prose .prose h3 { font-size: 1.125em; /* ~18px */ 
+  margin: 0;
+
+}
+.prose h4 { font-size: 1em; /* ~16px */ 
+  margin: 0;
+
+}
+.prose h5 { font-size: 0.875em; /* ~14px */ 
+  margin: 0;
+
+}
+.prose h6 { font-size: 0.75em; /* ~12px */ 
+  margin: 0;
+
+}
+
+.prose p {
+  margin: 0;
+line-height: 25px;
+}
+
+
+
 .prose {
   width: 100%;
 }
