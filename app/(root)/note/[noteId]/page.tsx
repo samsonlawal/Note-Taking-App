@@ -320,7 +320,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       <div className="h-screen w-[310px]">{""}</div>
 
       <main className={`transition-all flex flex-grow w-[calc(100%-310px)]`}>
-        <div className="flex min-h-screen flex-col items-center justify-between px-24 py-[50px] w-full">
+        <div className="flex min-h-screen flex-col items-center justify-between px-14 py-[50px] w-full">
           <div className="flex flex-col gap-7 w-full">
             <h1
               className="text-[40px] font-black outline-none w-full break-words" // Add `break-words` to ensure wrapping

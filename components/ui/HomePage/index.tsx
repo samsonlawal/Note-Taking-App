@@ -1,21 +1,33 @@
 import Navbar from "../Navbar";
 import Hero from "./Hero";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function HomePage() {
-  const { accessToken, isLoading, isLoggedIn } = useAuth();
+  const { accessToken, isLoading, isLoggedIn, data } = useAuth();
   const router = useRouter();
 
+  const pathname = usePathname();
+
+  const [loading, setLoading] = useState(true);
+  const userIsLogged = !!accessToken;
+
   useEffect(() => {
-    // Redirect to login if there's no access token
-    if (!accessToken) {
-      router.push("/note/the-beginning");
-      console.log("from homepage");
+    // Check if the user is logged in and on the homepage
+    if (userIsLogged && pathname === "/") {
+      // Redirect the user to the note page
+      router.replace("/note/the-beginning");
+    } else {
+      setLoading(false);
     }
-  }, [accessToken]);
+  }, [userIsLogged, pathname, router]);
+
+  // If loading, display nothing (prevents flickering)
+  if (loading) {
+    return null;
+  }
 
   return (
     <div className="max-screen-wrapper">
