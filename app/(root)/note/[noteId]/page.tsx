@@ -319,11 +319,11 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       <Navigation isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="h-screen w-[310px]">{""}</div>
 
-      <main className={`transition-all flex flex-grow w-[calc(100%-310px)]`}>
+      <main className={`transition-all flex flex-grow w-[calc(100%-660px)]`}>
         <div className="flex min-h-screen flex-col items-center justify-between px-14 py-[50px] w-full">
-          <div className="flex flex-col gap-7 w-full">
+          <div className="flex flex-col gap-3 w-full">
             <h1
-              className="text-[40px] font-black outline-none w-full break-words" // Add `break-words` to ensure wrapping
+              className="text-[30px] font-black outline-none w-full break-words" // Add `break-words` to ensure wrapping
               contentEditable="true"
               suppressContentEditableWarning={true}
               onBlur={handleHeadChange}
@@ -347,6 +347,17 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
           </div>
         </div>
       </main>
+      <div className="h-screen w-[250px] bg-gray-200 border-l-[1px] border-gray-300 px-4 py-20">
+        <div>
+          <p className="text-sm font-poppins">
+            <span className="font-medium">Last Edited:</span> 12, Jan 2025
+          </p>
+          <p className="text-sm font-poppins">
+            <span className="font-medium">Tags:</span> work, personal
+          </p>
+        </div>
+        {""}
+      </div>
     </div>
   );
 };
