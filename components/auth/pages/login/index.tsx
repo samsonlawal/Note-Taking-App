@@ -71,12 +71,10 @@ const LoginForm = () => {
          if (notesData && notesData.length > 0) {
            const firstNoteId = notesData[0].noteId;
            router.push(`/note/${firstNoteId}`);
-         } else {
-           router.push("/note/the-beginning");
          }
        } catch (err) {
          console.error("Error fetching notes:", err);
-         router.push("/note/the-beginning");
+         //  router.push("/note/the-beginning");
        }
      }
    } catch (err) {

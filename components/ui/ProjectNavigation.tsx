@@ -28,7 +28,7 @@ const ProjectNavigation = ({ selectedProject, setSelectedProject }: Props) => {
             {selectedProject ? selectedProject : "Notes"}
           </h1>
         </div>
-        <div className="px-2 gap-2 flex flex-col flex-grow py-2 w-full">
+        <div className="gap-2 flex flex-col flex-grow w-full">
           {selectedProject === "Search" ? (
             <Search />
           ) : selectedProject === "Add Note" ? (

@@ -51,24 +51,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   // Save the token to local storage whenever it changes
-  const setAccessToken: any = (accesTtoken: string | null) => {
-    setAccessTokenState(accessToken);
-    if (accessToken) {
-      localStorage.setItem("NoteApptoken", accessToken);
-    }
-    // else {
-    //   localStorage.removeItem("NoteApptoken");
-    // }
-  };
+const setAccessToken = (token: string | null) => {
+  setAccessTokenState(token); // Update the state
+  if (token) {
+    localStorage.setItem("NoteApptoken", token); // Save token if not null
+  } else {
+    localStorage.removeItem("NoteApptoken"); // Remove token if null
+  }
+};
 
-  const logout = () => {
-    // Clear token from state and local storage
-    setAccessToken(null);
-    localStorage.removeItem("NoteApptoken");
-    localStorage.removeItem("userId");
-    setIsLoggedIn(false);
-    router.push("/");
-  };
+const logout = () => {
+  console.log("Before logout, accessToken:", accessToken); // Logs the current token before clearing it
+
+  setAccessToken(null); // Clears the token
+  localStorage.removeItem("NoteApptoken");
+  localStorage.removeItem("userId");
+  setIsLoggedIn(false);
+  router.push("/");
+
+  console.log("After logout, accessToken:", accessToken); // This will log the old token, because the state change hasn't taken effect yet
+};
 
   useEffect(() => {
     if (!isLoading && accessToken !== null) {
