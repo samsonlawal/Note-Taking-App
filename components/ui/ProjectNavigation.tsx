@@ -23,12 +23,16 @@ const ProjectNavigation = ({ selectedProject, setSelectedProject }: Props) => {
       }`}
     >
       <div className="flex flex-col h-full w-full">
-        <div className="flex flex-row w-full justify-start place-items-center h-[60px] border-b border-gray-300 px-4">
+        {" "}
+        {/* Changed from h-screen to h-full */}
+        {/* Header with fixed height */}
+        <div className="flex flex-row w-full justify-start items-center min-h-[60px] flex-shrink-0 border-b border-gray-300 px-4">
           <h1 className="tracking-wide text-black text-2xl font-outfit">
             {selectedProject ? selectedProject : "Notes"}
           </h1>
         </div>
-        <div className="gap-2 flex flex-col flex-grow w-full">
+        {/* Scrollable content area */}
+        <div className="flex flex-col flex-1 w-full overflow-y-auto scrollable-content">
           {selectedProject === "Search" ? (
             <Search />
           ) : selectedProject === "Add Note" ? (

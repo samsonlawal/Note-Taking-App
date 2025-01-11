@@ -42,7 +42,7 @@ const NoteList: React.FC = () => {
   }, [local, accessToken, userId]); // Ensure this effect runs when `accessToken` or `userId` changes
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col flex-grow h-fit">
       {data.length !== 0 &&
         data.map((note) => (
           <Link href={`/note/${note.noteId}`} key={note.id}>
