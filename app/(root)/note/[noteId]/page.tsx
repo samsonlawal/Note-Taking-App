@@ -28,6 +28,7 @@ interface Note {
   content: string;
   id: string;
   noteId?: string;
+  created_at?: any;
 }
 
 interface NoteProps {
