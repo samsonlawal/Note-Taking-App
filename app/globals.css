@@ -120,6 +120,14 @@
 line-height: 25px;
 }
 
+.delete{
+ color: #7c1f1f;
+}
+
+.delete:hover{
+ color: white;
+}
+
 
 
 .prose {
