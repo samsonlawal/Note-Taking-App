@@ -11,6 +11,7 @@ interface Note {
   id: string;
   title: string;
   content: string;
+  created_at: any;
 }
 
 const SearchNote: React.FC = () => {
@@ -55,7 +56,12 @@ const SearchNote: React.FC = () => {
           <div className="px-2 gap-2 flex flex-col">
             {searchData.map((note) => (
               <Link href={`/note/${note.id}`} key={note.id}>
-                <Note key={note.id} title={note.title} content={note.content} />
+                <Note
+                  key={note.id}
+                  title={note.title}
+                  content={note.content}
+                  created_at={note.created_at}
+                />
               </Link>
             ))}
           </div>
