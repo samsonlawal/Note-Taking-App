@@ -7,6 +7,7 @@ import Navbar from "@/components/ui/Navbar";
 // import { AppThemeProvider } from '@/providers/theme-provider';
 import { AuthProvider } from "@/context/AuthContext";
 import TopLoader from "nextjs-toploader";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function Initializers({ children }: { children: ReactNode }) {
   const isAuthPage = (usePathname() || "")?.startsWith("/note/");

@@ -42,7 +42,7 @@ import ProjectLink from "./ProjectLink";
 import ProjectNavigation from "./ProjectNavigation";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-import AddNoteDialog from "./delete";
+// import AddNoteDialog from "./delete";
 interface NavigationProps {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
@@ -131,7 +131,7 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
 
         {/* Bottom buttons */}
         <div className="flex flex-col gap-2">
-          <AddNoteDialog />
+          {/* <AddNoteDialog /> */}
 
           <Link
             // name="Documentation"
