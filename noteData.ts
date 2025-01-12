@@ -3,8 +3,8 @@ export interface Note {
   id: string;
   title: string;
   content: string;
-  noteId: string
-  // href: string;
+  noteId: string;
+  created_at?: any; // href: string;
 }
 
  export const noteData: Note[] = [
