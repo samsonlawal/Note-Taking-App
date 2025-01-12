@@ -13,6 +13,7 @@ import React, {
 
 // Type for state holding localstorage data
 interface Note {
+  created_at: any;
   noteId?: string;
   // key: number;
   id: string;
