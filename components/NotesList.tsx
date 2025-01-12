@@ -62,6 +62,7 @@ const NoteList: React.FC = () => {
               key={note.id}
               title={note.title}
               content={note.content}
+              created_at={note.created_at}
             />
           </Link>
         ))}
