@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 
 import supabase from "@/config/supabaseClient";
+// import AddNoteDialog from "./ui/addDialog";
 
 interface Note {
   id: string;
@@ -83,7 +84,7 @@ const AddNote: React.FC = () => {
 
   return (
     <div className="flex flex-col items-start">
-      <div className="mb-2 gap-1 w-full flex flex-row items-center justify-center text-neutral-600/40">
+      {/* <div className="mb-2 gap-1 w-full flex flex-row items-center justify-center text-neutral-600/40">
         <input
           placeholder="Note Title"
           type="text"
@@ -97,7 +98,8 @@ const AddNote: React.FC = () => {
         onClick={handleAddNote}
       >
         Add Note
-      </button>
+      </button> */}
+      {/* <AddNoteDialog /> */}
     </div>
   );
 };

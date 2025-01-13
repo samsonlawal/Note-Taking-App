@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
   Dialog,
   DialogTrigger,
@@ -11,13 +10,103 @@ import {
   DialogClose,
 } from "./dialog"; // Update the path to where your dialog file is located.
 
-import { Trash } from "lucide-react";
+import { CirclePlus, Trash } from "lucide-react";
 import { Tooltip } from "@nextui-org/tooltip";
+
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+// import Link from "next/link";
+
+import { useAuth } from "@/context/AuthContext";
+
+import supabase from "@/config/supabaseClient";
+import toast, { Toaster } from "react-hot-toast";
+
+interface Note {
+  id: string;
+  title: string;
+  content: string;
+}
 
 const AddNoteDialog = () => {
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
+
+  const router = useRouter();
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [searchInput, setSearchInput] = useState<string>("");
+  // const [title, setTitle] = useState<string>("");
+
+  const { userId } = useAuth();
+
+  let idString = "";
+
+  // Load notes from localStorage on initial render
+  useEffect(() => {
+    const storedNotes = localStorage.getItem("Notes");
+    if (storedNotes) {
+      setNotes(JSON.parse(storedNotes));
+    }
+  }, []);
+
+  // Update search input and title state
+  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    setTitle(e.target.value);
+  };
+
+  // Add a new note
+  const handleAddNote = async () => {
+    // Ensure title is not empty
+    if (!title.trim()) {
+      return; // or show an error message
+    }
+
+    // Generate unique id for the new note
+    idString = title.replace(/\s/g, "").toLowerCase();
+
+    // Create new note object
+    const newItem: Note = {
+      title: title,
+      content: "Start A Note",
+      id: idString,
+    };
+
+    // Update notes state and localStorage
+    // const updatedNotes = [...notes, newItem];
+    // setNotes(updatedNotes);
+    // localStorage.setItem("Notes", JSON.stringify(updatedNotes));
+
+    // Navigate to new note page
+    router.push(`/note/${idString}`);
+    console.log(idString);
+
+    try {
+      const { data, error } = await supabase.from("notes").insert([
+        {
+          title: title,
+          content: "",
+          user_id: userId, // Optional: Pass the logged-in user's ID
+          noteId: idString,
+          tags: tags,
+        },
+      ]);
+
+      if (error) throw error;
+
+      toast.success("Note Created Successfully!");
+
+      return data;
+    } catch (err) {
+      console.error("Error adding note:", err);
+      toast.error(
+        "A note with this name already exists. Please use a different name."
+      );
+
+      throw err;
+    }
+  };
 
   const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && tagInput.trim()) {
@@ -33,15 +122,15 @@ const AddNoteDialog = () => {
     setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
-  const handleAddNote = () => {
-    if (title.trim() && tags.length > 0) {
-      console.log("New Note Created:", { title, tags });
-      setTitle(""); // Reset the fields
-      setTags([]);
-    } else {
-      alert("Please fill out the title and add at least one tag.");
-    }
-  };
+  // const handleAddNote = () => {
+  //   if (title.trim() && tags.length > 0) {
+  //     console.log("New Note Created:", { title, tags });
+  //     setTitle(""); // Reset the fields
+  //     setTags([]);
+  //   } else {
+  //     alert("Please fill out the title and add at least one tag.");
+  //   }
+  // };
 
   return (
     <Dialog>
@@ -55,7 +144,7 @@ const AddNoteDialog = () => {
             className="bg-gray-200 rounded-lg mx-4 font-semibold font-outfit border border-gray-300 text-xs"
             content={<div className="text-tiny">Delete Note</div>}
           >
-            <Trash className="stroke-inherit stroke-[1] min-w-5 w-5" />
+            <CirclePlus className="stroke-inherit stroke-[1] min-w-5 w-5" />
           </Tooltip>
         </div>
       </DialogTrigger>
@@ -123,12 +212,10 @@ const AddNoteDialog = () => {
 
         {/* Footer */}
         <DialogFooter>
-          <button
-            onClick={handleAddNote}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-          >
-            Add
-          </button>
+          <DialogClose className="px-4 py-2 bg-gray-300 text-black rounded-md hover:bg-gray-400">
+            <button onClick={handleAddNote}>Add</button>
+          </DialogClose>
+
           <DialogClose className="px-4 py-2 bg-gray-300 text-black rounded-md hover:bg-gray-400">
             Cancel
           </DialogClose>

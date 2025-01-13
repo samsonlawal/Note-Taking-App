@@ -42,6 +42,7 @@ import ProjectLink from "./ProjectLink";
 import ProjectNavigation from "./ProjectNavigation";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import AddNoteDialog from "./addDialog";
 // import AddNoteDialog from "./delete";
 interface NavigationProps {
   isSidebarOpen: boolean;
@@ -97,7 +98,8 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
               <Folder className="stroke-inherit stroke-[1] min-w-5 w-5" />
             </div>
           </NavigationLink>
-          <NavigationLink
+          <AddNoteDialog />
+          {/* <NavigationLink
             name="Add Note"
             setSelectedProject={setSelectedProject}
             // isOpen={isOpen}
@@ -111,7 +113,7 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
             >
               <CirclePlus className="stroke-inherit stroke-[1] min-w-5 w-5" />
             </div>
-          </NavigationLink>
+          </NavigationLink> */}
           <NavigationLink
             name="Search"
             setSelectedProject={setSelectedProject}
