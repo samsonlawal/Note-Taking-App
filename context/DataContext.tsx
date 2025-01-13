@@ -19,6 +19,7 @@ interface Note {
   id: string;
   title: string;
   content: string;
+  tags: any;
   // href: string;
 }
 

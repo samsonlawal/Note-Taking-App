@@ -16,6 +16,7 @@ interface NoteProps {
   content: string;
   noteId?: any;
   created_at: any;
+  tags?: any;
 
   // href: string;
 }
@@ -25,6 +26,7 @@ const Note: React.FC<NoteProps> = ({
   content,
   created_at,
   noteId,
+  tags,
 }) => {
   //  console.log(noteData[0])
 

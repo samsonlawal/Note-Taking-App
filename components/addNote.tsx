@@ -66,7 +66,7 @@ const AddNote: React.FC = () => {
       const { data, error } = await supabase.from("notes").insert([
         {
           title: title,
-          content: "New Note",
+          content: "",
           user_id: userId, // Optional: Pass the logged-in user's ID
           noteId: idString,
         },
