@@ -12,8 +12,10 @@ import {
 import { Trash } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
+import supabase from "@/config/supabaseClient";
+// import {useDataContext} from '@/context/DataContext'
 
-const DeleteNote = () => {
+const DeleteNote = ({ deleteHandler }: any) => {
   return (
     <Dialog>
       {/* Trigger Button */}
@@ -58,13 +60,13 @@ const DeleteNote = () => {
           </DialogClose>
 
           {/* Delete Button */}
-          <button
+          <DialogClose
             className="flex-1 px-6 py-2.5 bg-red-600 text-white rounded-lg font-poppins 
             font-medium hover:bg-red-700 transition-colors duration-300 
             focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           >
-            Delete
-          </button>
+            <button onClick={deleteHandler}>Delete</button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -5,6 +5,7 @@ export interface Note {
   content: string;
   noteId: string;
   created_at?: any; // href: string;
+  tags?: any;
 }
 
  export const noteData: Note[] = [

@@ -29,6 +29,7 @@ interface Note {
   id: string;
   noteId?: string;
   created_at?: any;
+  tags: any;
 }
 
 interface NoteProps {
@@ -41,14 +42,20 @@ interface NoteProps {
 const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   const editorRef = useRef<MDXEditorMethods>(null);
 
-  const { local, setLocal, data } = useDataContext();
+  const { local, setLocal, data, setData } = useDataContext();
+  const { userId } = useAuth();
+
   const router = useRouter();
   const pathname = usePathname();
 
-  const note =
+  let note =
     data.length !== 0
       ? data.find((note) => note.noteId === params.noteId)
       : noteData.find((note) => note.id === params.noteId);
+
+  {
+    data.length != 0 ? console.log(data) : "";
+  }
 
   // const [currentNote, setCurrentNote] = useState<Note | null>(null);
 
@@ -66,15 +73,53 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
       if (error) {
         console.error("Error updating note in Supabase:", error);
-      } else {
-        console.log("Note content updated successfully in Supabase:", data);
       }
+      // else {
+      //   console.log("Note content updated successfully in Supabase:", data);
+      // }
     }
 
     const textContent = updatedContent.replace(/<[^>]*>/g, ""); // Remove HTML tags
     const wordCount = textContent.trim().split(/\s+/).length;
 
-    console.log(wordCount);
+    // console.log(wordCount);
+  };
+
+  const deleteHandler = async () => {
+    if (note) {
+      const { error } = await supabase
+        .from("notes")
+        .delete()
+        .eq("noteId", note.noteId);
+
+      if (error) {
+        console.error("Error updating note in Supabase:", error);
+      } else {
+        const fetchNotes = async () => {
+          try {
+            const { data, error } = await supabase
+              .from("notes")
+              .select("*")
+              .eq("user_id", userId) // Fetch notes for the logged-in user
+              .order("created_at", { ascending: false });
+
+            if (error) throw error;
+            // console.log(data); // Logs the fetched data
+            setData(data);
+            {
+              data ? router.push(`/note/${data[0].noteId}`) : "";
+            }
+          } catch (err) {
+            console.error("Error fetching notes:", err);
+            throw err;
+          }
+        };
+
+        fetchNotes(); // Call the async function here
+      }
+
+      console.log("what??");
+    }
   };
 
   const handleHeadChange = async (
@@ -103,7 +148,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   //    notFound();
   //  }
 
-  const initialMarkdown: string = `${note?.content}`;
+  const initialMarkdown: string = `${note ? note.content : ""}`;
   const textContent = initialMarkdown.replace(/<[^>]*>/g, ""); // Remove HTML tags
   const wordCount = textContent.trim().split(/\s+/).length;
 
@@ -180,8 +225,18 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
           <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
             <Calendar className="w-4 h-4 transition-transform group-hover:scale-110" />
             <p className="text-[12px] font-poppins py-[14px]">
-              <span className="font-medium font-outfit">Created:</span> 12, Jan
-              2025
+              <span className="font-medium font-outfit">Created:</span>{" "}
+              {note &&
+                note.created_at &&
+                (() => {
+                  const date = new Date(note.created_at);
+                  const day = date.getDate();
+                  const month = date.toLocaleString("en-US", {
+                    month: "short",
+                  });
+                  const year = date.getFullYear();
+                  return `${day}, ${month} ${year}`; // Add the comma here
+                })()}
             </p>
           </div>
 
@@ -198,8 +253,8 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
           <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
             <Tag className="w-4 h-4 transition-transform group-hover:scale-110" />
             <p className="text-[12px] font-poppins py-[14px]">
-              <span className="font-medium font-outfit">Tags:</span> work,
-              personal
+              <span className="font-medium font-outfit">Tags:</span>{" "}
+              {note?.tags?.length ? note.tags.join(", ") : "null"}
             </p>
           </div>
           <div className="border-b-[1px] border-gray-300" />
@@ -214,7 +269,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
           <div className="border-b-[1px] border-gray-300" />
         </div>
         <div className="px-4">
-          <DeleteNote />
+          <DeleteNote deleteHandler={deleteHandler} />
         </div>
         {""}
       </div>
