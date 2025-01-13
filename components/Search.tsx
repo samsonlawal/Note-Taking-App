@@ -16,7 +16,7 @@ interface Note {
 
 const SearchNote: React.FC = () => {
   // const data = noteData
-  const { local, setLocal } = useDataContext();
+  const { local, setLocal, data } = useDataContext();
 
   const [searchInput, setSearchInput] = useState<string>("");
   const [searchData, setSearchData] = useState<Note[]>([]);
@@ -29,7 +29,7 @@ const SearchNote: React.FC = () => {
     if (searchInput === "") {
       setSearchData([]); // Reset to all items if search input is empty
     } else {
-      const filtered: Note[] = local.filter((item) =>
+      const filtered: Note[] = data.filter((item) =>
         item.title.toLowerCase().includes(searchInput.toLowerCase())
       );
       setSearchData(filtered);
