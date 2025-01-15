@@ -8,6 +8,7 @@ import Navbar from "@/components/ui/Navbar";
 import { AuthProvider } from "@/context/AuthContext";
 import TopLoader from "nextjs-toploader";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AppThemeProvider } from "@/providers/theme-provider";
 
 function Initializers({ children }: { children: ReactNode }) {
   const isAuthPage = (usePathname() || "")?.startsWith("/note/");
@@ -16,13 +17,14 @@ function Initializers({ children }: { children: ReactNode }) {
   const hideFooter = isAuthPage ? true : false;
 
   return (
-    // <AppThemeProvider>
-    <AuthProvider>
-      <TopLoader color="#000000" height={3} />
+    <AppThemeProvider>
+      <AuthProvider>
+        <TopLoader color="#000000" height={3} />
 
-      {hideNavbar ? null : <Navbar />}
-      {children}
-    </AuthProvider>
+        {hideNavbar ? null : <Navbar />}
+        {children}
+      </AuthProvider>
+    </AppThemeProvider>
   );
 }
 

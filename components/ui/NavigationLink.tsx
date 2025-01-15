@@ -36,7 +36,7 @@ const NavigationLink = ({ children, name, setSelectedProject }: Props) => {
       <Tooltip
         placement="right"
         showArrow={true}
-        className="bg-gray-200 rounded-md mx-2 font-semibold font-outfit border border-gray-300 text-xs"
+        className="bg-gray-200 dark:bg-gray-700 rounded-md mx-2 font-outfit border border-gray-300 dark:border-gray-800 text-xs"
         content={<div className="text-tiny">{name}</div>}
       >
         {children}

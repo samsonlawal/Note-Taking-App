@@ -11,12 +11,12 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="w-full fixed top-0 left-0 bg-white px-6 lg:px-10 py-5 border-b-[1px] border-gray-200">
+    <nav className="w-full fixed top-0 left-0 bg-white px-6 lg:px-10 py-5 border-b-[1px] border-gray-200 dark:border-gray-900/50 dark:bg-gray-800">
       <div className="max-w-[1336px] mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link
           href="/"
-          className="text-[27px] font-bold text-gray-800 font-clash"
+          className="text-[27px] font-bold text-gray-800 dark:text-white font-clash"
         >
           Knotte
         </Link>
@@ -28,7 +28,7 @@ export default function Navbar() {
               <NavigationMenuLink asChild>
                 <Link
                   href="/documentation"
-                  className="text-base hover:text-black/70 transition-colors duration-500"
+                  className="text-base hover:text-black/70 dark:hover:text-white/70 transition-colors duration-500"
                 >
                   Documentation
                 </Link>

@@ -18,7 +18,7 @@ const ProjectNavigation = ({ selectedProject, setSelectedProject }: Props) => {
 
   return (
     <div
-      className={`h-full w-[250px] flex flex-col gap-2 bg-gray-200 ml-0 border-r border-gray-300 transition-transform duration-300 ease-in-out transform overflow-hidden ${
+      className={`h-full w-[250px] flex flex-col gap-2 bg-gray-200 ml-0 border-r border-gray-300 transition-transform duration-300 ease-in-out transform overflow-hidden dark:bg-gray-800 dark:border-gray-900/50 ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
@@ -26,8 +26,8 @@ const ProjectNavigation = ({ selectedProject, setSelectedProject }: Props) => {
         {" "}
         {/* Changed from h-screen to h-full */}
         {/* Header with fixed height */}
-        <div className="flex flex-row w-full justify-start items-center min-h-[60px] flex-shrink-0 border-b border-gray-300 px-4">
-          <h1 className="tracking-wide text-black text-2xl font-outfit">
+        <div className="flex flex-row w-full justify-start items-center min-h-[60px] flex-shrink-0 border-b border-gray-300 dark:border-gray-900/50 px-4">
+          <h1 className="tracking-wide text-black dark:text-white text-2xl font-outfit">
             {selectedProject ? selectedProject : "Notes"}
           </h1>
         </div>

@@ -15,12 +15,11 @@ import React, {
 interface Note {
   created_at: any;
   noteId?: string;
-  // key: number;
   id: string;
   title: string;
   content: string;
   tags: any;
-  // href: string;
+  lastEdited: string;
 }
 
 interface ContextProps {

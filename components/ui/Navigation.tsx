@@ -43,6 +43,7 @@ import ProjectNavigation from "./ProjectNavigation";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import AddNoteDialog from "./addDialog";
+import ThemeSwitcher from "./ThemeSwitcher";
 // import AddNoteDialog from "./delete";
 interface NavigationProps {
   isSidebarOpen: boolean;
@@ -72,9 +73,9 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
 
   return (
     <div className="flex flex-row h-screen w-fit fixed top-0">
-      <motion.nav className="w-[60px] flex flex-col items-center justify-center z-10 gap-2 pb-5 h-full border-r border-gray-300 bg-gray-200">
-        <div className="flex h-[60px] flex-row w-full items-center justify-center place-items-center border-b border-gray-300">
-          <button className="rounded-full flex text-black">
+      <motion.nav className="w-[60px] flex flex-col items-center justify-center z-10 gap-2 pb-5 h-full border-r border-gray-300 bg-gray-200 dark:bg-gray-800 dark:border-gray-900/50">
+        <div className="flex h-[60px] flex-row w-full items-center justify-center place-items-center border-b border-gray-300 dark:border-gray-900/50">
+          <button className="rounded-full flex text-black dark:text-gray-300">
             <PanelLeft
               className="cursor-pointer"
               onClick={() => handleOpenClose()}
@@ -91,29 +92,14 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
             <div
               className={` ${
                 selectedProject === "Notes"
-                  ? "bg-gray-300 hover:bg-none"
-                  : "bg-none hover:bg-gray-300"
+                  ? "bg-gray-300 dark:bg-gray-900 hover:bg-none"
+                  : "bg-none hover:bg-gray-300 dark:hover:bg-gray-900"
               } w-[100%] px-2 rounded py-1 transition-colors duration-100`}
             >
-              <Folder className="stroke-inherit stroke-[1] min-w-5 w-5" />
+              <Folder className="stroke-inherit dark:stroke-gray-200 stroke-[1] min-w-5 w-5" />
             </div>
           </NavigationLink>
           <AddNoteDialog />
-          {/* <NavigationLink
-            name="Add Note"
-            setSelectedProject={setSelectedProject}
-            // isOpen={isOpen}
-          >
-            <div
-              className={` ${
-                selectedProject === "Add Note"
-                  ? "bg-gray-300 hover:bg-none"
-                  : "bg-none hover:bg-gray-300"
-              } w-[100%] px-2 rounded py-1 transition-colors duration-100`}
-            >
-              <CirclePlus className="stroke-inherit stroke-[1] min-w-5 w-5" />
-            </div>
-          </NavigationLink> */}
           <NavigationLink
             name="Search"
             setSelectedProject={setSelectedProject}
@@ -122,35 +108,25 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
             <div
               className={` ${
                 selectedProject === "Search"
-                  ? "bg-gray-300 hover:bg-none"
-                  : "bg-none hover:bg-gray-300"
+                  ? "bg-gray-300 dark:bg-gray-900 hover:bg-none"
+                  : "bg-none hover:bg-gray-300 dark:hover:bg-gray-900"
               } w-[100%] px-2 rounded py-1 transition-colors duration-100`}
             >
-              <Search className="stroke-inherit stroke-[1] min-w-5 w-5" />
+              <Search className="stroke-inherit dark:stroke-gray-200 stroke-[1] min-w-5 w-5" />
             </div>
           </NavigationLink>
         </div>
 
         {/* Bottom buttons */}
         <div className="flex flex-col gap-2">
-          {/* <AddNoteDialog /> */}
-
-          <Link
-            // name="Documentation"
-            // setSelectedProject={setSelectedProject}
-            href="/documentation"
-          >
+          <Link href="/documentation">
             <div
-              className={` ${
-                selectedProject === "Settings"
-                  ? "bg-gray-300 hover:bg-none"
-                  : "bg-none hover:bg-gray-300"
-              } w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 cursor-pointer`}
+              className={`bg-none hover:bg-gray-300 dark:hover:bg-gray-900 w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 dark:stroke-gray-200 cursor-pointer`}
             >
               <Tooltip
                 placement="right"
                 showArrow={true}
-                className="bg-gray-200 rounded-md mx-4 font-semibold font-outfit border border-gray-300 text-xs"
+                className="bg-gray-200 rounded-md mx-4 font-outfit border border-gray-300 dark:border-gray-800 text-xs dark:bg-gray-700"
                 content={<div className="text-tiny">Help</div>}
               >
                 <CircleHelp className="stroke-inherit stroke-[1] min-w-5 w-5" />
@@ -160,31 +136,28 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
 
           {/* Darkemode/Lightmode */}
           <div
-            className={`bg-none hover:bg-gray-300 w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 cursor-pointer`}
+            className={`bg-none hover:bg-gray-300 dark:hover:bg-gray-900 w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 dark:stroke-gray-200 cursor-pointer`}
           >
             <Tooltip
               placement="right"
               showArrow={true}
-              className="bg-gray-200 rounded-md mx-4 font-semibold font-outfit border border-gray-300 text-xs"
+              className="bg-gray-200 rounded-md mx-4 font-outfit border border-gray-300 dark:border-gray-800 text-xs dark:bg-gray-700"
               content={<div className="text-tiny">Mode</div>}
             >
-              <Moon className="stroke-inherit stroke-[1] min-w-5 w-5" />
+              {/* <Moon className="stroke-inherit stroke-[1] min-w-5 w-5" /> */}
+              <ThemeSwitcher />
             </Tooltip>
           </div>
 
           {/* User Pfp and setting */}
           <div
-            className={`stroke-gray-700 ${
-              selectedProject === "User Profile"
-                ? "bg-gray-300 hover:bg-none"
-                : "bg-none hover:bg-gray-300"
-            } w-[100%] px-2 rounded py-1 transition-colors duration-100 cursor-pointer`}
+            className={`bg-none hover:bg-gray-300 dark:hover:bg-gray-900 w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 dark:stroke-gray-200 cursor-pointer`}
             onClick={handleLogout}
           >
             <Tooltip
               placement="right"
               showArrow={true}
-              className="bg-gray-200 rounded-md mx-4 font-semibold font-outfit border border-gray-300 text-xs"
+              className="bg-gray-200 rounded-md mx-4 font-outfit border border-gray-300 dark:border-gray-800 text-xs dark:bg-gray-700"
               content={<div className="text-tiny">Log Out</div>}
             >
               <LogOut className="stroke-inherit stroke-[1] min-w-5 w-5" />

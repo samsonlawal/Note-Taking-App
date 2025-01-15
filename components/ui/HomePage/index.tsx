@@ -4,8 +4,10 @@ import Hero from "./Hero";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 
 function HomePage() {
+  const { resolvedTheme } = useTheme();
   const { accessToken, isLoading, isLoggedIn, data } = useAuth();
   const router = useRouter();
 
@@ -32,7 +34,7 @@ function HomePage() {
   return (
     <div className="max-screen-wrapper">
       <div className="max-screen-inner">
-        <div className="flex justify-center items-center flex-col h-full max-h-fit w-full">
+        <div className="flex justify-center items-center flex-col h-full max-h-fit w-full dark:bg-black">
           {/* <Navbar /> */}
           <Hero />
         </div>
