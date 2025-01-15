@@ -136,13 +136,13 @@ const AddNoteDialog = () => {
     <Dialog>
       <DialogTrigger className="text-gray-600 font-poppins">
         <div
-          className={`bg-none hover:bg-gray-300 w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 cursor-pointer`}
+          className={`bg-none hover:bg-gray-300 dark:hover:bg-gray-900 w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 dark:stroke-gray-200 cursor-pointer`}
         >
           <Tooltip
             placement="right"
             showArrow={true}
-            className="bg-gray-200 rounded-lg mx-4 font-semibold font-outfit border border-gray-300 text-xs"
-            content={<div className="text-tiny">Delete Note</div>}
+            className="bg-gray-200 dark:bg-gray-700 rounded-lg mx-4 font-outfit border border-gray-300 dark:border-gray-800 text-xs"
+            content={<div className="text-tiny">New Note</div>}
           >
             <CirclePlus className="stroke-inherit stroke-[1] min-w-5 w-5" />
           </Tooltip>
@@ -159,7 +159,7 @@ const AddNoteDialog = () => {
           <div>
             <label
               htmlFor="note-title"
-              className="block text-base font-medium text-gray-700 font-poppins"
+              className="block text-base font-medium text-gray-700 font-poppins dark:text-gray-300"
             >
               Title
             </label>
@@ -168,7 +168,7 @@ const AddNoteDialog = () => {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="mt-1 p-2 block w-full border border-gray-400 outline-none focus:ring-0 rounded-md shadow-sm focus:border-black font-poppins text-sm h-[46px]"
+              className="mt-1 p-2 block w-full border border-gray-400 outline-none focus:ring-0 rounded-md shadow-sm focus:border-black dark:focus:border-gray-800 font-poppins text-sm h-[46px] bg-white/60 dark:bg-gray-600"
               placeholder="Enter note title"
             />
           </div>
@@ -177,11 +177,11 @@ const AddNoteDialog = () => {
           <div className="">
             <label
               htmlFor="note-tag"
-              className="block text-base font-medium text-gray-700 font-poppins mb-1"
+              className="block text-base font-medium text-gray-700 font-poppins mb-1 dark:text-gray-300"
             >
               Tags
             </label>
-            <div className="flex flex-wrap items-center gap-2 border border-gray-400 rounded-md p-2 font-poppins font-normal">
+            <div className="flex flex-wrap items-center gap-2 border border-gray-400 rounded-md p-2 font-poppins font-normal bg-white/60 dark:bg-gray-600">
               {tags.map((tag) => (
                 <span
                   key={tag}
@@ -203,7 +203,7 @@ const AddNoteDialog = () => {
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={handleAddTag}
-                className="flex-grow border-none outline-none focus:ring-0 placeholder-gray-400 focus:border-black text-sm h-[26px]"
+                className="flex-grow border-none outline-none focus:ring-0 placeholder-gray-400 focus:border-black text-sm h-[26px] bg-none bg-white/70 py-2 dark:bg-gray-600"
                 placeholder="Press Enter to add a tag"
               />
             </div>
@@ -212,11 +212,11 @@ const AddNoteDialog = () => {
 
         {/* Footer */}
         <DialogFooter>
-          <DialogClose className="px-4 py-2 bg-gray-300 text-black rounded-md hover:bg-gray-400">
+          <DialogClose className="w-[100px] py-2 bg-black hover:bg-black/90 text-white rounded-md hover:bg-gray-400 transition-colors duration-300 font-poppins">
             <button onClick={handleAddNote}>Add</button>
           </DialogClose>
 
-          <DialogClose className="px-4 py-2 bg-gray-300 text-black rounded-md hover:bg-gray-400">
+          <DialogClose className="w-[100px] py-2 bg-gray-300 text-black rounded-md hover:bg-gray-400 transition-colors duration-300 font-poppins">
             Cancel
           </DialogClose>
         </DialogFooter>

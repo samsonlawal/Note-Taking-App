@@ -30,6 +30,7 @@ interface Note {
   noteId?: string;
   created_at?: any;
   tags: any;
+  lastEdited: string;
 }
 
 interface NoteProps {
@@ -47,6 +48,8 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
   const router = useRouter();
   const pathname = usePathname();
+
+  const [wordCount, setWordCount] = useState<number>();
 
   let note =
     data.length !== 0
@@ -68,19 +71,21 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
     if (note) {
       const { data, error } = await supabase
         .from("notes")
-        .update({ content: updatedContent })
+        .update({ content: updatedContent, lastEdited: new Date() })
         .eq("noteId", note.noteId);
 
       if (error) {
         console.error("Error updating note in Supabase:", error);
       }
-      // else {
-      //   console.log("Note content updated successfully in Supabase:", data);
-      // }
     }
 
-    const textContent = updatedContent.replace(/<[^>]*>/g, ""); // Remove HTML tags
-    const wordCount = textContent.trim().split(/\s+/).length;
+    // const textContent = target.innerHTML.replace(/<[^>]*>/g, ""); // Remove HTML tags
+    // const WordCount = textContent.trim().split(/\s+/).length;
+    // setWordCount(WordCount);
+
+    const textContent = target.innerText.trim();
+    const words = textContent.split(/\s+/).filter(Boolean); // Filter out empty strings
+    setWordCount(words.length);
 
     // console.log(wordCount);
   };
@@ -131,7 +136,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
     if (note) {
       const { data, error } = await supabase
         .from("notes")
-        .update({ title: updatedHeader })
+        .update({ title: updatedHeader, lastEdited: new Date() })
         .eq("title", note.title);
 
       if (error) {
@@ -149,10 +154,10 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   //  }
 
   const initialMarkdown: string = `${note ? note.content : ""}`;
-  const textContent = initialMarkdown.replace(/<[^>]*>/g, ""); // Remove HTML tags
-  const wordCount = textContent.trim().split(/\s+/).length;
-
-  console.log(wordCount);
+  useEffect(() => {
+    const textContent = initialMarkdown.replace(/<[^>]*>/g, ""); // Remove HTML tags
+    setWordCount(textContent.trim().split(/\s+/).length);
+  }, []);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { accessToken, setAccessToken, isLoading } = useAuth();
@@ -178,7 +183,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
   return (
     <div
-      className={`flex flex-row items-center justify-between w-full font-outfit bg-gray-200/70`}
+      className={`flex flex-row items-center justify-between w-full font-outfit bg-gray-200/70 dark:bg-gray-700`}
     >
       <Navigation isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="h-screen w-[310px]">{""}</div>
@@ -211,16 +216,16 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
           </div>
         </div>
       </main>
-      <div className="h-screen w-[250px] bg-gray-200 border-l-[1px] border-gray-300 pb-[24px] flex flex-col justify-between text-zinc-600">
+      <div className="h-screen w-[250px] bg-gray-200 border-l-[1px] border-gray-300 pb-[24px] flex flex-col justify-between text-zinc-600 dark:bg-gray-800 dark:border-gray-900/50 dark:text-gray-400">
         <div className="flex flex-col">
           <div className="flex items-center px-4 h-[60px]">
-            <p className="text-base font-outfit font-medium text-zinc-600">
+            <p className="text-base font-outfit font-medium text-zinc-600 dark:text-zinc-300">
               Note Insights{" "}
             </p>
           </div>
           {/* <div className="border-b-[1px] border-gray-300" /> */}
 
-          <div className="border-b-[1px] border-gray-300" />
+          <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
 
           <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
             <Calendar className="w-4 h-4 transition-transform group-hover:scale-110" />
@@ -240,16 +245,26 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
             </p>
           </div>
 
-          <div className="border-b-[1px] border-gray-300" />
+          <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
 
           <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
             <Clock className="w-4 h-4 transition-transform group-hover:scale-110" />
             <p className="text-[12px] font-poppins py-[14px]">
-              <span className="font-medium font-outfit">Last Edited:</span> 12,
-              Jan 2025
+              <span className="font-medium font-outfit">Last Edited:</span>{" "}
+              {note &&
+                note.lastEdited &&
+                (() => {
+                  const date = new Date(note.lastEdited);
+                  const day = date.getDate();
+                  const month = date.toLocaleString("en-US", {
+                    month: "short",
+                  });
+                  const year = date.getFullYear();
+                  return `${day}, ${month} ${year}`; // Add the comma here
+                })()}
             </p>
           </div>
-          <div className="border-b-[1px] border-gray-300" />
+          <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
           <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
             <Tag className="w-4 h-4 transition-transform group-hover:scale-110" />
             <p className="text-[12px] font-poppins py-[14px]">
@@ -257,7 +272,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
               {note?.tags?.length ? note.tags.join(", ") : "null"}
             </p>
           </div>
-          <div className="border-b-[1px] border-gray-300" />
+          <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
 
           <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
             <Text className="w-4 h-4 transition-transform group-hover:scale-110" />
@@ -266,7 +281,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
               {wordCount}
             </p>
           </div>
-          <div className="border-b-[1px] border-gray-300" />
+          <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
         </div>
         <div className="px-4">
           <DeleteNote deleteHandler={deleteHandler} />
