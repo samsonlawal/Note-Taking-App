@@ -6,6 +6,7 @@ export interface Note {
   noteId: string;
   created_at?: any; // href: string;
   tags?: any;
+  lastEdited?: string | undefined;
 }
 
  export const noteData: Note[] = [
