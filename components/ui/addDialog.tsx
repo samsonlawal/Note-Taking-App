@@ -185,13 +185,13 @@ const AddNoteDialog = () => {
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="flex items-center gap-[2px] bg-gray-300 text-blue-700 px-2 py-[5px] rounded-full text-sm"
+                  className="flex items-center gap-[2px] bg-gray-300 text-gray-800 dark:text-gray-300 dark:bg-gray-800 px-2 py-[5px] rounded-full text-sm"
                 >
                   {tag}
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    className="ml-1 text-500 hover:bg-gray-500/40 focus:outline-none bg-gray-400 rounded-full px-[5.5px]"
+                    className="ml-1 text-500 hover:bg-gray-500/40 dark:hover:bg-gray-400/40 focus:outline-none bg-gray-400 dark:bg-gray-700 rounded-full px-[5.5px]"
                   >
                     &times;
                   </button>
@@ -212,7 +212,7 @@ const AddNoteDialog = () => {
 
         {/* Footer */}
         <DialogFooter>
-          <DialogClose className="w-[100px] py-2 bg-black hover:bg-black/90 text-white rounded-md hover:bg-gray-400 transition-colors duration-300 font-poppins">
+          <DialogClose className="w-[100px] py-2 bg-black dark:bg-gray-900 hover:bg-black/90 text-white rounded-md hover:bg-gray-400 transition-colors duration-300 font-poppins">
             <button onClick={handleAddNote}>Add</button>
           </DialogClose>
 
