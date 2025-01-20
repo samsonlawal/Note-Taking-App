@@ -9,7 +9,7 @@ interface Props {
 const ProjectLink = ({ children, name,setSelectedProject, isOpen }: Props) => {
   const handleClick = () => {
     setSelectedProject(name);
-    console.log(isOpen);
+    // console.log(isOpen);
   };
   return (
     <a

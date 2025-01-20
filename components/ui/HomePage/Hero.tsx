@@ -5,9 +5,9 @@ import Features from "../Features";
 
 function Hero() {
   return (
-    <div className="h-fit mt-[160px] flex flex-col justify-center items-center text-center gap-[20px] magicpattern w-full">
+    <div className="h-fit mt-[90px] flex flex-col justify-center items-center text-center gap-[20px] w-full">
       {/* <Features /> */}
-      <h1 className="text-[80px] font-clash font-bold leading-[88px]">
+      <h1 className="text-[70px] font-clash font-bold leading-[88px]">
         Your Thoughts, Organized. Anytime, Everywhere.
       </h1>
       <div className="w-[500px]">

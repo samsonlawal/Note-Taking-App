@@ -68,9 +68,17 @@ const LoginForm = () => {
 
          if (notesError) throw notesError;
 
-         if (notesData && notesData.length > 0) {
-           const firstNoteId = notesData[0].noteId;
-           router.push(`/note/${firstNoteId}`);
+         //  if (notesData && notesData.length > 0) {
+         //    const firstNoteId = notesData[0].noteId;
+         //    router.push(`/note/${firstNoteId}`);
+         //  }
+         //  setData(notesData);
+
+         if (accessToken) {
+           //  console.log(data);
+           //  console.log(notesData);
+
+           router.push("/");
          }
        } catch (err) {
          console.error("Error fetching notes:", err);

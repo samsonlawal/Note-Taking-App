@@ -8,18 +8,35 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
+import { useDataContext } from "@/context/DataContext";
+import ThemeSwitcher from "../ThemeSwitcher";
 
 export default function Navbar() {
+  const { accessToken } = useAuth();
+  const { data } = useDataContext();
+
+  let firstNoteId;
+  if (data && data.length > 0) {
+    firstNoteId = data[0].noteId;
+    // router.push(`/note/${firstNoteId}`);
+    // console.log(firstNoteId);
+  } else {
+    // console.log("No data found or data is empty");
+  }
+
   return (
-    <nav className="w-full fixed top-0 left-0 bg-white px-6 lg:px-10 py-5 border-b-[1px] border-gray-200 dark:border-gray-900/50 dark:bg-gray-800">
-      <div className="max-w-[1336px] mx-auto flex items-center justify-between">
+    <nav className="w-full fixed top-0 left-0 bg-white px-6 lg:px-10 py-3 border-gray-200 dark:border-gray-900/50 dark:bg-gray-800">
+      <div className="max-screen-inner mx-auto flex items-center justify-between">
         {/* Logo */}
-        <Link
-          href="/"
-          className="text-[27px] font-bold text-gray-800 dark:text-white font-clash"
-        >
-          Knotte
-        </Link>
+        <div className="w-[200px] flex items-center">
+          <Link
+            href="/"
+            className="text-[27px] font-bold text-gray-800 dark:text-white font-clash"
+          >
+            Knotte
+          </Link>
+        </div>
 
         {/* Navigation Menu */}
         <NavigationMenu className="hidden md:block">
@@ -39,15 +56,30 @@ export default function Navbar() {
 
         {/* Get Started Button */}
 
-        <div className="flex items-center space-x-4">
-          <Link href="/auth/login">
-            <Button
-              variant="Navdefault"
-              className="hidden md:inline-block rounded-2xl font-clash font-medium"
-            >
-              Sign In
-            </Button>
-          </Link>
+        <div className="flex items-center space-x-10 w-[200px]">
+          <ThemeSwitcher />
+
+          {accessToken ? (
+            <Link href={`note/${firstNoteId}`}>
+              {/* // <Link href="/"> */}
+              <Button
+                variant="Navdefault"
+                className="hidden md:inline-block rounded-2xl font-clash font-medium"
+              >
+                Notes
+              </Button>
+            </Link>
+          ) : (
+            <Link href="/auth/login">
+              <Button
+                variant="Navdefault"
+                className="hidden md:inline-block rounded-2xl font-clash font-medium"
+              >
+                Sign In
+              </Button>
+            </Link>
+          )}
+
           {/* <Link href="/login">
             <Button
               variant="Navdefault"

@@ -56,8 +56,7 @@ const AddNote: React.FC = () => {
     //   router.push(`/note/${idString}`);
     // }, 5000);
 
-      router.push(`/untitled`);
-
+    // router.push(`/untitled`);
   };
 
   return (

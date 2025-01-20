@@ -79,7 +79,7 @@ const SignUpForm = () => {
       }
 
       // Handle successful signup
-      console.log("Signup successful:", data);
+      // console.log("Signup successful:", data);
       // toast.success(
       //   "Signup successful! \n\nCerification link sent to your email",
       //   {
@@ -92,7 +92,7 @@ const SignUpForm = () => {
       // Optional: Redirect or show success message
       // router.push('/dashboard') or set a success state
     } catch (error) {
-      console.error("Unexpected signup error:", error);
+      // console.error("Unexpected signup error:", error);
       formik.setStatus("An unexpected error occurred");
     } finally {
       setIsSubmitting(false);

@@ -37,7 +37,7 @@ export const FormFieldPassword = ({
       }
 
       // Handle successful signup
-      console.log("Signup successful:", data);
+      // console.log("Signup successful:", data);
       return data;
     } catch (error) {
       // Handle signup error
