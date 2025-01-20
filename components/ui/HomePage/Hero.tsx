@@ -40,7 +40,7 @@ function Hero() {
           </Button> */}
           <button
             type="submit"
-            className={`flex items-center justify-center bg-[#171b1f] text-white py-3 rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-10 dark:bg-gray-700 dark:hover:bg-gray-700/50`}
+            className={`flex items-center justify-center bg-[#171b1f] text-white py-3 rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-10 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
           >
             Go To Notes
           </button>
@@ -49,7 +49,7 @@ function Hero() {
         <Link href="auth/sign-up">
           <button
             type="submit"
-            className={`flex items-center justify-center bg-[#171b1f] text-white py-3 rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-10 dark:bg-gray-700 dark:hover:bg-gray-700/50`}
+            className={`flex items-center justify-center bg-[#171b1f] text-white py-3 rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-10 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
           >
             Get Started Here
           </button>
