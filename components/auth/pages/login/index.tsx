@@ -102,7 +102,7 @@ const LoginForm = () => {
         onSubmit={handleSubmit}
       >
         <div className="text-center w-[85%] flex flex-col gap-2">
-          <h1 className="text-3xl font-black">Welcome back!</h1>
+          <h1 className="text-3xl font-black font-clash">Welcome back!</h1>
           <p className="text-[16px] text-gray-400">
             Access your notes and pick up right where you left off.
           </p>
