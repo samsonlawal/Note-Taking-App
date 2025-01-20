@@ -108,7 +108,7 @@ const SignUpForm = () => {
       >
         <div className="text-center w-[85%] flex flex-col pb-5 gap-2">
           <h1 className="text-3xl font-black font-clash">Sign Up</h1>
-          <p className="text-[16px] text-gray-400">
+          <p className="text-[15px] text-gray-400 font-poppins">
             Create an account & Start your journey toward effortless note-taking
             today.
           </p>
