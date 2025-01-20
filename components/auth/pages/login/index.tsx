@@ -103,7 +103,7 @@ const LoginForm = () => {
       >
         <div className="text-center w-[85%] flex flex-col gap-2">
           <h1 className="text-3xl font-black">Welcome back!</h1>
-          <p className="text-[16px] text-gray-500">
+          <p className="text-[16px] text-gray-400">
             Access your notes and pick up right where you left off.
           </p>
 
@@ -129,7 +129,7 @@ const LoginForm = () => {
             id="email"
             type="email"
             placeholder="Enter your email address"
-            className="w-full h-[40px] px-2 border py-2 rounded-md mb-1"
+            className="w-full h-[40px] px-2 border py-2 rounded-md mb-1 dark:bg-gray-700 dark:focus:border-gray-800"
           />
         </div>
 
@@ -146,7 +146,7 @@ const LoginForm = () => {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Enter your password"
-              className="w-full h-[40px] px-2 border py-2 rounded-md mb-1"
+              className="w-full h-[40px] px-2 border py-2 rounded-md mb-1 dark:bg-gray-700 dark:focus:border-gray-800"
             />
             <button
               type="button"
@@ -165,7 +165,7 @@ const LoginForm = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`flex items-center justify-center bg-[#171b1f] text-white py-2 rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out ${
+          className={`flex items-center justify-center bg-[#171b1f] text-white py-2 rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out dark:hover:bg-gray-200 dark:bg-white dark:text-gray-800 ${
             isSubmitting ? "opacity-75 cursor-not-allowed" : ""
           }`}
         >

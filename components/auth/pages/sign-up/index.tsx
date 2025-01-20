@@ -100,7 +100,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="max-w-[900px] pt-[100px] px-10 bg-transparent font-outfit">
+    <div className="max-w-[900px] pt-[80px] px-10 bg-transparent font-outfit">
       <form
         autoComplete="off"
         className="w-[400px] flex flex-col gap-6 items-center justify-center"
@@ -108,7 +108,7 @@ const SignUpForm = () => {
       >
         <div className="text-center w-[85%] flex flex-col pb-5 gap-2">
           <h1 className="text-3xl font-black">Sign Up</h1>
-          <p className="text-[16px] text-gray-500">
+          <p className="text-[16px] text-gray-400">
             Create an account & Start your journey toward effortless note-taking
             today.
           </p>
@@ -126,7 +126,7 @@ const SignUpForm = () => {
             id="name"
             type="text"
             placeholder="Enter your full name"
-            className={`w-full h-[40px] px-2 border py-2 rounded-md mb-1 ${
+            className={`w-full h-[40px] px-2 border py-2 rounded-md mb-1 dark:bg-gray-700 dark:focus:border-gray-700 ${
               formik.errors.name && formik.touched.name
                 ? "outline-red-500 outline-1"
                 : ""
@@ -149,7 +149,7 @@ const SignUpForm = () => {
             id="email"
             type="email"
             placeholder="Enter your email address"
-            className={`w-full h-[40px] px-2 border py-2 rounded-md mb-1 ${
+            className={`w-full h-[40px] px-2 border py-2 rounded-md mb-1 dark:bg-gray-700 dark:focus:border-gray-800 ${
               formik.errors.email && formik.touched.email
                 ? "outline-red-500 outline-1"
                 : ""
@@ -173,7 +173,7 @@ const SignUpForm = () => {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Create a strong password"
-              className={`w-full h-[40px] px-2 border py-2 rounded-md mb-1 ${
+              className={`w-full h-[40px] px-2 border py-2 rounded-md mb-1 dark:bg-gray-700 dark:focus:border-gray-800 ${
                 formik.errors.password && formik.touched.password
                   ? "outline-red-500 outline-1"
                   : ""
@@ -208,7 +208,7 @@ const SignUpForm = () => {
               id="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
               placeholder="Confirm your password"
-              className={`w-full h-[40px] px-2 border py-2 rounded-md mb-1 ${
+              className={`w-full h-[40px] px-2 border py-2 rounded-md mb-1 dark:bg-gray-700 dark:focus:border-gray-800 ${
                 formik.errors.confirmPassword && formik.touched.confirmPassword
                   ? "outline-red-500 outline-1"
                   : ""
@@ -238,7 +238,7 @@ const SignUpForm = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`flex items-center justify-center bg-[#171b1f] text-white py-2 rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out ${
+          className={`flex items-center justify-center bg-[#171b1f] text-white py-2 rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out dark:hover:bg-gray-200 dark:bg-white dark:text-gray-800 ${
             isSubmitting ? "opacity-75 cursor-not-allowed" : ""
           }`}
         >

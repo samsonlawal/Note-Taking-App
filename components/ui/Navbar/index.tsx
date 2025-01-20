@@ -64,7 +64,7 @@ export default function Navbar() {
               {/* // <Link href="/"> */}
               <button
                 type="submit"
-                className={`flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50`}
+                className={`flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
               >
                 Notes
               </button>
@@ -73,7 +73,7 @@ export default function Navbar() {
             <Link href="/auth/login">
               <button
                 type="submit"
-                className={`flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50`}
+                className={`flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
               >
                 Sign In
               </button>
