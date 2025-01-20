@@ -57,26 +57,26 @@ export default function Navbar() {
         {/* Get Started Button */}
 
         <div className="flex items-center space-x-10 w-[200px]">
-          <ThemeSwitcher />
+          <ThemeSwitcher position={`bottom`} showTip={false} />
 
           {accessToken ? (
             <Link href={`note/${firstNoteId}`}>
               {/* // <Link href="/"> */}
-              <Button
-                variant="Navdefault"
-                className="hidden md:inline-block rounded-2xl font-clash font-medium"
+              <button
+                type="submit"
+                className={`flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50`}
               >
                 Notes
-              </Button>
+              </button>
             </Link>
           ) : (
             <Link href="/auth/login">
-              <Button
-                variant="Navdefault"
-                className="hidden md:inline-block rounded-2xl font-clash font-medium"
+              <button
+                type="submit"
+                className={`flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50`}
               >
                 Sign In
-              </Button>
+              </button>
             </Link>
           )}
 
