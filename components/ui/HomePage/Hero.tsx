@@ -19,7 +19,7 @@ function Hero() {
   }
 
   return (
-    <div className="h-fit mt-[90px] flex flex-col justify-center items-center text-center gap-[20px] w-full">
+    <div className="h-fit mt-[90px] flex flex-col justify-center items-center text-center gap-[20px] w-full px-10">
       {/* <Features /> */}
       <h1 className="text-[70px] font-clash font-bold leading-[88px]">
         Your Thoughts, Organized. Anytime, Everywhere.
@@ -40,7 +40,7 @@ function Hero() {
           </Button> */}
           <button
             type="submit"
-            className={`flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50`}
+            className={`flex items-center justify-center bg-[#171b1f] text-white py-3 rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-10 dark:bg-gray-700 dark:hover:bg-gray-700/50`}
           >
             Go To Notes
           </button>
@@ -49,7 +49,7 @@ function Hero() {
         <Link href="auth/sign-up">
           <button
             type="submit"
-            className={`flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50`}
+            className={`flex items-center justify-center bg-[#171b1f] text-white py-3 rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-10 dark:bg-gray-700 dark:hover:bg-gray-700/50`}
           >
             Get Started Here
           </button>

@@ -27,7 +27,7 @@ export default function RootLayout({
       </head>
       <AuthProvider>
         <DataProvider>
-          <body>
+          <body className="dark:bg-gray-800">
             <div className="flex flex-col justify-center min-h-screen">
               <Toaster position="top-right" reverseOrder={false} />
               {/* Layout wrapper includes client-side logic */}
