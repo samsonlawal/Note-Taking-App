@@ -157,7 +157,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   useEffect(() => {
     const textContent = initialMarkdown.replace(/<[^>]*>/g, ""); // Remove HTML tags
     setWordCount(textContent.trim().split(/\s+/).length);
-  }, []);
+  }, [initialMarkdown]);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { accessToken, setAccessToken, isLoading } = useAuth();
