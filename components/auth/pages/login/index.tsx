@@ -94,7 +94,7 @@ const LoginForm = () => {
  };
 
   return (
-    <div className="max-w-[900px] pt-[100px] px-10 bg-transparent font-outfit">
+    <div className="max-w-[900px] pt-[80px] px-10 bg-transparent font-outfit">
       <form
         autoComplete="off"
         noValidate
