@@ -2,8 +2,22 @@ import Link from "next/link";
 import { Button } from "../button";
 import { PencilIcon } from "lucide-react";
 import Features from "../Features";
+import { useDataContext } from "@/context/DataContext";
+import { useAuth } from "@/context/AuthContext";
 
 function Hero() {
+  const { accessToken } = useAuth();
+  const { data } = useDataContext();
+
+  let firstNoteId;
+  if (data && data.length > 0) {
+    firstNoteId = data[0].noteId;
+    // router.push(`/note/${firstNoteId}`);
+    // console.log(firstNoteId);
+  } else {
+    // console.log("No data found or data is empty");
+  }
+
   return (
     <div className="h-fit mt-[90px] flex flex-col justify-center items-center text-center gap-[20px] w-full">
       {/* <Features /> */}
@@ -16,14 +30,31 @@ function Hero() {
           within reach—wherever life takes you.
         </p>
       </div>
-      <Link href="auth/sign-up">
-        <Button
-          variant="default"
-          className="hidden md:inline-block rounded-2xl font-clash font-medium w-[200px] h-fit py-[10px] text-[18px]"
-        >
-          Get Started Here
-        </Button>
-      </Link>
+      {accessToken ? (
+        <Link href={`note/${firstNoteId}`}>
+          {/* <Button
+            variant="default"
+            className="hidden md:inline-block rounded-2xl font-clash font-medium w-[200px] h-fit py-[10px] text-[18px]"
+          >
+            Go To Notes
+          </Button> */}
+          <button
+            type="submit"
+            className={`flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50`}
+          >
+            Go To Notes
+          </button>
+        </Link>
+      ) : (
+        <Link href="auth/sign-up">
+          <button
+            type="submit"
+            className={`flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50`}
+          >
+            Get Started Here
+          </button>
+        </Link>
+      )}
     </div>
   );
 }

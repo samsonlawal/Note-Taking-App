@@ -139,15 +139,7 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
           <div
             className={`bg-none hover:bg-gray-300 dark:hover:bg-gray-900 w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 dark:stroke-gray-200 cursor-pointer`}
           >
-            <Tooltip
-              placement="right"
-              showArrow={true}
-              className="bg-gray-200 rounded-md mx-4 font-outfit border border-gray-300 dark:border-gray-800 text-xs dark:bg-gray-700"
-              content={<div className="text-tiny">Mode</div>}
-            >
-              {/* <Moon className="stroke-inherit stroke-[1] min-w-5 w-5" /> */}
-              <ThemeSwitcher />
-            </Tooltip>
+            <ThemeSwitcher position={`right`} showTip={true} />
           </div>
 
           {/* User Pfp and setting */}

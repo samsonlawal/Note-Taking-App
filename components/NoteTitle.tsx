@@ -49,7 +49,7 @@ const Note: React.FC<NoteProps> = ({
         </p>
       </div>
       <div className="flex flex-row gap-1">
-        {tags && tags.map((tag: any) => <Tag tag={tag} />)}
+        {tags && tags.map((tag: any) => <Tag tag={tag} key={tag} />)}
       </div>
       <div>
         <p className="text-[12px] text-zinc-500 dark:text-zinc-400">
