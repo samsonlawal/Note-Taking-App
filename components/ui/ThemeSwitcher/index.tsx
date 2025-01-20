@@ -34,52 +34,13 @@ function ThemeSwitcher() {
           onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
         >
           {resolvedTheme === "light" ? (
-            <Moon className="stroke-inherit stroke-[1] min-w-5 w-5" />
+            <Moon className="stroke-[#374151] stroke-[1] min-w-5 w-5" />
           ) : null}
           {resolvedTheme === "dark" ? (
             <Sun className="stroke-[1] min-w-5 w-5" />
           ) : null}
         </button>
       </Tooltip>
-
-      {/* <button
-        className="lg:hidden relative flex items-center w-16 h-8 border-none outline-none bg-[#E7E7E7] dark:bg-[#292929] rounded-full p-1 transition-all duration-300"
-        onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-      >
-        <div
-          className={`absolute w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-            resolvedTheme === "dark" ? "translate-x-8" : "translate-x-0"
-          }`}
-        ></div>
-
-        <SunIcon
-          className={`absolute w-4 h-4${
-            resolvedTheme === "dark" ? "text-[#838383]" : "text-[#111111]"
-          }`}
-          style={{
-            left: "8px",
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-        />
-
-        <img
-          src={
-            resolvedTheme === "dark"
-              ? "/icons/MoonIcon.svg"
-              : "/icons/inactiveMoon.svg"
-          }
-          alt="Moon"
-          className={`absolute w-4 h-4 ${
-            resolvedTheme === "dark" ? "text-[#FFFFFF]" : "text-[#838383]"
-          }`}
-          style={{
-            right: "8px",
-            top: "50%",
-            transform: "translateY(-50%)",
-          }}
-        />
-      </button> */}
     </>
   );
 }

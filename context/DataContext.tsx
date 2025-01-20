@@ -1,5 +1,6 @@
 "use client";
 
+import supabase from "@/config/supabaseClient";
 import React, {
   createContext,
   Dispatch,
@@ -8,8 +9,9 @@ import React, {
   useContext,
   ReactNode,
   FC,
-  useEffect
+  useEffect,
 } from "react";
+import { useAuth } from "./AuthContext";
 
 // Type for state holding localstorage data
 interface Note {
@@ -54,6 +56,7 @@ export const DataProvider: FC<DataProviderProps> = ({ children }) => {
   // Local Storage data
   const [local, setLocal] = useState<Note[]>([]);
   const [data, setData] = useState<Note[]>([]);
+
 
   return (
     <DataContext.Provider

@@ -61,7 +61,7 @@ const setAccessToken = (token: string | null) => {
 };
 
 const logout = () => {
-  console.log("Before logout, accessToken:", accessToken); // Logs the current token before clearing it
+  // console.log("Before logout, accessToken:", accessToken); // Logs the current token before clearing it
 
   setAccessToken(null); // Clears the token
   localStorage.removeItem("NoteApptoken");
@@ -69,15 +69,15 @@ const logout = () => {
   setIsLoggedIn(false);
   router.push("/");
 
-  console.log("After logout, accessToken:", accessToken); // This will log the old token, because the state change hasn't taken effect yet
+  // console.log("After logout, accessToken:", accessToken); // This will log the old token, because the state change hasn't taken effect yet
 };
 
-  useEffect(() => {
-    if (!isLoading && accessToken !== null) {
-      setIsLoggedIn(true);
-      console.log(accessToken ? "Access" : "No Access");
-    }
-  }, [accessToken, isLoading, isLoggedIn]);
+useEffect(() => {
+  if (!isLoading && accessToken !== null) {
+    setIsLoggedIn(true);
+    // console.log(accessToken ? "Access" : "No Access");
+  }
+}, [accessToken, isLoading, isLoggedIn]);
 
   return (
     <AuthContext.Provider

@@ -13,18 +13,16 @@ const NavigationLink = ({ children, name, setSelectedProject }: Props) => {
   const {isOpen, setIsOpen} = useDataContext()
 
   const handleClick = () => {
-
     if (!isOpen) {
-      setIsOpen(true)
+      setIsOpen(true);
     }
-
 
     // setSelectedProject(null);
     // setTimeout(() => {
-      setSelectedProject(name);
+    setSelectedProject(name);
     // }, 250);
 
-    console.log(isOpen)
+    // console.log(isOpen)
   };
 
   return (

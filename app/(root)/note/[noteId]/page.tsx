@@ -43,7 +43,7 @@ interface NoteProps {
 const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   const editorRef = useRef<MDXEditorMethods>(null);
 
-  const { local, setLocal, data, setData } = useDataContext();
+  const { local, setLocal, data, setData, isOpen } = useDataContext();
   const { userId } = useAuth();
 
   const router = useRouter();
@@ -56,9 +56,9 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       ? data.find((note) => note.noteId === params.noteId)
       : noteData.find((note) => note.id === params.noteId);
 
-  {
-    data.length != 0 ? console.log(data) : "";
-  }
+  // {
+  //   data.length != 0 ? console.log(data) : "";
+  // }
 
   // const [currentNote, setCurrentNote] = useState<Note | null>(null);
 
@@ -123,7 +123,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
         fetchNotes(); // Call the async function here
       }
 
-      console.log("what??");
+      // console.log("what??");
     }
   };
 
@@ -142,7 +142,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       if (error) {
         console.error("Error updating note in Supabase:", error);
       } else {
-        console.log("Note title updated successfully in Supabase:", data);
+        // console.log("Note title updated successfully in Supabase:", data);
       }
 
       setLocal([]);
@@ -186,6 +186,18 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       className={`flex flex-row items-center justify-between w-full font-outfit bg-gray-200/70 dark:bg-gray-700`}
     >
       <Navigation isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      {/* <div
+        className={`
+        fixed top-0 left-0
+        h-screen w-[310px]
+        z-10 
+        bg-gray-200
+        transition-transform duration-300 ease-in-out
+        ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        shadow-lg
+      `}
+      >
+      </div> */}
       <div className="h-screen w-[310px]">{""}</div>
 
       <main className={`transition-all flex flex-grow w-[calc(100%-660px)]`}>
@@ -216,7 +228,9 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
           </div>
         </div>
       </main>
-      <div className="h-screen w-[250px] bg-gray-200 border-l-[1px] border-gray-300 pb-[24px] flex flex-col justify-between text-zinc-600 dark:bg-gray-800 dark:border-gray-900/50 dark:text-gray-400">
+      <div className="h-screen w-[310px]">{""}</div>
+
+      <div className="fixed right-0 top-0 h-screen w-[250px] bg-gray-200 border-l-[1px] border-gray-300 pb-[24px] flex flex-col justify-between text-zinc-600 dark:bg-gray-800 dark:border-gray-900/50 dark:text-gray-400">
         <div className="flex flex-col">
           <div className="flex items-center px-4 h-[60px]">
             <p className="text-base font-outfit font-medium text-zinc-600 dark:text-zinc-300">

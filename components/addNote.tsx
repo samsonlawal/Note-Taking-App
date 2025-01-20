@@ -61,7 +61,7 @@ const AddNote: React.FC = () => {
 
     // Navigate to new note page
     router.push(`/note/${idString}`);
-    console.log(idString);
+    // console.log(idString);
 
     try {
       const { data, error } = await supabase.from("notes").insert([

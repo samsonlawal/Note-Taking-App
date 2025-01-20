@@ -3,15 +3,15 @@ import "./styles.css";
 
 export default function Documentation() {
   return (
-    <div className="bg-white font-sans leading-normal tracking-normal max-screen-wrapper mt-[81px] scroll-smooth font-poppins dark:bg-gray-800">
+    <div className="bg-white font-sans leading-normal tracking-normal max-screen-wrapper mt-[60px] scroll-smooth font-poppins dark:bg-gray-800">
       <header className="text-black pt-8 fixed left-0 w-[250px] pl-2">
         <div className="container mx-auto">
-          <h1 className="text-2xl font-bold dark:text-white">
+          <h1 className="text-[20px] font-bold dark:text-white">
             Note App Documentation
           </h1>
         </div>
-        <div className="container mt-5 gap-4 flex flex-col">
-          <p className="text-base text-gray-700 dark:text-gray-400">
+        <div className="container mt-5 gap-2 flex flex-col">
+          <p className="text-[15px] text-gray-700 dark:text-gray-400">
             <a
               href="#headings"
               className="hover:text-blue-400 transition-colors duration-300"
@@ -19,7 +19,7 @@ export default function Documentation() {
               Headings
             </a>
           </p>
-          <p className="text-base text-gray-700 dark:text-gray-400">
+          <p className="text-[15px] text-gray-700 dark:text-gray-400">
             <a
               href="#bold"
               className="hover:text-blue-400 transition-colors duration-300"
@@ -27,7 +27,7 @@ export default function Documentation() {
               Bold
             </a>
           </p>
-          <p className="text-base text-gray-700 dark:text-gray-400">
+          <p className="text-[15px] text-gray-700 dark:text-gray-400">
             <a
               href="#italics"
               className="hover:text-blue-400 transition-colors duration-300"
@@ -35,7 +35,7 @@ export default function Documentation() {
               Italics
             </a>
           </p>
-          <p className="text-base text-gray-700 dark:text-gray-400">
+          <p className="text-[15px] text-gray-700 dark:text-gray-400">
             <a
               href="#underline"
               className="hover:text-blue-400 transition-colors duration-300"
@@ -43,7 +43,7 @@ export default function Documentation() {
               Underline
             </a>
           </p>
-          <p className="text-base text-gray-700 dark:text-gray-400">
+          <p className="text-[15px] text-gray-700 dark:text-gray-400">
             <a
               href="#bullet"
               className="hover:text-blue-400 transition-colors duration-300"
@@ -51,7 +51,7 @@ export default function Documentation() {
               Bullet List
             </a>
           </p>
-          <p className="text-base text-gray-700 dark:text-gray-400">
+          <p className="text-[15px] text-gray-700 dark:text-gray-400">
             <a
               href="#numbered"
               className="hover:text-blue-400 transition-colors duration-300"
@@ -59,7 +59,7 @@ export default function Documentation() {
               Numbered List
             </a>
           </p>
-          <p className="text-base text-gray-700 dark:text-gray-400">
+          <p className="text-[15px] text-gray-700 dark:text-gray-400">
             <a
               href="#quote"
               className="hover:text-blue-400 transition-colors duration-300"
@@ -67,7 +67,7 @@ export default function Documentation() {
               Block Quote
             </a>
           </p>
-          <p className="text-base text-gray-700 dark:text-gray-400">
+          <p className="text-[15px] text-gray-700 dark:text-gray-400">
             <a
               href="#code"
               className="hover:text-blue-400 transition-colors duration-300"
@@ -94,15 +94,15 @@ export default function Documentation() {
             >
               {" "}
               <h3 className="text-xl font-semibold mb-3">Headings</h3>
-              <p className="text-gray-700 dark:text-gray-400 mb-2">
+              <p className="text-gray-700 dark:text-gray-400 mb-3 text-[14px]">
                 Use{" "}
-                <code className="bg-gray-200 dark:bg-gray-600 px-1 rounded">
+                <code className="bg-gray-200 dark:bg-gray-600 px-1 rounded text-[14px]">
                   #
                 </code>{" "}
                 characters followed by a space to create headings. The number of{" "}
                 <code>#</code> characters determines the heading level:
               </p>
-              <ul className="list-disc list-inside mb-4 dark:text-gray-400">
+              <ul className="list-disc list-inside mb-4 dark:text-gray-400 text-[14px]">
                 <li>
                   <code className="bg-gray-200 dark:bg-gray-600 px-1 rounded">
                     #
@@ -123,20 +123,22 @@ export default function Documentation() {
                 </li>
                 <li>...and so on up to 6 levels.</li>
               </ul>
-              <p className="text-gray-800 dark:text-gray-400 mb-2">Example:</p>
-              <pre className="bg-gray-100 dark:bg-gray-800 py-4 p-3 rounded text-gray-800 dark:text-gray-400">
+              <p className="text-gray-800 dark:text-gray-400 mb-1 text-[15px]">
+                Example:
+              </p>
+              <pre className="bg-gray-100 dark:bg-gray-800 text-[14px] py-4 p-3 rounded text-gray-800 dark:text-gray-400">
                 # Heading 1 ## Heading 2 ### Heading 3 #### Heading 4 #####
                 Heading 5 ###### Heading 6
               </pre>
             </div>
 
             <div
-              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24"
+              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24 text-[14px]"
               style={{ boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)" }}
               id="bold"
             >
               <h3 className="text-xl font-semibold mb-3">Bold</h3>
-              <p className="text-gray-700 dark:text-gray-400 dark:text-gray-400dark:text-gray-400dark:text-gray-400dark:text-gray-400dark:text-gray-400mb-2">
+              <p className="text-gray-700 dark:text-gray-400 mb-2">
                 Wrap your text with{" "}
                 <code className="bg-gray-200 dark:bg-gray-600 px-1 rounded">
                   **
@@ -150,7 +152,7 @@ export default function Documentation() {
             </div>
 
             <div
-              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24"
+              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24 text-[14px]"
               style={{ boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)" }}
               id="italics"
             >
@@ -170,7 +172,7 @@ export default function Documentation() {
             </div>
 
             <div
-              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24"
+              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24 text-[14px]"
               style={{ boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)" }}
               id="underline"
             >
@@ -192,7 +194,7 @@ export default function Documentation() {
           <section id="lists" className="mt-[50px]">
             <h2 className="text-3xl font-bold mb-4">Lists</h2>
             <div
-              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24"
+              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24 text-[14px]"
               style={{ boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)" }}
               id="bullet"
             >
@@ -211,7 +213,7 @@ export default function Documentation() {
             </div>
 
             <div
-              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24"
+              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24 text-[14px]"
               style={{ boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)" }}
               id="numbered"
             >
@@ -232,12 +234,12 @@ export default function Documentation() {
           <section id="lists" className="mt-[50px]">
             <h2 className="text-3xl font-bold mb-4">Quote and Code</h2>
             <div
-              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24"
+              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24 text-[14px]"
               style={{ boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)" }}
               id="quote"
             >
               <h3 className="text-xl font-semibold mb-3">Block Quote</h3>
-              <p className="text-gray-700 dark:text-gray-400 mb-2">
+              <p className="text-gray-700 dark:text-gray-400 mb-2 text-[14px]">
                 Start your text with{" "}
                 <code className="bg-gray-200 dark:bg-gray-600 px-1 rounded">
                   &gt;
@@ -251,7 +253,7 @@ export default function Documentation() {
             </div>
 
             <div
-              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24"
+              className="bg-gray-100/30 dark:bg-gray-600/30 rounded-lg p-6 mb-6 scroll-mt-24 text-[14px]"
               style={{ boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)" }}
               id="code"
             >
