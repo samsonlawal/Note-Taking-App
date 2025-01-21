@@ -67,22 +67,9 @@ const LoginForm = () => {
            .order("created_at", { ascending: false });
 
          if (notesError) throw notesError;
-
-         //  if (notesData && notesData.length > 0) {
-         //    const firstNoteId = notesData[0].noteId;
-         //    router.push(`/note/${firstNoteId}`);
-         //  }
-         //  setData(notesData);
-
-         if (accessToken) {
-           //  console.log(data);
-           //  console.log(notesData);
-
-           router.push("/");
-         }
+         router.push("/");
        } catch (err) {
          console.error("Error fetching notes:", err);
-         //  router.push("/note/the-beginning");
        }
      }
    } catch (err) {
