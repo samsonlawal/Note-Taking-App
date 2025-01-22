@@ -12,36 +12,24 @@ export interface Note {
  export const noteData: Note[] = [
    {
      // key: 1,
-     title: "The Beginning",
+     title: "Welcome",
      content:
-       "Every great journey starts with a single step, and today marks the beginning of a transformative era in how we capture, organize, and utilize our thoughts and ideas. Our newly launched notetaking app is here to revolutionize your digital workspace, setting a new standard for efficiency, style, and functionality.",
-     id: "the-beginning",
-     noteId: "the-beginning",
+       "Get started by clicking the '+' button on the left to add a new note. Remember, this is a demo, and your updates in this notes will disappear after refreshing the page.",
+     id: "welcome",
+     noteId: "Welcome",
      created_at: "2025-01-12T14:30:00Z",
+     lastEdited: "2025-01-12T14:30:00Z",
+     tags: ["dummy", "placeholder"],
    },
-   {
-     // key: 2,
-     title: "Documentation",
-     content:
-       "lorem ipsum dolor sit amet, consectetur adipiscing. more lorem in lore, amet non ante et justo vit meris vit null tempor invid id et ullamcorper lorem et just preceding velit esse molestie et just preceding velit vel augue vel met magna al met mag et just",
-     id: "documentation",
-     noteId: "documentation",
-     created_at: "2025-01-12T14:30:00Z",
-   },
-   // {
-   //   // key: 3,
-   //   title: "Thoughts",
-   //   content:
-   //     "lorem ipsum dolor sit amet, consectetur adipiscing. more lorem in lore, amet non ante et justo vit meris vit null tempor invid id et ullamcorper lorem et just preceding velit esse molestie et just preceding velit vel augue vel met magna al met mag et just",
-   //   id: "thoughts",
-   // },
-   // {
-   //   // key: 4,
-   //   title: "Schedule",
-   //   content:
-   //     "lorem ipsum dolor sit amet, consectetur adipiscing. more lorem in lore, amet non ante et justo vit meris vit null tempor invid id et ullamcorper lorem et just preceding velit esse molestie et just preceding velit vel augue vel met magna al met mag et just",
-   //   id: "schedule",
-   // },
+   //  {
+   //    // key: 2,
+   //    title: "Documentation",
+   //    content:
+   //      "lorem ipsum dolor sit amet, consectetur adipiscing. more lorem in lore, amet non ante et justo vit meris vit null tempor invid id et ullamcorper lorem et just preceding velit esse molestie et just preceding velit vel augue vel met magna al met mag et just",
+   //    id: "documentation",
+   //    noteId: "documentation",
+   //    created_at: "2025-01-12T14:30:00Z",
+   //  },
  ];
 
 ;
