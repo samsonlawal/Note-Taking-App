@@ -12,6 +12,7 @@ interface Note {
   title: string;
   content: string;
   created_at: any;
+  tags: any;
 }
 
 const SearchNote: React.FC = () => {
@@ -29,20 +30,26 @@ const SearchNote: React.FC = () => {
     if (searchInput === "") {
       setSearchData([]); // Reset to all items if search input is empty
     } else {
-      const filtered: Note[] = data.filter((item) =>
-        item.title.toLowerCase().includes(searchInput.toLowerCase())
-      );
+      const filtered: Note[] = data.filter((item) => {
+        const titleMatch = item.title
+          .toLowerCase()
+          .includes(searchInput.toLowerCase());
+        const tagMatch = item.tags?.some((tag: any) =>
+          tag.toLowerCase().includes(searchInput.toLowerCase())
+        );
+        return titleMatch || tagMatch; // Include if either title or tags match
+      });
+
       setSearchData(filtered);
     }
-    // console.log(searchData)
-  }, [searchInput]);
+  }, [searchInput, data]);
 
   return (
     <>
-      <div className="flex items-center justify-start text-neutral-600/40 bg-neutral-100 rounded-lg px-2">
+      <div className="flex items-center justify-start text-neutral-600/40 bg-neutral-100 rounded-lg px-2 m-2 mb-4">
         <Search className="stroke-[1] stroke-black min-w-[17px] h-[17px]" />
         <input
-          placeholder="Search"
+          placeholder="Search by title or tag"
           type="text"
           className="py-2 text-black text-sm bg-neutral-100 outline-none rounded-lg flex-1"
           onChange={handleSearchInput}
@@ -52,18 +59,28 @@ const SearchNote: React.FC = () => {
 
       {searchInput && (
         <div className="gap-2 flex flex-col">
-          <h1>Result</h1>
-          <div className="px-2 gap-2 flex flex-col">
-            {searchData.map((note) => (
-              <Link href={`/note/${note.id}`} key={note.id}>
-                <Note
-                  key={note.id}
-                  title={note.title}
-                  content={note.content}
-                  created_at={note.created_at}
-                />
-              </Link>
-            ))}
+          {/* Optional header for search results */}
+          <h1 className="text-lg font-bold mx-2">Search Results</h1>
+          <div className="gap-2 flex flex-col">
+            {searchData && searchData.length > 0 ? (
+              searchData.map((note) => (
+                <Link href={`/note/${note.id}`} key={note.id}>
+                  <Note
+                    key={note.id}
+                    title={note.title}
+                    content={note.content}
+                    created_at={note.created_at}
+                    tags={note.tags}
+                  />
+                </Link>
+              ))
+            ) : (
+              <h1 className="text-gray-500 mx-2 font-normal text-sm leading-tight">
+                No results found.
+                <br />
+                Try a different search term!
+              </h1>
+            )}
           </div>
         </div>
       )}
