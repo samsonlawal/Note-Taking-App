@@ -61,7 +61,7 @@ const SearchNote: React.FC = () => {
         <div className="gap-2 flex flex-col">
           {/* Optional header for search results */}
           <h1 className="text-lg font-bold mx-2">Search Results</h1>
-          <div className="gap-2 flex flex-col">
+          <div className="flex flex-col border-t-[1px] border-gray-900/50">
             {searchData && searchData.length > 0 ? (
               searchData.map((note) => (
                 <Link href={`/note/${note.id}`} key={note.id}>
@@ -75,7 +75,7 @@ const SearchNote: React.FC = () => {
                 </Link>
               ))
             ) : (
-              <h1 className="text-gray-500 mx-2 font-normal text-sm leading-tight">
+              <h1 className="text-gray-500 m-2 font-normal text-sm leading-tight">
                 No results found.
                 <br />
                 Try a different search term!
