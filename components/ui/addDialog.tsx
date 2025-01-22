@@ -42,14 +42,6 @@ const AddNoteDialog = () => {
 
   let idString = "";
 
-  // Load notes from localStorage on initial render
-  useEffect(() => {
-    const storedNotes = localStorage.getItem("Notes");
-    if (storedNotes) {
-      setNotes(JSON.parse(storedNotes));
-    }
-  }, []);
-
   // Update search input and title state
   const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
@@ -83,27 +75,45 @@ const AddNoteDialog = () => {
     console.log(idString);
 
     try {
+      // Step 1: Check for an existing note with the same title for this user
+      const { data: existingNotes, error: checkError } = await supabase
+        .from("notes")
+        .select("id")
+        .eq("user_id", userId)
+        .eq("title", title);
+
+      if (checkError) {
+        throw new Error("Error checking for existing notes.");
+      }
+
+      if (existingNotes && existingNotes.length > 0) {
+        // Step 2: If a note already exists, show an error message
+        toast.error(
+          "You already have a note with this title. Please use a different title."
+        );
+        return;
+      }
+
+      // Step 3: If no duplicate exists, proceed to insert the new note
       const { data, error } = await supabase.from("notes").insert([
         {
           title: title,
           content: "",
-          user_id: userId, // Optional: Pass the logged-in user's ID
+          user_id: userId,
           noteId: idString,
           tags: tags,
         },
       ]);
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
       toast.success("Note Created Successfully!");
-
       return data;
     } catch (err) {
       console.error("Error adding note:", err);
-      toast.error(
-        "A note with this name already exists. Please use a different name."
-      );
-
+      toast.error("An error occurred while adding the note. Please try again.");
       throw err;
     }
   };
@@ -185,7 +195,7 @@ const AddNoteDialog = () => {
               {tags.map((tag) => (
                 <span
                   key={tag}
-                  className="flex items-center gap-[2px] bg-gray-300 text-gray-800 dark:text-gray-300 dark:bg-gray-800 px-2 py-[5px] rounded-full text-sm"
+                  className="flex items-center gap-[2px] bg-gray-300 text-gray-800 dark:text-gray-300 dark:bg-gray-800 px-2 py-[5px] text-sm rounded-md"
                 >
                   {tag}
                   <button
