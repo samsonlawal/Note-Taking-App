@@ -16,7 +16,7 @@ export interface Note {
      content:
        "Get started by clicking the '+' button on the left to add a new note. Remember, this is a demo, and your updates in this notes will disappear after refreshing the page.",
      id: "welcome",
-     noteId: "Welcome",
+     noteId: "welcome",
      created_at: "2025-01-12T14:30:00Z",
      lastEdited: "2025-01-12T14:30:00Z",
      tags: ["dummy", "placeholder"],

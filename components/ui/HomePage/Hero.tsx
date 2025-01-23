@@ -4,19 +4,14 @@ import { PencilIcon } from "lucide-react";
 import Features from "../Features";
 import { useDataContext } from "@/context/DataContext";
 import { useAuth } from "@/context/AuthContext";
+import { noteData } from "@/noteData";
 
 function Hero() {
   const { accessToken } = useAuth();
   const { data } = useDataContext();
 
-  let firstNoteId;
-  if (data && data.length > 0) {
-    firstNoteId = data[0].noteId;
-    // router.push(`/note/${firstNoteId}`);
-    // console.log(firstNoteId);
-  } else {
-    // console.log("No data found or data is empty");
-  }
+  let firstNoteId =
+    data && data.length > 0 ? data[0].noteId : noteData[0].noteId;
 
   return (
     <div className="h-fit mt-[90px] flex flex-col justify-center items-center text-center gap-[20px] w-full px-10">
