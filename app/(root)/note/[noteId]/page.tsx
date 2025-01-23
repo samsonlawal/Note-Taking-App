@@ -16,6 +16,7 @@ import supabase from "@/config/supabaseClient";
 import { Button } from "@/components/ui/button";
 import DeleteNote from "@/components/ui/delete";
 import { Calendar, Clock, Tag, Text } from "lucide-react";
+import toast from "react-hot-toast";
 
 const DynamicMDXEditor = dynamic(
   () => import("@/components/InitializedMDXEditor"),
@@ -110,6 +111,8 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
             if (error) throw error;
             // console.log(data); // Logs the fetched data
+            toast.success("Note Deleted Successfully!");
+
             setData(data);
             {
               data ? router.push(`/note/${data[0].noteId}`) : "";
@@ -153,7 +156,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   //    notFound();
   //  }
 
-  const initialMarkdown: string = `${note ? note.content : ""}`;
+  const initialMarkdown: string = `${note ? note.content : noteData[0]}`;
   useEffect(() => {
     const textContent = initialMarkdown.replace(/<[^>]*>/g, ""); // Remove HTML tags
     setWordCount(textContent.trim().split(/\s+/).length);

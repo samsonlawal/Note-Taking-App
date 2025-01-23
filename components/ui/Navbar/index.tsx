@@ -11,19 +11,14 @@ import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { useDataContext } from "@/context/DataContext";
 import ThemeSwitcher from "../ThemeSwitcher";
+import { noteData } from "@/noteData";
 
 export default function Navbar() {
   const { accessToken } = useAuth();
   const { data } = useDataContext();
 
-  let firstNoteId;
-  if (data && data.length > 0) {
-    firstNoteId = data[0].noteId;
-    // router.push(`/note/${firstNoteId}`);
-    // console.log(firstNoteId);
-  } else {
-    // console.log("No data found or data is empty");
-  }
+  let firstNoteId =
+    data && data.length > 0 ? data[0].noteId : noteData[0].noteId;
 
   return (
     <nav className="w-full fixed top-0 left-0 bg-white px-6 lg:px-10 py-3 border-gray-200 dark:border-gray-900/50 dark:bg-gray-800">
