@@ -156,7 +156,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   //    notFound();
   //  }
 
-  const initialMarkdown: string = `${note ? note.content : noteData[0]}`;
+  const initialMarkdown: string = `${note ? note.content : ""}`;
   useEffect(() => {
     const textContent = initialMarkdown.replace(/<[^>]*>/g, ""); // Remove HTML tags
     setWordCount(textContent.trim().split(/\s+/).length);
