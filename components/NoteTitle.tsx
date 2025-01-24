@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 // }
 
 interface NoteProps {
-  key: string;
+  key?: string;
   title: string;
   content: string;
   noteId?: any;

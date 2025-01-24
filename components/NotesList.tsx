@@ -47,7 +47,7 @@ const NoteList: React.FC = () => {
         data.map((note: any) => (
           <Link href={`/note/${note.noteId}`} key={note.id}>
             <NoteTitle
-              key={note.id}
+              // key={note.id}
               title={note.title}
               content={note.content}
               created_at={note.created_at}
@@ -61,11 +61,13 @@ const NoteList: React.FC = () => {
         noteData.map((note: any) => (
           <Link href={`/note/${note.id}`} key={note.id}>
             <NoteTitle
-              key={note.id}
+              // key={note.id}
               title={note.title}
               content={note.content}
               created_at={note.created_at}
               lastEdited={note.lastEdited}
+              noteId={note.noteId}
+              tags={note.tags}
             />
           </Link>
         ))}
