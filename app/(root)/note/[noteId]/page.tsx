@@ -180,9 +180,15 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   //   }
   // }, [accessToken, isLoading, pathname, router]);
 
-  if (!accessToken) {
-    router.push("/");
-  }
+  // useEffect(() => {
+  //   if (localStorage.getItem("NoteAppToken")) {
+  //     // Set token in state if needed or consider the user logged in
+  //     return;
+  //   } else {
+  //     // Redirect to home or login if no token is found
+  //     router.push("/");
+  //   }
+  // }, []);
 
   return (
     <div

@@ -51,7 +51,7 @@ export default function Navbar() {
 
         {/* Get Started Button */}
 
-        <div className="flex items-center space-x-10 w-[200px]">
+        <div className="flex items-center space-x-10 w-[200px] justify-end">
           <ThemeSwitcher position={`bottom`} showTip={false} />
 
           {accessToken ? (
