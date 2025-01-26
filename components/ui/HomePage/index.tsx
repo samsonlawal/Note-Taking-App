@@ -59,7 +59,7 @@ function HomePage() {
   return (
     <div className="max-screen-wrapper ">
       <div className="max-screen-inner">
-        <div className="flex justify-center items-center flex-col max-h-screen h-screen w-full">
+        <div className="flex justify-center items-center flex-col max-h-screen h-fit w-full">
           {/* <Navbar /> */}
           <Hero />
         </div>
