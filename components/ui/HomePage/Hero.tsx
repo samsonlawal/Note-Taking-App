@@ -14,9 +14,8 @@ function Hero() {
     data && data.length > 0 ? data[0].noteId : noteData[0].noteId;
 
   return (
-    <div className="h-fit mt-[90px] flex flex-col justify-center items-center text-center gap-[20px] w-full px-10">
-      {/* <Features /> */}
-      <h1 className="text-[70px] font-clash font-bold leading-[88px]">
+    <div className="h-fit mt-[140px] flex flex-col justify-center items-center text-center gap-[20px] w-full px-10">
+      <h1 className="text-[60px] font-clash font-bold leading-[68px] max-w-[900px]">
         Your Thoughts, Organized. Anytime, Everywhere.
       </h1>
       <div className="w-[500px]">
