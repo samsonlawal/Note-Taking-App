@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import DeleteNote from "@/components/ui/delete";
 import { Calendar, Clock, Tag, Text } from "lucide-react";
 import toast from "react-hot-toast";
+import TurndownService from "turndown";
 
 const DynamicMDXEditor = dynamic(
   () => import("@/components/InitializedMDXEditor"),
@@ -58,7 +59,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       : noteData.find((note) => note.id === params.noteId);
 
   // {
-  //   data.length != 0 ? console.log(data) : "";
+  //   data.length != 0 ? console.log(note) : "";
   // }
 
   // const [currentNote, setCurrentNote] = useState<Note | null>(null);
@@ -156,7 +157,10 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   //    notFound();
   //  }
 
-  const initialMarkdown: string = `${note ? note.content : ""}`;
+  const turndownService = new TurndownService();
+  const initialMarkdown: string = note?.content
+    ? turndownService.turndown(note.content)
+    : "";
   useEffect(() => {
     const textContent = initialMarkdown.replace(/<[^>]*>/g, ""); // Remove HTML tags
     setWordCount(textContent.trim().split(/\s+/).length);
@@ -169,46 +173,16 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
     setIsSidebarOpen((prev) => !prev);
   };
 
-  // useEffect(() => {
-  //   if (!isLoading && !accessToken) {
-  //     // Check if the pathname includes "/note"
-  //     if (pathname && pathname.includes("/note")) {
-  //       router.push("/auth/login");
-  //     } else if (pathname === "/") {
-  //       router.push("/");
-  //     }
-  //   }
-  // }, [accessToken, isLoading, pathname, router]);
-
-  // useEffect(() => {
-  //   if (localStorage.getItem("NoteAppToken")) {
-  //     // Set token in state if needed or consider the user logged in
-  //     return;
-  //   } else {
-  //     // Redirect to home or login if no token is found
-  //     router.push("/");
-  //   }
-  // }, []);
+  // console.log("Note Data:", noteData);
+  // console.log("Note Object:", note);
+  // console.log("Initial Markdown:", initialMarkdown);
 
   return (
     <div
       className={`flex flex-row items-center justify-between w-full font-outfit bg-gray-200/70 dark:bg-gray-700`}
     >
       <Navigation isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      {/* <div
-        className={`
-        fixed top-0 left-0
-        h-screen w-[310px]
-        z-10 
-        bg-gray-200
-        transition-transform duration-300 ease-in-out
-        ${isOpen ? "translate-x-0" : "-translate-x-full"}
-        shadow-lg
-      `}
-      >
-      </div> */}
       <div className="h-screen w-[310px]">{""}</div>
-
       <main className={`transition-all flex flex-grow w-[calc(100%-660px)]`}>
         <div className="flex min-h-screen flex-col items-center justify-between px-14 py-[50px] w-full">
           <div className="flex flex-col gap-3 w-full">
@@ -221,11 +195,6 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
               {note && note.title}
             </h1>
 
-            {/* <div
-          className="text-[16px] outline-none w-full break-words"
-          contentEditable="true"
-          suppressContentEditableWarning={true}
-        > */}
             <DynamicMDXEditor
               className="text-[16px] outline-none w-full break-words"
               editorRef={editorRef}
@@ -233,7 +202,6 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
               onBlur={handleFocus}
               placeholder="Write something..."
             />
-            {/* </div> */}
           </div>
         </div>
       </main>
@@ -246,8 +214,6 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
               Note Insights{" "}
             </p>
           </div>
-          {/* <div className="border-b-[1px] border-gray-300" /> */}
-
           <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
 
           <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
@@ -263,7 +229,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
                     month: "short",
                   });
                   const year = date.getFullYear();
-                  return `${day}, ${month} ${year}`; // Add the comma here
+                  return `${day}, ${month} ${year}`;
                 })()}
             </p>
           </div>
@@ -283,7 +249,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
                     month: "short",
                   });
                   const year = date.getFullYear();
-                  return `${day}, ${month} ${year}`; // Add the comma here
+                  return `${day}, ${month} ${year}`;
                 })()}
             </p>
           </div>
