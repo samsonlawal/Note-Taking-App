@@ -1,5 +1,7 @@
 "use client";
 
+require("dotenv").config();
+
 import { useState, useEffect, useCallback } from "react";
 import { useDataContext } from "@/context/DataContext";
 import { usePathname, useRouter } from "next/navigation";
@@ -18,6 +20,8 @@ import DeleteNote from "@/components/ui/delete";
 import { Calendar, Clock, Tag, Text } from "lucide-react";
 import toast from "react-hot-toast";
 import TurndownService from "turndown";
+// import CryptoJS from "crypto-js";
+import crypto from "crypto";
 
 const DynamicMDXEditor = dynamic(
   () => import("@/components/InitializedMDXEditor"),
@@ -43,6 +47,11 @@ interface NoteProps {
 }
 
 const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
+  const secretKeyString = process.env.NEXT_PUBLIC_SECRET_KEY ?? "";
+  const secretKey = Buffer.from(secretKeyString, "base64");
+  const ivLength = 16;
+  const crypto = require("crypto");
+
   const editorRef = useRef<MDXEditorMethods>(null);
 
   const { local, setLocal, data, setData, isOpen } = useDataContext();
@@ -53,15 +62,62 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
   const [wordCount, setWordCount] = useState<number>();
 
+  // Encrypting Text
+  const encrypt = (text: string) => {
+    if (!text) {
+      return "";
+    }
+    try {
+      const iv = crypto.randomBytes(ivLength);
+      const cipher = crypto.createCipheriv("aes-256-cbc", secretKey, iv);
+      let encrypted = cipher.update(text, "utf8", "hex");
+      encrypted += cipher.final("hex");
+      return iv.toString("hex") + ":" + encrypted;
+    } catch (err) {
+      console.error("Encryption error:", err);
+      throw new Error("Failed to encrypt content");
+    }
+  };
+
+  const decrypt = (text: string) => {
+    if (!text || !text.includes(":")) {
+      return text; // Return original text if it's not encrypted
+    }
+    try {
+      const parts = text.split(":");
+      const iv = Buffer.from(parts[0], "hex");
+      const encryptedText = parts[1];
+      const decipher = crypto.createDecipheriv("aes-256-cbc", secretKey, iv);
+      let decrypted = decipher.update(encryptedText, "hex", "utf8");
+      decrypted += decipher.final("utf8");
+      return decrypted;
+    } catch (err) {
+      console.error("Decryption error:", err);
+      return text; // Return original text if decryption fails
+    }
+  };
+
   let note =
     data.length !== 0
-      ? data.find((note) => note.noteId === params.noteId)
+      ? data.find((note) => {
+          if (note.noteId === params.noteId) {
+            // Decrypt the content when the note is found
+            return {
+              ...note,
+              content: note.content ? decrypt(note.content) : "",
+            };
+          }
+          return false;
+        })
       : noteData.find((note) => note.id === params.noteId);
+
+  // const textToEncrypt = "Hello, this is a test message!";
+  // const encryptedText = encrypt(textToEncrypt);
+  // console.log("Encrypted Text:", encryptedText);
 
   // {
   //   data.length != 0 ? console.log(note) : "";
   // }
-
   // const [currentNote, setCurrentNote] = useState<Note | null>(null);
 
   const handleFocus = async (e: FocusEvent) => {
@@ -71,9 +127,10 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
     // Update note content in DB
     if (note) {
+      const encryptedContent = encrypt(updatedContent);
       const { data, error } = await supabase
         .from("notes")
-        .update({ content: updatedContent, lastEdited: new Date() })
+        .update({ content: encryptedContent, lastEdited: new Date() })
         .eq("noteId", note.noteId);
 
       if (error) {
@@ -81,12 +138,8 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       }
     }
 
-    // const textContent = target.innerHTML.replace(/<[^>]*>/g, ""); // Remove HTML tags
-    // const WordCount = textContent.trim().split(/\s+/).length;
-    // setWordCount(WordCount);
-
     const textContent = target.innerText.trim();
-    const words = textContent.split(/\s+/).filter(Boolean); // Filter out empty strings
+    const words = textContent.split(/\s+/).filter(Boolean);
     setWordCount(words.length);
 
     // console.log(wordCount);
@@ -107,13 +160,11 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
             const { data, error } = await supabase
               .from("notes")
               .select("*")
-              .eq("user_id", userId) // Fetch notes for the logged-in user
+              .eq("user_id", userId)
               .order("created_at", { ascending: false });
 
             if (error) throw error;
-            // console.log(data); // Logs the fetched data
             toast.success("Note Deleted Successfully!");
-
             setData(data);
             {
               data ? router.push(`/note/${data[0].noteId}`) : "";
@@ -124,7 +175,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
           }
         };
 
-        fetchNotes(); // Call the async function here
+        fetchNotes();
       }
 
       // console.log("what??");
@@ -159,10 +210,11 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
   const turndownService = new TurndownService();
   const initialMarkdown: string = note?.content
-    ? turndownService.turndown(note.content)
+    ? turndownService.turndown(decrypt(note.content))
     : "";
+
   useEffect(() => {
-    const textContent = initialMarkdown.replace(/<[^>]*>/g, ""); // Remove HTML tags
+    const textContent = initialMarkdown.replace(/<[^>]*>/g, "");
     setWordCount(textContent.trim().split(/\s+/).length);
   }, [initialMarkdown]);
 
