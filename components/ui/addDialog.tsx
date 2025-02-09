@@ -8,19 +8,15 @@ import {
   DialogTitle,
   DialogFooter,
   DialogClose,
-} from "./dialog"; // Update the path to where your dialog file is located.
+} from "./dialog";
 
-import { CirclePlus, Trash } from "lucide-react";
+import { CirclePlus } from "lucide-react";
 import { Tooltip } from "@nextui-org/tooltip";
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-// import Link from "next/link";
-
 import { useAuth } from "@/context/AuthContext";
-
 import supabase from "@/config/supabaseClient";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 interface Note {
   id: string;
@@ -29,53 +25,25 @@ interface Note {
 }
 
 const AddNoteDialog = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
-  const [notes, setNotes] = useState<Note[]>([]);
-  const [searchInput, setSearchInput] = useState<string>("");
-  // const [title, setTitle] = useState<string>("");
-
   const { userId } = useAuth();
 
-  let idString = "";
-
-  // Update search input and title state
-  const handleSearchInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
-    setTitle(e.target.value);
-  };
-
-  // Add a new note
   const handleAddNote = async () => {
-    // Ensure title is not empty
-    if (!title.trim()) {
-      return; // or show an error message
+    if (!title.trim() || isSubmitting) {
+      return;
     }
 
-    // Generate unique id for the new note
-    idString = title.replace(/\s/g, "").toLowerCase();
-
-    // Create new note object
-    const newItem: Note = {
-      title: title,
-      content: "Start A Note",
-      id: idString,
-    };
-
-    // Update notes state and localStorage
-    // const updatedNotes = [...notes, newItem];
-    // setNotes(updatedNotes);
-    // localStorage.setItem("Notes", JSON.stringify(updatedNotes));
-
-    // Navigate to new note page
-    router.push(`/note/${idString}`);
-    console.log(idString);
+    setIsSubmitting(true);
+    const idString = title.replace(/\s/g, "").toLowerCase();
 
     try {
-      // Step 1: Check for an existing note with the same title for this user
+      // Check for existing notes
       const { data: existingNotes, error: checkError } = await supabase
         .from("notes")
         .select("id")
@@ -87,15 +55,12 @@ const AddNoteDialog = () => {
       }
 
       if (existingNotes && existingNotes.length > 0) {
-        // Step 2: If a note already exists, show an error message
-        toast.error(
-          "You already have a note with this title. Please use a different title."
-        );
+        toast.error("A note with this title already exists.");
         return;
       }
 
-      // Step 3: If no duplicate exists, proceed to insert the new note
-      const { data, error } = await supabase.from("notes").insert([
+      // Insert new note
+      const { error } = await supabase.from("notes").insert([
         {
           title: title,
           content: "",
@@ -105,16 +70,24 @@ const AddNoteDialog = () => {
         },
       ]);
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
-      toast.success("Note Created Successfully!");
-      return data;
+      // Clear form and close dialog
+      setTitle("");
+      setTags([]);
+      setIsOpen(false);
+
+      // Show success message
+      toast.success("Note created successfully!");
+
+      // Navigate after successful creation
+      router.push(`/note/${idString}`);
+      router.refresh(); // Force refresh to update the notes list
     } catch (err) {
       console.error("Error adding note:", err);
-      toast.error("An error occurred while adding the note. Please try again.");
-      throw err;
+      toast.error("Failed to create note. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -124,7 +97,7 @@ const AddNoteDialog = () => {
       if (!tags.includes(tagInput.trim())) {
         setTags([...tags, tagInput.trim()]);
       }
-      setTagInput(""); // Clear the input field
+      setTagInput("");
     }
   };
 
@@ -132,22 +105,10 @@ const AddNoteDialog = () => {
     setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
-  // const handleAddNote = () => {
-  //   if (title.trim() && tags.length > 0) {
-  //     console.log("New Note Created:", { title, tags });
-  //     setTitle(""); // Reset the fields
-  //     setTags([]);
-  //   } else {
-  //     alert("Please fill out the title and add at least one tag.");
-  //   }
-  // };
-
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="text-gray-600 font-poppins">
-        <div
-          className={`bg-none hover:bg-gray-300 dark:hover:bg-gray-900 w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 dark:stroke-gray-200 cursor-pointer`}
-        >
+        <div className="bg-none hover:bg-gray-300 dark:hover:bg-gray-900 w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 dark:stroke-gray-200 cursor-pointer">
           <Tooltip
             placement="right"
             showArrow={true}
@@ -165,7 +126,6 @@ const AddNoteDialog = () => {
           </DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-6 mt-4">
-          {/* Title Input */}
           <div>
             <label
               htmlFor="note-title"
@@ -183,8 +143,7 @@ const AddNoteDialog = () => {
             />
           </div>
 
-          {/* Tags Input */}
-          <div className="">
+          <div>
             <label
               htmlFor="note-tag"
               className="block text-base font-medium text-gray-700 font-poppins mb-1 dark:text-gray-300"
@@ -220,15 +179,21 @@ const AddNoteDialog = () => {
           </div>
         </div>
 
-        {/* Footer */}
         <DialogFooter>
-          <DialogClose className="w-[100px] py-2 bg-black dark:bg-gray-900 hover:bg-black/90 text-white rounded-md hover:bg-gray-400 transition-colors duration-300 font-poppins">
-            <button onClick={handleAddNote}>Add</button>
-          </DialogClose>
+          <button
+            onClick={handleAddNote}
+            disabled={isSubmitting}
+            className="w-[100px] py-2 bg-black dark:bg-gray-900 hover:bg-black/90 text-white rounded-md transition-colors duration-300 font-poppins disabled:opacity-50"
+          >
+            {isSubmitting ? "Adding..." : "Add"}
+          </button>
 
-          <DialogClose className="w-[100px] py-2 bg-gray-300 text-black rounded-md hover:bg-gray-400 transition-colors duration-300 font-poppins">
+          <button
+            onClick={() => setIsOpen(false)}
+            className="w-[100px] py-2 bg-gray-300 text-black rounded-md hover:bg-gray-400 transition-colors duration-300 font-poppins"
+          >
             Cancel
-          </DialogClose>
+          </button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
