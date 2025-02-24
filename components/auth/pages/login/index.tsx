@@ -81,14 +81,14 @@ const LoginForm = () => {
  };
 
   return (
-    <div className="w-full md:max-w-[900px] pt-[80px] px-4 bg-transparent font-outfit">
+    <div className="w-full md:max-w-[900px] pt-[80px] px-1 bg-transparent font-outfit">
       <form
         autoComplete="off"
         noValidate
-        className="w-full md:w-[400px] flex flex-col gap-4 items-center justify-center"
+        className="w-full md:w-[400px] flex flex-col gap-4 items-center justify-center px-1"
         onSubmit={handleSubmit}
       >
-        <div className="text-center w-[85%] flex flex-col gap-2">
+        <div className="text-center w-[95%] flex flex-col gap-2">
           <h1 className="text-3xl font-black font-clash">Welcome back!</h1>
           <p className="text-[15px] text-gray-400 font-poppins">
             Access your notes and pick up right where you left off.
