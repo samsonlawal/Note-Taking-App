@@ -128,7 +128,7 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
                 placement="right"
                 showArrow={true}
                 className="bg-gray-200 rounded-md mx-4 font-outfit border border-gray-300 dark:border-gray-800 text-xs dark:bg-gray-700"
-                content={<div className="text-tiny">Help</div>}
+                content={<div className="text-tiny">Docs</div>}
               >
                 <CircleHelp className="stroke-inherit stroke-[1] min-w-5 w-5" />
               </Tooltip>
