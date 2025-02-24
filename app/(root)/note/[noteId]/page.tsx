@@ -2,7 +2,7 @@
 
 require("dotenv").config();
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, ReactEventHandler } from "react";
 import { useDataContext } from "@/context/DataContext";
 import { usePathname, useRouter } from "next/navigation";
 import { noteData } from "../../../../noteData";
@@ -17,7 +17,7 @@ import router from "next/router";
 import supabase from "@/config/supabaseClient";
 import { Button } from "@/components/ui/button";
 import DeleteNote from "@/components/ui/delete";
-import { Calendar, Clock, Tag, Text } from "lucide-react";
+import { Calendar, Clock, Save, Tag, Text } from "lucide-react";
 import toast from "react-hot-toast";
 import TurndownService from "turndown";
 // import CryptoJS from "crypto-js";
@@ -79,9 +79,10 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
     }
   };
 
+  // Decrypting Text
   const decrypt = (text: string) => {
     if (!text || !text.includes(":")) {
-      return text; // Return original text if it's not encrypted
+      return text;
     }
     try {
       const parts = text.split(":");
@@ -93,7 +94,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       return decrypted;
     } catch (err) {
       console.error("Decryption error:", err);
-      return text; // Return original text if decryption fails
+      return text;
     }
   };
 
@@ -120,6 +121,14 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   // }
   // const [currentNote, setCurrentNote] = useState<Note | null>(null);
 
+  // Note saving process and status updates
+  const [stateNote, setStateNote] = useState("");
+  const [status, setStatus] = useState("Saved");
+
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+  };
+
   const handleFocus = async (e: FocusEvent) => {
     const target = e.target as HTMLElement;
 
@@ -127,6 +136,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
     // Update note content in DB
     if (note) {
+      console.log(note);
       const encryptedContent = encrypt(updatedContent);
       const { data, error } = await supabase
         .from("notes")
@@ -135,7 +145,9 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
       if (error) {
         console.error("Error updating note in Supabase:", error);
+        setStatus("Failed to save");
       }
+      setStatus("Saved");
     }
 
     const textContent = target.innerText.trim();
@@ -187,7 +199,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   ) => {
     let updatedHeader = e.target.innerText;
 
-    // Update note content in local state
+    // Update note content in database
     if (note) {
       const { data, error } = await supabase
         .from("notes")
@@ -203,10 +215,6 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       setLocal([]);
     }
   };
-
-  //  if (!note) {
-  //    notFound();
-  //  }
 
   const turndownService = new TurndownService();
   const initialMarkdown: string = note?.content
@@ -251,6 +259,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
               className="text-[16px] outline-none w-full break-words"
               editorRef={editorRef}
               markdown={initialMarkdown}
+              // onChange={(e) => handleChange(e.target.value)}
               onBlur={handleFocus}
               placeholder="Write something..."
             />
@@ -266,6 +275,16 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
               Note Insights{" "}
             </p>
           </div>
+          <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
+
+          <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
+            <Save className="w-4 h-4 transition-transform group-hover:scale-110" />
+            <p className="text-[12px] font-poppins py-[14px]">
+              <span className="font-medium font-outfit">Status:</span>{" "}
+              {note && status}
+            </p>
+          </div>
+
           <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
 
           <div className="flex flex-row w-full justify-start items-center px-4 gap-2">

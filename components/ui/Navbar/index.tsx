@@ -27,22 +27,33 @@ export default function Navbar() {
         <div className="w-[200px] flex items-center">
           <Link
             href="/"
-            className="text-[27px] font-bold text-gray-800 dark:text-white font-clash"
+            className="text-[23px] md:text-[27px] font-bold text-gray-800 dark:text-white font-clash"
           >
             Knotte
           </Link>
         </div>
 
         {/* Navigation Menu */}
-        <NavigationMenu className="hidden md:block">
+        <NavigationMenu className="block">
           <NavigationMenuList className="flex gap-[60px] font-poppins font-medium ">
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <Link
                   href="/documentation"
-                  className="text-base hover:text-black/70 dark:hover:text-white/70 transition-colors duration-500"
+                  className="hidden md:flex text-base hover:text-black/70 dark:hover:text-white/70 transition-colors duration-500"
                 >
                   Documentation
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <Link
+                  href="/documentation"
+                  className="flex md:hidden text-base hover:text-black/70 dark:hover:text-white/70 transition-colors duration-500"
+                >
+                  Docs
                 </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
@@ -51,7 +62,7 @@ export default function Navbar() {
 
         {/* Get Started Button */}
 
-        <div className="flex items-center space-x-10 w-[200px] justify-end">
+        <div className="flex items-center space-x-10 w-fit md:w-[200px] justify-end">
           <ThemeSwitcher position={`bottom`} showTip={false} />
 
           {accessToken ? (
@@ -59,7 +70,7 @@ export default function Navbar() {
               {/* // <Link href="/"> */}
               <button
                 type="submit"
-                className={`flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
+                className={`hidden md:flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
               >
                 Notes
               </button>
@@ -68,7 +79,7 @@ export default function Navbar() {
             <Link href="/auth/login">
               <button
                 type="submit"
-                className={`flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
+                className={`hidden md:flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
               >
                 Sign In
               </button>
@@ -85,7 +96,7 @@ export default function Navbar() {
           </Link> */}
 
           {/* Mobile Menu */}
-          <Button
+          {/* <Button
             variant="ghost"
             className="md:hidden "
             onClick={() => alert("Open Mobile Menu")}
@@ -104,7 +115,7 @@ export default function Navbar() {
                 d="M4 6h16M4 12h16m-7 6h7"
               />
             </svg>
-          </Button>
+          </Button> */}
         </div>
       </div>
     </nav>

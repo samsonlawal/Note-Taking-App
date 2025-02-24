@@ -27,11 +27,11 @@ function ThemeSwitcher({ position, showTip }: any) {
           placement={position}
           showArrow={true}
           className="bg-gray-200 dark:bg-gray-700 rounded-lg mx-4 font-outfit border border-gray-300 dark:border-gray-800 text-xs"
-          content={<div className="text-tiny">Dark/Light</div>}
+          content={<div className="text-tiny">Mode</div>}
         >
           <button
             // className="cursor-not-allowed"
-            className="cursor-pointer hidden lg:flex"
+            className="cursor-pointer flex"
             onClick={() =>
               setTheme(resolvedTheme === "dark" ? "light" : "dark")
             }
@@ -47,7 +47,7 @@ function ThemeSwitcher({ position, showTip }: any) {
       ) : (
         <button
           // className="cursor-not-allowed"
-          className="cursor-pointer hidden lg:flex"
+          className="cursor-pointer flex"
           onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
         >
           {resolvedTheme === "light" ? (
