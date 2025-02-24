@@ -53,7 +53,7 @@ export default function Navbar() {
 
         {/* Get Started Button */}
 
-        <div className="flex items-center space-x-10 w-fit md:w-[200px] justify-end">
+        <div className="flex items-center space-x-10 w-fit md:w-[250px] justify-end">
           {/* Navigation Menu */}
           <div className="flex md:hidden">
             <NavigationMenu className="block">
@@ -74,7 +74,7 @@ export default function Navbar() {
 
           <ThemeSwitcher position={`bottom`} showTip={false} />
 
-          <div className="hidden md:flex">
+          <div className="hidden md:flex w-fit">
             {accessToken ? (
               <Link href={`note/${firstNoteId}`}>
                 {/* // <Link href="/"> */}
@@ -89,7 +89,7 @@ export default function Navbar() {
               <Link href="/auth/login">
                 <button
                   type="submit"
-                  className={`items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
+                  className={`w-fit items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
                 >
                   Sign In
                 </button>
