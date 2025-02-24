@@ -24,7 +24,7 @@ export default function Navbar() {
     <nav className="w-full fixed top-0 left-0 bg-white px-6 lg:px-10 py-3 border-gray-200 dark:border-gray-900/50 dark:bg-gray-800">
       <div className="max-screen-inner mx-auto flex items-center justify-between">
         {/* Logo */}
-        <div className="w-[200px] flex items-center">
+        <div className="w-fit md:w-[200px] flex items-center">
           <Link
             href="/"
             className="text-[23px] md:text-[27px] font-bold text-gray-800 dark:text-white font-clash"
@@ -34,57 +34,68 @@ export default function Navbar() {
         </div>
 
         {/* Navigation Menu */}
-        <NavigationMenu className="block">
-          <NavigationMenuList className="flex gap-[60px] font-poppins font-medium ">
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link
-                  href="/documentation"
-                  className="hidden md:flex text-base hover:text-black/70 dark:hover:text-white/70 transition-colors duration-500"
-                >
-                  Documentation
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link
-                  href="/documentation"
-                  className="flex md:hidden text-base hover:text-black/70 dark:hover:text-white/70 transition-colors duration-500"
-                >
-                  Docs
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+        <div className="hidden md:flex">
+          <NavigationMenu className="block">
+            <NavigationMenuList className="flex gap-[60px] font-poppins font-medium ">
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    href="/documentation"
+                    className="text-base hover:text-black/70 dark:hover:text-white/70 transition-colors duration-500"
+                  >
+                    Documentation
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
 
         {/* Get Started Button */}
 
         <div className="flex items-center space-x-10 w-fit md:w-[200px] justify-end">
+          {/* Navigation Menu */}
+          <div className="flex md:hidden">
+            <NavigationMenu className="block">
+              <NavigationMenuList className="flex gap-[60px] font-poppins font-medium ">
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href="/documentation"
+                      className="text-base hover:text-black/70 dark:hover:text-white/70 transition-colors duration-500"
+                    >
+                      Docs
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </div>
+
           <ThemeSwitcher position={`bottom`} showTip={false} />
 
-          {accessToken ? (
-            <Link href={`note/${firstNoteId}`}>
-              {/* // <Link href="/"> */}
-              <button
-                type="submit"
-                className={`hidden md:flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
-              >
-                Notes
-              </button>
-            </Link>
-          ) : (
-            <Link href="/auth/login">
-              <button
-                type="submit"
-                className={`hidden md:flex items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
-              >
-                Sign In
-              </button>
-            </Link>
-          )}
+          <div className="hidden md:flex">
+            {accessToken ? (
+              <Link href={`note/${firstNoteId}`}>
+                {/* // <Link href="/"> */}
+                <button
+                  type="submit"
+                  className={`items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
+                >
+                  Notes
+                </button>
+              </Link>
+            ) : (
+              <Link href="/auth/login">
+                <button
+                  type="submit"
+                  className={`items-center justify-center bg-[#171b1f] text-white py-[6px] rounded-md w-full hover:bg-[#000000] transition duration-300 ease-in-out px-8 dark:bg-gray-700 dark:hover:bg-gray-700/50 font-clash font-medium`}
+                >
+                  Sign In
+                </button>
+              </Link>
+            )}
+          </div>
 
           {/* <Link href="/login">
             <Button
