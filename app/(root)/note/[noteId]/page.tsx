@@ -242,12 +242,14 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       className={`flex flex-row items-center justify-between w-full font-outfit bg-gray-200/70 dark:bg-gray-700`}
     >
       <Navigation isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className="h-screen w-[310px]">{""}</div>
-      <main className={`transition-all flex flex-grow w-[calc(100%-660px)]`}>
-        <div className="flex min-h-screen flex-col items-center justify-between px-14 py-[50px] w-full">
+      <div className="h-screen w-[20px] md:w-[310px]">{""}</div>
+      <main
+        className={`transition-all flex flex-grow w-[100%] md:w-[calc(100%-660px)]`}
+      >
+        <div className="flex min-h-screen flex-col items-center justify-between pl-12 pr-1 pt-[10px] pb-[50px] md:py-[50px] w-full">
           <div className="flex flex-col gap-3 w-full">
             <h1
-              className="text-[30px] font-black outline-none w-full break-words" // Add `break-words` to ensure wrapping
+              className="text-[30px] pl-3 md:pl-0 font-black outline-none w-full break-words" // Add `break-words` to ensure wrapping
               contentEditable="true"
               suppressContentEditableWarning={true}
               onBlur={handleHeadChange}
@@ -266,9 +268,9 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
           </div>
         </div>
       </main>
-      <div className="h-screen w-[310px]">{""}</div>
+      <div className="h-screen w-[1px] md:w-[310px]">{""}</div>
 
-      <div className="fixed right-0 top-0 h-screen w-[250px] bg-gray-200 border-l-[1px] border-gray-300 pb-[24px] flex flex-col justify-between text-zinc-600 dark:bg-gray-800 dark:border-gray-900/50 dark:text-gray-400">
+      <div className="fixed right-0 top-0 h-screen w-[250px] bg-gray-200 border-l-[1px] border-gray-300 pb-[24px] hidden md:flex flex-col justify-between text-zinc-600 dark:bg-gray-800 dark:border-gray-900/50 dark:text-gray-400">
         <div className="flex flex-col">
           <div className="flex items-center px-4 h-[60px]">
             <p className="text-base font-outfit font-medium text-zinc-600 dark:text-zinc-300">
