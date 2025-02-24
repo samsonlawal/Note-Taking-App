@@ -100,10 +100,10 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="max-w-[900px] pt-[80px] px-10 bg-transparent font-outfit">
+    <div className="w-full md:max-w-[900px] pt-[80px] px-1 bg-transparent font-outfit">
       <form
         autoComplete="off"
-        className="w-[400px] flex flex-col gap-6 items-center justify-center"
+        className="w-full md:w-[400px] flex flex-col gap-4 items-center justify-center px-1"
         onSubmit={formik.handleSubmit}
       >
         <div className="text-center w-[85%] flex flex-col pb-5 gap-2">
