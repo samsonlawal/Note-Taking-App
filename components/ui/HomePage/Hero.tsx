@@ -15,11 +15,11 @@ function Hero() {
 
   return (
     <div className="h-fit mt-[140px] flex flex-col justify-center items-center text-center gap-[20px] w-full px-10">
-      <h1 className="text-[60px] font-clash font-bold leading-[68px] max-w-[900px]">
+      <h1 className="text-[40px] leading-[50px] md:text-[60px] font-clash font-bold md:leading-[68px] max-w-[900px]">
         Your Thoughts, Organized. Anytime, Everywhere.
       </h1>
-      <div className="w-[500px]">
-        <p className=" text-[18px] font-poppins">
+      <div className="w-[94%] md:w-[500px]">
+        <p className="text-[16px] md:text-[18px] font-poppins text-gray-700 dark:text-gray-300">
           Effortlessly capture ideas, stay productive, and keep your notes
           within reach—wherever life takes you.
         </p>
