@@ -4,7 +4,7 @@ import "./styles.css";
 export default function Documentation() {
   return (
     <div className="bg-white font-sans leading-normal tracking-normal max-screen-wrapper mt-[60px] scroll-smooth font-poppins dark:bg-gray-800">
-      <header className="text-black pt-8 fixed left-0 w-[250px] pl-2">
+      <header className="hidden md:block text-black pt-8 fixed left-0 w-[250px] pl-2">
         <div className="container mx-auto">
           <h1 className="text-[20px] font-bold dark:text-white">
             Note App Documentation
@@ -78,7 +78,7 @@ export default function Documentation() {
         </div>
       </header>
 
-      <main className=" w-full px-8 py-8 ml-[250px] border-l-[1px] border-gray-200 dark:border-gray-900/50">
+      <main className="w-full px-1 md:px-8 py-8 md:ml-[250px] md:border-l-[1px] border-gray-200 dark:border-gray-900/50">
         <section>
           <h2 className="text-3xl font-bold mb-4">Formatting Options</h2>
           <p className="mb-4 text-gray-700 dark:text-gray-400">
@@ -126,9 +126,13 @@ export default function Documentation() {
               <p className="text-gray-800 dark:text-gray-400 mb-1 text-[15px]">
                 Example:
               </p>
-              <pre className="bg-gray-100 dark:bg-gray-800 text-[14px] py-4 p-3 rounded text-gray-800 dark:text-gray-400">
-                # Heading 1 ## Heading 2 ### Heading 3 #### Heading 4 #####
-                Heading 5 ###### Heading 6
+              <pre className="bg-gray-100 dark:bg-gray-800 text-[14px] py-4 p-3 rounded text-gray-800 dark:text-gray-400 break-words w-full h-auto ">
+                # Heading 1 <br />
+                ## Heading 2 <br />
+                ### Heading 3 <br />
+                #### Heading 4 <br />
+                ##### Heading 5 <br />
+                ###### Heading 6
               </pre>
             </div>
 
@@ -226,7 +230,9 @@ export default function Documentation() {
               </p>
               <p className="text-gray-800 dark:text-gray-400 mb-2">Example:</p>
               <pre className="bg-gray-100 dark:bg-gray-800 py-4 p-3 rounded text-gray-800 dark:text-gray-400">
-                1. Step one 2. Step two 3. Step three
+                1. Step one <br />
+                2. Step two <br />
+                3. Step three
               </pre>
             </div>
           </section>
