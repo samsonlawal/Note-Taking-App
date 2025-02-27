@@ -44,7 +44,7 @@ const Note: React.FC<NoteProps> = ({
     >
       <div className="flex flex-row">
         {/* <FileText size={16} /> */}
-        <p className="text-[15px] font-outfit font-medium mb-2 text-zinc-600 dark:text-zinc-300">
+        <p className="text-[15px] font-outfit font-medium mb-2 text-zinc-600 dark:text-zinc-300 line-clamp-1">
           {title}
         </p>
       </div>

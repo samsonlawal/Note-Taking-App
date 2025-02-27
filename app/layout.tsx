@@ -8,7 +8,7 @@ import { DataProvider } from "@/context/DataContext";
 
 // app/layout.tsx (Server-side Layout without client-side logic)
 export const metadata = {
-  title: "Note App",
+  title: "knote",
   description: "A note taking app built with next",
 };
 

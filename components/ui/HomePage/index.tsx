@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import supabase from "@/config/supabaseClient";
 import { useDataContext } from "@/context/DataContext";
+import Features from "../Features";
 
 function HomePage() {
   const { resolvedTheme } = useTheme();
@@ -61,6 +62,7 @@ function HomePage() {
       <div className="max-screen-inner">
         <div className="flex justify-center items-center flex-col max-h-screen h-fit w-full">
           {/* <Navbar /> */}
+          <Features />
           <Hero />
         </div>
       </div>

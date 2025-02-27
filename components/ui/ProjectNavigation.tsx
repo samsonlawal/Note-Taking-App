@@ -18,7 +18,7 @@ const ProjectNavigation = ({ selectedProject, setSelectedProject }: Props) => {
 
   return (
     <div
-      className={`h-full w-[250px] flex flex-col gap-2 bg-gray-200 ml-0 border-r border-gray-300 transition-transform duration-300 ease-in-out transform overflow-hidden dark:bg-gray-800 dark:border-gray-900/50 ${
+      className={`h-full w-[180px] md:w-[250px] flex flex-col gap-2 bg-gray-200 ml-0 border-r border-gray-300 transition-transform duration-300 ease-in-out transform overflow-hidden dark:bg-gray-800 dark:border-gray-900/50 ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
