@@ -108,7 +108,7 @@ const AddNoteDialog = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="text-gray-600 font-poppins">
-        <div className="bg-none hover:bg-gray-300 dark:hover:bg-gray-900 w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 dark:stroke-gray-200 cursor-pointer">
+        <div className="bg-none hover:bg-gray-300 dark:hover:bg-gray-900 md:w-[95%] w-[100%] px-2 rounded py-1 transition-colors duration-100 stroke-[1] stroke-gray-700 dark:stroke-gray-200 cursor-pointer">
           <Tooltip
             placement="right"
             showArrow={true}

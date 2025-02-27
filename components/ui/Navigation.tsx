@@ -6,39 +6,11 @@ import { useState, useEffect, FC } from "react";
 import NavigationLink from "./NavigationLink";
 import { Tooltip } from "@nextui-org/tooltip";
 
-import NoteList from "../NotesList";
-import SearchArea from "../Search";
-import AddNote from "../addNote";
+// import NoteList from "../NotesList";
+// import SearchArea from "../Search";
+// import AddNote from "../addNote";
 
-import {
-  ChartBarIcon,
-  ChartPieIcon,
-  DocumentCheckIcon,
-  Square2StackIcon,
-  UsersIcon,
-} from "@heroicons/react/24/outline";
-
-import {
-  Folder,
-  Search,
-  CirclePlus,
-  Settings,
-  FileText,
-  File,
-  PanelLeft,
-  PencilRuler,
-  Eraser,
-  Trash,
-  CalendarDays,
-  Moon,
-  CircleUserRound,
-  Book,
-  CircleHelp,
-  LogOut,
-  DeleteIcon,
-} from "lucide-react";
-import Logo from "./logo";
-import ProjectLink from "./ProjectLink";
+import { Folder, Search, PanelLeft, CircleHelp, LogOut } from "lucide-react";
 import ProjectNavigation from "./ProjectNavigation";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
@@ -59,11 +31,13 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
     logout(); // Logout the user and redirect them to the homepage
   };
 
-  useEffect(() => {}, [isOpen]);
+  useEffect(() => {
+    console.log(isOpen);
+
+  }, [isOpen]);
 
   const handleOpenClose = () => {
     setIsOpen(!isOpen);
-    // console.log(isOpen);
 
     if (isOpen) {
       setSelectedProject(null);
@@ -72,8 +46,17 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      document.body.classList.toggle("keyboard-open", window.innerHeight < 500);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <div className="flex flex-row h-dvh md:h-screen w-fit fixed top-0 z-20">
+    <div className={`flex flex-row h-dvh md:h-screen w-fit fixed top-0 ${!isOpen ? 'z-0' :'z-20'}`}>
       <motion.nav className="w-[60px] flex flex-col items-center justify-center z-10 gap-2 pb-5 h-full border-r border-gray-300 bg-gray-200 dark:bg-gray-800 dark:border-gray-900/50">
         <div className="flex h-[60px] flex-row w-full items-center justify-center place-items-center border-b border-gray-300 dark:border-gray-900/50">
           <button className="rounded-full flex text-black dark:text-gray-300">

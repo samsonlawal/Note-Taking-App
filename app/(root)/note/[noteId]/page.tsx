@@ -62,15 +62,21 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
   const [wordCount, setWordCount] = useState<number>();
 
-  // Encrypting Text
+  // Debug version
+
+  // Encrypting Text with HTML breaks
   const encrypt = (text: string) => {
     if (!text) {
       return "";
     }
+    // console.log("Before encryption:", text.replace(/\n/g, "<br/>"));
+
     try {
+      // Convert newlines to HTML <br> tags
+      const preparedText = text.replace(/\n/g, "<br/>");
       const iv = crypto.randomBytes(ivLength);
       const cipher = crypto.createCipheriv("aes-256-cbc", secretKey, iv);
-      let encrypted = cipher.update(text, "utf8", "hex");
+      let encrypted = cipher.update(preparedText, "utf8", "hex");
       encrypted += cipher.final("hex");
       return iv.toString("hex") + ":" + encrypted;
     } catch (err) {
@@ -78,6 +84,28 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       throw new Error("Failed to encrypt content");
     }
   };
+
+  // Then in decrypt, no change needed
+
+  // const encrypt = (text: string) => {
+  //   if (!text) {
+  //     return "";
+  //   }
+
+  //   // Debug: Log the text with visible line break markers
+  //   console.log("Before encryption:", text.replace(/\n/g, "\\n"));
+
+  //   try {
+  //     const iv = crypto.randomBytes(ivLength);
+  //     const cipher = crypto.createCipheriv("aes-256-cbc", secretKey, iv);
+  //     let encrypted = cipher.update(text, "utf8", "hex");
+  //     encrypted += cipher.final("hex");
+  //     return iv.toString("hex") + ":" + encrypted;
+  //   } catch (err) {
+  //     console.error("Encryption error:", err);
+  //     throw new Error("Failed to encrypt content");
+  //   }
+  // };
 
   // Decrypting Text
   const decrypt = (text: string) => {
@@ -91,6 +119,10 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       const decipher = crypto.createDecipheriv("aes-256-cbc", secretKey, iv);
       let decrypted = decipher.update(encryptedText, "hex", "utf8");
       decrypted += decipher.final("utf8");
+
+      // Debug: Log the decrypted text with visible line break markers
+      // console.log("After decryption:", decrypted.replace(/<br>/g, "\\n"));
+
       return decrypted;
     } catch (err) {
       console.error("Decryption error:", err);
@@ -102,7 +134,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
     data.length !== 0
       ? data.find((note) => {
           if (note.noteId === params.noteId) {
-            // Decrypt the content when the note is found
+            // Decrypt the content when the note is found            // Decrypt the content when the note is found
             return {
               ...note,
               content: note.content ? decrypt(note.content) : "",
@@ -111,6 +143,11 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
           return false;
         })
       : noteData.find((note) => note.id === params.noteId);
+
+  // let note =
+  //   data.length !== 0
+  //     ? data.find((note) => note.noteId === params.noteId)
+  //     : noteData.find((note) => note.id === params.noteId);
 
   // const textToEncrypt = "Hello, this is a test message!";
   // const encryptedText = encrypt(textToEncrypt);
@@ -125,18 +162,19 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   const [stateNote, setStateNote] = useState("");
   const [status, setStatus] = useState("Saved");
 
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+  const handleChange = async (markdown: string) => {
+    setStatus("Unsaved Changes");
   };
 
   const handleFocus = async (e: FocusEvent) => {
+    setStatus("Saving...");
     const target = e.target as HTMLElement;
 
     const updatedContent = target.innerHTML;
 
     // Update note content in DB
     if (note) {
-      console.log(note);
+      // console.log(note);
       const encryptedContent = encrypt(updatedContent);
       const { data, error } = await supabase
         .from("notes")
@@ -199,6 +237,8 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   ) => {
     let updatedHeader = e.target.innerText;
 
+    // const encryptedHeader = encrypt(updatedHeader);
+
     // Update note content in database
     if (note) {
       const { data, error } = await supabase
@@ -217,6 +257,13 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   };
 
   const turndownService = new TurndownService();
+  turndownService.addRule("lineBreaks", {
+    filter: "br",
+    replacement: function () {
+      return "  \n"; // Markdown requires two spaces before \n for a line break
+    },
+  });
+
   const initialMarkdown: string = note?.content
     ? turndownService.turndown(decrypt(note.content))
     : "";
@@ -224,6 +271,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   useEffect(() => {
     const textContent = initialMarkdown.replace(/<[^>]*>/g, "");
     setWordCount(textContent.trim().split(/\s+/).length);
+    console.log(initialMarkdown);
   }, [initialMarkdown]);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -231,6 +279,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
+    console.log(isSidebarOpen);
   };
 
   // console.log("Note Data:", noteData);
@@ -246,7 +295,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       <main
         className={`transition-all flex flex-grow w-[100%] md:w-[calc(100%-660px)]`}
       >
-        <div className="flex min-h-screen flex-col items-center justify-between pl-12 pr-1 pt-[10px] pb-[50px] md:py-[50px] w-full">
+        <div className="flex min-h-screen flex-col items-center justify-between pl-12 pr-1 pt-[50px] pb-[0px] md:py-[50px] w-full">
           <div className="flex flex-col gap-3 w-full">
             <h1
               className="text-[30px] pl-3 md:pl-0 font-black outline-none w-full break-words" // Add `break-words` to ensure wrapping
@@ -258,10 +307,10 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
             </h1>
 
             <DynamicMDXEditor
-              className="text-[16px] outline-none w-full break-words"
+              className="text-[6px] outline-none w-full break-words"
               editorRef={editorRef}
               markdown={initialMarkdown}
-              // onChange={(e) => handleChange(e.target.value)}
+              onChange={handleChange}
               onBlur={handleFocus}
               placeholder="Write something..."
             />
@@ -272,10 +321,25 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
       <div className="fixed right-0 top-0 h-screen w-[250px] bg-gray-200 border-l-[1px] border-gray-300 pb-[24px] hidden md:flex flex-col justify-between text-zinc-600 dark:bg-gray-800 dark:border-gray-900/50 dark:text-gray-400">
         <div className="flex flex-col">
-          <div className="flex items-center px-4 h-[60px]">
+          <div className="flex items-center flex-row justify-between px-4 h-[60px]">
             <p className="text-base font-outfit font-medium text-zinc-600 dark:text-zinc-300">
               Note Insights{" "}
             </p>
+
+            {status === "Unsaved Changes" && (
+              <button
+                onClick={(e) => {
+                  e.currentTarget.classList.add("scale-95");
+                  setTimeout(
+                    () => e.currentTarget.classList.remove("scale-95"),
+                    150
+                  );
+                }}
+                className="px-2 py-1 text-white/60 font-semibold bg-gray-700 hover:bg-gray-700/70 rounded-sm transition-transform duration-150 active:scale-90"
+              >
+                <Save className="w-4 h-4 transition-transform group-hover:scale-110" />
+              </button>
+            )}
           </div>
           <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
 
