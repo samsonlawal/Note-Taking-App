@@ -17,7 +17,15 @@ import router from "next/router";
 import supabase from "@/config/supabaseClient";
 import { Button } from "@/components/ui/button";
 import DeleteNote from "@/components/ui/delete";
-import { Calendar, Clock, PanelRight, Save, Tag, Text } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  PanelRight,
+  PanelRightDashed,
+  Save,
+  Tag,
+  Text,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import TurndownService from "turndown";
 
@@ -335,7 +343,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
           isRightSidebarOpen ? "right-[245px]" : "right-0"
         }`}
       >
-        <PanelRight className="w-5 h-5" />
+        <PanelRightDashed className="w-5 h-5 stroke-[1.5]" />
       </button>
 
       {isRightSidebarOpen && (
@@ -344,7 +352,7 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
             isRightSidebarOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
-          <div className="w-[250px] flex flex-col justify-between">
+          <div className="w-[250px] flex flex-col justify-between h-full">
             <div className="flex flex-col">
               <div className="flex items-center flex-row justify-between px-4 h-[60px]">
                 <p className="text-base font-outfit font-medium text-zinc-600 dark:text-zinc-300">
