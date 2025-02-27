@@ -17,11 +17,9 @@ import router from "next/router";
 import supabase from "@/config/supabaseClient";
 import { Button } from "@/components/ui/button";
 import DeleteNote from "@/components/ui/delete";
-import { Calendar, Clock, Save, Tag, Text } from "lucide-react";
+import { Calendar, Clock, PanelRight, Save, Tag, Text } from "lucide-react";
 import toast from "react-hot-toast";
 import TurndownService from "turndown";
-// import CryptoJS from "crypto-js";
-import crypto from "crypto";
 
 const DynamicMDXEditor = dynamic(
   () => import("@/components/InitializedMDXEditor"),
@@ -54,7 +52,8 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
   const editorRef = useRef<MDXEditorMethods>(null);
 
-  const { local, setLocal, data, setData, isOpen } = useDataContext();
+  const { local, setLocal, data, setData, isOpen, setIsOpen } =
+    useDataContext();
   const { userId } = useAuth();
 
   const router = useRouter();
@@ -286,6 +285,18 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   // console.log("Note Object:", note);
   // console.log("Initial Markdown:", initialMarkdown);
 
+  const isMobile = () => window.innerWidth < 768; // Adjust breakpoint as neede
+
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+
+  const toggleRightSidebar = () => {
+    setIsRightSidebarOpen((prev) => !prev);
+
+    if (isOpen && isMobile()) {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <div
       className={`flex flex-row items-center justify-between w-full font-outfit bg-gray-200/70 dark:bg-gray-700`}
@@ -318,102 +329,119 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
         </div>
       </main>
       <div className="h-screen w-[1px] md:w-[310px]">{""}</div>
+      <button
+        onClick={toggleRightSidebar}
+        className={`fixed top-3 z-50 bg-gray-800 text-white py-2 pl-2 pr-4 rounded-md shadow-md ${
+          isRightSidebarOpen ? "right-[245px]" : "right-0"
+        }`}
+      >
+        <PanelRight className="w-5 h-5" />
+      </button>
 
-      <div className="fixed right-0 top-0 h-screen w-[250px] bg-gray-200 border-l-[1px] border-gray-300 pb-[24px] hidden md:flex flex-col justify-between text-zinc-600 dark:bg-gray-800 dark:border-gray-900/50 dark:text-gray-400">
-        <div className="flex flex-col">
-          <div className="flex items-center flex-row justify-between px-4 h-[60px]">
-            <p className="text-base font-outfit font-medium text-zinc-600 dark:text-zinc-300">
-              Note Insights{" "}
-            </p>
+      {isRightSidebarOpen && (
+        <div
+          className={`fixed w-fit right-0 top-0 h-dvh md:h-screen bg-gray-200 border-l border-gray-300 pb-[24px] text-zinc-600 dark:bg-gray-800 dark:border-gray-900/50 dark:text-gray-400 transition-transform duration-300 ease-in-out transform ${
+            isRightSidebarOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <div className="w-[250px] flex flex-col justify-between">
+            <div className="flex flex-col">
+              <div className="flex items-center flex-row justify-between px-4 h-[60px]">
+                <p className="text-base font-outfit font-medium text-zinc-600 dark:text-zinc-300">
+                  Note Insights{" "}
+                </p>
 
-            {status === "Unsaved Changes" && (
-              <button
-                onClick={(e) => {
-                  e.currentTarget.classList.add("scale-95");
-                  setTimeout(
-                    () => e.currentTarget.classList.remove("scale-95"),
-                    150
-                  );
-                }}
-                className="px-2 py-1 text-white/60 font-semibold bg-gray-700 hover:bg-gray-700/70 rounded-sm transition-transform duration-150 active:scale-90"
-              >
+                {status === "Unsaved Changes" && (
+                  <button
+                    onClick={(e) => {
+                      e.currentTarget.classList.add("scale-95");
+                      setTimeout(
+                        () => e.currentTarget.classList.remove("scale-95"),
+                        150
+                      );
+                    }}
+                    className="px-2 py-1 text-white/60 font-semibold bg-gray-700 hover:bg-gray-700/70 rounded-sm transition-transform duration-150 active:scale-90"
+                  >
+                    <Save className="w-4 h-4 transition-transform group-hover:scale-110" />
+                  </button>
+                )}
+              </div>
+              <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
+
+              <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
                 <Save className="w-4 h-4 transition-transform group-hover:scale-110" />
-              </button>
-            )}
-          </div>
-          <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
+                <p className="text-[12px] font-poppins py-[14px]">
+                  <span className="font-medium font-outfit">Status:</span>{" "}
+                  {note && status}
+                </p>
+              </div>
 
-          <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
-            <Save className="w-4 h-4 transition-transform group-hover:scale-110" />
-            <p className="text-[12px] font-poppins py-[14px]">
-              <span className="font-medium font-outfit">Status:</span>{" "}
-              {note && status}
-            </p>
+              <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
+
+              <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
+                <Calendar className="w-4 h-4 transition-transform group-hover:scale-110" />
+                <p className="text-[12px] font-poppins py-[14px]">
+                  <span className="font-medium font-outfit">Created:</span>{" "}
+                  {note &&
+                    note.created_at &&
+                    (() => {
+                      const date = new Date(note.created_at);
+                      const day = date.getDate();
+                      const month = date.toLocaleString("en-US", {
+                        month: "short",
+                      });
+                      const year = date.getFullYear();
+                      return `${day}, ${month} ${year}`;
+                    })()}
+                </p>
+              </div>
+
+              <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
+
+              <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
+                <Clock className="w-4 h-4 transition-transform group-hover:scale-110" />
+                <p className="text-[12px] font-poppins py-[14px]">
+                  <span className="font-medium font-outfit">Last Edited:</span>{" "}
+                  {note &&
+                    note.lastEdited &&
+                    (() => {
+                      const date = new Date(note.lastEdited);
+                      const day = date.getDate();
+                      const month = date.toLocaleString("en-US", {
+                        month: "short",
+                      });
+                      const year = date.getFullYear();
+                      return `${day}, ${month} ${year}`;
+                    })()}
+                </p>
+              </div>
+              <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
+              <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
+                <Tag className="w-4 h-4 transition-transform group-hover:scale-110" />
+                <p className="text-[12px] font-poppins py-[14px]">
+                  <span className="font-medium font-outfit">Tags:</span>{" "}
+                  {note?.tags?.length ? note.tags.join(", ") : "null"}
+                </p>
+              </div>
+              <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
+
+              <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
+                <Text className="w-4 h-4 transition-transform group-hover:scale-110" />
+                <p className="text-[12px] font-poppins py-[14px]">
+                  <span className="font-medium font-outfit">Words:</span>{" "}
+                  {wordCount}
+                </p>
+              </div>
+              <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
+            </div>
+            <div className="px-4">
+              <DeleteNote deleteHandler={deleteHandler} />
+            </div>
           </div>
 
-          <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
-
-          <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
-            <Calendar className="w-4 h-4 transition-transform group-hover:scale-110" />
-            <p className="text-[12px] font-poppins py-[14px]">
-              <span className="font-medium font-outfit">Created:</span>{" "}
-              {note &&
-                note.created_at &&
-                (() => {
-                  const date = new Date(note.created_at);
-                  const day = date.getDate();
-                  const month = date.toLocaleString("en-US", {
-                    month: "short",
-                  });
-                  const year = date.getFullYear();
-                  return `${day}, ${month} ${year}`;
-                })()}
-            </p>
-          </div>
-
-          <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
-
-          <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
-            <Clock className="w-4 h-4 transition-transform group-hover:scale-110" />
-            <p className="text-[12px] font-poppins py-[14px]">
-              <span className="font-medium font-outfit">Last Edited:</span>{" "}
-              {note &&
-                note.lastEdited &&
-                (() => {
-                  const date = new Date(note.lastEdited);
-                  const day = date.getDate();
-                  const month = date.toLocaleString("en-US", {
-                    month: "short",
-                  });
-                  const year = date.getFullYear();
-                  return `${day}, ${month} ${year}`;
-                })()}
-            </p>
-          </div>
-          <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
-          <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
-            <Tag className="w-4 h-4 transition-transform group-hover:scale-110" />
-            <p className="text-[12px] font-poppins py-[14px]">
-              <span className="font-medium font-outfit">Tags:</span>{" "}
-              {note?.tags?.length ? note.tags.join(", ") : "null"}
-            </p>
-          </div>
-          <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
-
-          <div className="flex flex-row w-full justify-start items-center px-4 gap-2">
-            <Text className="w-4 h-4 transition-transform group-hover:scale-110" />
-            <p className="text-[12px] font-poppins py-[14px]">
-              <span className="font-medium font-outfit">Words:</span>{" "}
-              {wordCount}
-            </p>
-          </div>
-          <div className="border-b-[1px] border-gray-300 dark:border-gray-900/50" />
+          {""}
         </div>
-        <div className="px-4">
-          <DeleteNote deleteHandler={deleteHandler} />
-        </div>
-        {""}
-      </div>
+      )}
     </div>
   );
 };
