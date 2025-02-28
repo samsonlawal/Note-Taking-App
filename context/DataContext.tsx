@@ -31,6 +31,8 @@ interface ContextProps {
   setLocal: Dispatch<SetStateAction<Note[]>>;
   data: Note[];
   setData: Dispatch<SetStateAction<Note[]>>;
+  isRightSidebarOpen: boolean;
+  setIsRightSidebarOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const initialContext: ContextProps = {
@@ -40,6 +42,8 @@ const initialContext: ContextProps = {
   setLocal: () => {}, // Placeholder function
   data: [],
   setData: () => {},
+  isRightSidebarOpen: false,
+  setIsRightSidebarOpen: () => {}, // Placeholder function
 };
 
 const DataContext = createContext<ContextProps>(initialContext);
@@ -52,15 +56,26 @@ interface DataProviderProps {
 
 export const DataProvider: FC<DataProviderProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState<boolean>(initialContext.isOpen);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState<boolean>(
+    initialContext.isRightSidebarOpen
+  );
 
   // Local Storage data
   const [local, setLocal] = useState<Note[]>([]);
   const [data, setData] = useState<Note[]>([]);
 
-
   return (
     <DataContext.Provider
-      value={{ isOpen, setIsOpen, local, setLocal, data, setData }}
+      value={{
+        isOpen,
+        setIsOpen,
+        local,
+        setLocal,
+        data,
+        setData,
+        isRightSidebarOpen,
+        setIsRightSidebarOpen,
+      }}
     >
       {children}
     </DataContext.Provider>

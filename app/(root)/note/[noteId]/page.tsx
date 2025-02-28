@@ -60,8 +60,16 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
 
   const editorRef = useRef<MDXEditorMethods>(null);
 
-  const { local, setLocal, data, setData, isOpen, setIsOpen } =
-    useDataContext();
+  const {
+    local,
+    setLocal,
+    data,
+    setData,
+    isOpen,
+    setIsOpen,
+    isRightSidebarOpen,
+    setIsRightSidebarOpen,
+  } = useDataContext();
   const { userId } = useAuth();
 
   const router = useRouter();
@@ -278,24 +286,24 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
   useEffect(() => {
     const textContent = initialMarkdown.replace(/<[^>]*>/g, "");
     setWordCount(textContent.trim().split(/\s+/).length);
-    console.log(initialMarkdown);
+    // console.log(initialMarkdown);
   }, [initialMarkdown]);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { accessToken, setAccessToken, isLoading } = useAuth();
 
+  const isMobile = () => window.innerWidth < 768;
+
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
+
+    if (isRightSidebarOpen && isMobile()) {
+      setIsSidebarOpen(false);
+    }
+
     console.log(isSidebarOpen);
   };
 
-  // console.log("Note Data:", noteData);
-  // console.log("Note Object:", note);
-  // console.log("Initial Markdown:", initialMarkdown);
-
-  const isMobile = () => window.innerWidth < 768; // Adjust breakpoint as neede
-
-  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
 
   const toggleRightSidebar = () => {
     setIsRightSidebarOpen((prev) => !prev);
