@@ -10,19 +10,21 @@ interface Props {
 }
 
 const NavigationLink = ({ children, name, setSelectedProject }: Props) => {
-  const {isOpen, setIsOpen} = useDataContext()
+  const { isOpen, setIsOpen, isRightSidebarOpen, setIsRightSidebarOpen } =
+    useDataContext();
+
+  const isMobile = () => window.innerWidth < 768;
 
   const handleClick = () => {
     if (!isOpen) {
       setIsOpen(true);
     }
 
-    // setSelectedProject(null);
-    // setTimeout(() => {
-    setSelectedProject(name);
-    // }, 250);
+    if (isRightSidebarOpen && isMobile()) {
+      setIsRightSidebarOpen(false);
+    }
 
-    // console.log(isOpen)
+    setSelectedProject(name);
   };
 
   return (
