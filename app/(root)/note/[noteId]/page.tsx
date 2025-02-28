@@ -301,7 +301,6 @@ const NotePage: React.FC<NoteProps> = ({ params }: NoteProps) => {
       setIsSidebarOpen(false);
     }
 
-    console.log(isSidebarOpen);
   };
 
 
