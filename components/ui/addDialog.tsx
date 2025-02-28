@@ -119,9 +119,9 @@ const AddNoteDialog = () => {
           </Tooltip>
         </div>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="w-[95%] md:w-full rounded-lg">
         <DialogHeader>
-          <DialogTitle className="font-poppins font-[500] text-[24px]">
+          <DialogTitle className="font-poppins font-[500] text-[24px] text-left">
             Add New Note
           </DialogTitle>
         </DialogHeader>
@@ -179,7 +179,7 @@ const AddNoteDialog = () => {
           </div>
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="flex flex-row gap-4">
           <button
             onClick={handleAddNote}
             disabled={isSubmitting}
