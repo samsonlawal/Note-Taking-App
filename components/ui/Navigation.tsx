@@ -30,7 +30,8 @@ interface NavigationProps {
 }
 
 const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
-  const { isOpen, setIsOpen } = useDataContext();
+  const { isOpen, setIsOpen, isRightSidebarOpen, setIsRightSidebarOpen } =
+    useDataContext();
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const { logout } = useAuth();
 
@@ -42,8 +43,14 @@ const Navigation: FC<NavigationProps> = ({ isSidebarOpen, toggleSidebar }) => {
     console.log(isOpen);
   }, [isOpen]);
 
+  const isMobile = () => window.innerWidth < 768;
+
   const handleOpenClose = () => {
     setIsOpen(!isOpen);
+
+    if (isMobile() && isRightSidebarOpen) {
+      setIsRightSidebarOpen(false);
+    }
 
     if (isOpen) {
       setSelectedProject(null);
