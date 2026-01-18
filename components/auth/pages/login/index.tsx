@@ -9,8 +9,14 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 const LoginForm = () => {
-  const { accessToken, setAccessToken, isLoggedIn, userId, setData } =
-    useAuth();
+  const {
+    accessToken,
+    setAccessToken,
+    isLoggedIn,
+    userId,
+    setData,
+    setUserId,
+  } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null); // For validation errors
@@ -30,55 +36,57 @@ const LoginForm = () => {
     setError(null); // Clear error on input change
   };
 
- const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-   e.preventDefault();
-   setError(null);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
 
-   if (!formValues.email || !formValues.password) {
-     setError("Email and password are required.");
-     return;
-   }
+    if (!formValues.email || !formValues.password) {
+      setError("Email and password are required.");
+      return;
+    }
 
-   try {
-     setIsSubmitting(true);
+    try {
+      setIsSubmitting(true);
 
-     let { data, error } = await supabase.auth.signInWithPassword({
-       email: formValues.email,
-       password: formValues.password,
-     });
+      let { data, error } = await supabase.auth.signInWithPassword({
+        email: formValues.email,
+        password: formValues.password,
+      });
 
-     if (error) {
-       setError("Invalid email or password.");
-       toast.error("Login failed. Please check your credentials.");
-       return;
-     }
+      if (error) {
+        setError("Invalid email or password.");
+        toast.error("Login failed. Please check your credentials.");
+        return;
+      }
 
-     localStorage.setItem("NoteApptoken", data.session?.access_token || "");
-     localStorage.setItem("userId", data.user?.id || "");
-     setAccessToken(data?.session?.access_token);
-     toast.success("Login successful!");
+      if (data.user?.id) {
+        setUserId(data.user.id);
+      }
 
-     if (data.session?.access_token) {
-       try {
-         const { data: notesData, error: notesError } = await supabase
-           .from("notes")
-           .select("*")
-           .eq("user_id", data.user?.id)
-           .order("created_at", { ascending: false });
+      setAccessToken(data?.session?.access_token || null);
+      toast.success("Login successful!");
 
-         if (notesError) throw notesError;
-         router.push("/");
-       } catch (err) {
-         console.error("Error fetching notes:", err);
-       }
-     }
-   } catch (err) {
-     console.error("Unexpected error:", err);
-     toast.error("An error occurred. Please try again.");
-   } finally {
-     setIsSubmitting(false);
-   }
- };
+      if (data.session?.access_token) {
+        try {
+          const { data: notesData, error: notesError } = await supabase
+            .from("notes")
+            .select("*")
+            .eq("user_id", data.user?.id)
+            .order("created_at", { ascending: false });
+
+          if (notesError) throw notesError;
+          router.push("/");
+        } catch (err) {
+          console.error("Error fetching notes:", err);
+        }
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="w-full md:max-w-[900px] pt-[80px] px-1 bg-transparent font-outfit justify-center flex">

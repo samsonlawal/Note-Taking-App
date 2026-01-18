@@ -39,6 +39,11 @@ const AddNoteDialog = () => {
       return;
     }
 
+    if (!userId) {
+      toast.error("User not identified. Please sign out and sign in again.");
+      return;
+    }
+
     setIsSubmitting(true);
     const idString = title.replace(/\s/g, "").toLowerCase();
 
@@ -59,16 +64,25 @@ const AddNoteDialog = () => {
         return;
       }
 
+      console.log("Attempting to create note...");
+      console.log("User ID:", userId);
+      const notePayload = {
+        title: title,
+        content: "",
+        user_id: userId,
+        noteId: idString,
+        tags: tags,
+      };
+      console.log("Payload:", notePayload);
+
       // Insert new note
-      const { error } = await supabase.from("notes").insert([
-        {
-          title: title,
-          content: "",
-          user_id: userId,
-          noteId: idString,
-          tags: tags,
-        },
-      ]);
+      const { error, data } = await supabase
+        .from("notes")
+        .insert([notePayload])
+        .select();
+
+      console.log("Supabase Response - Error:", error);
+      console.log("Supabase Response - Data:", data);
 
       if (error) throw error;
 

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import {noteData} from '../noteData';
-import NoteTitle from './NoteTitle'
-import Link from 'next/link';
+import React, { useEffect } from "react";
+import { noteData } from "../noteData";
+import NoteTitle from "./NoteTitle";
+import Link from "next/link";
 import { useDataContext } from "@/context/DataContext";
 import supabase from "@/config/supabaseClient";
 import { useAuth } from "@/context/AuthContext";
@@ -15,7 +15,11 @@ const NoteList: React.FC = () => {
     if (accessToken) {
       // Define and immediately invoke the async function
       const fetchNotes = async () => {
+        if (!userId) return; // Prevent fetch if userId is missing
+
         try {
+          console.log(userId);
+
           const { data, error } = await supabase
             .from("notes")
             .select("*")
@@ -23,7 +27,7 @@ const NoteList: React.FC = () => {
             .order("created_at", { ascending: false });
 
           if (error) throw error;
-          // console.log(data); // Logs the fetched data
+          console.log(data); // Logs the fetched data
           setData(data);
         } catch (err) {
           console.error("Error fetching notes:", err);
